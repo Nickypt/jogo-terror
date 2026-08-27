@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Apartamento 404</title>
-    <!-- O arquivo CSS começa apontando para o menu e será trocado via JS -->
+    <!-- Inicia apontando para o menu e será trocado dinamicamente via JS -->
     <link id="theme-stylesheet" rel="stylesheet" href="menu-style.css">
 </head>
 <body>
 
-    <!-- Elementos Invisíveis de Áudio -->
+    <!-- Elementos de Áudio -->
     <audio id="bg-music" loop></audio>
     <audio id="sfx"></audio>
 
@@ -43,13 +43,15 @@
 
         <!-- TELA 4: O JOGO EM ANDAMENTO -->
         <div id="screen-game" class="screen hidden">
-            <div id="story-text" class="story-text"></div>
+            <div class="story-box-wrapper">
+                <div id="story-text" class="story-text"></div>
+            </div>
             <div id="choices-container"></div>
         </div>
 
     </div>
 
-    <!-- Scripts carregados na ordem correta de dependência -->
+    <!-- Scripts na ordem correta de execução -->
     <script src="story.js"></script>
     <script src="engine.js"></script>
     <script src="main.js"></script>
