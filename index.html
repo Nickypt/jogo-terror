@@ -4,12 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Apartamento 404</title>
-    <!-- Inicia apontando para o menu e será trocado dinamicamente via JS -->
+    <!-- Importação de Fontes do Google (Courier Prime para textos e Creepster para o título de terror) -->
+    <link rel="preconnect" href="https://googleapis.com">
+    <link rel="preconnect" href="https://gstatic.com" crossorigin>
+    <link href="https://googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Creepster&display=swap" rel="stylesheet">
+    
+    <!-- Este ID nos permite trocar o arquivo CSS dinamicamente usando JavaScript -->
     <link id="theme-stylesheet" rel="stylesheet" href="menu-style.css">
 </head>
 <body>
 
-    <!-- Elementos de Áudio -->
+    <!-- Elementos invisíveis para reprodução de áudio -->
     <audio id="bg-music" loop></audio>
     <audio id="sfx"></audio>
 
@@ -24,6 +29,7 @@
 
         <!-- TELA 2: MENU PRINCIPAL -->
         <div id="screen-menu" class="screen hidden">
+            <!-- Título em destaque com a fonte macabra única -->
             <h1 class="game-title">APARTAMENTO <span class="glitch">404</span></h1>
             <div class="menu-buttons">
                 <button id="btn-start" class="menu-btn">Entrar no Apartamento</button>
@@ -32,45 +38,41 @@
             </div>
         </div>
 
-        <!-- TELA 3: ENTRADA DE NOME -->
+        <!-- TELA 3: ENTRADA DE NOME (ESTILO CONTRATO CONDENADO) -->
         <div id="screen-name" class="screen hidden">
-            <p class="warning-text">Para quem o contrato de aluguel do apartamento foi assinado?</p>
-            <div class="input-wrapper">
-                <input type="text" id="player-name" placeholder="Digite seu nome..." maxlength="15" value="Letícia">
-                <button id="btn-submit-name" class="menu-btn">Confirmar Assinatura</button>
+            <div class="contract-paper">
+                <div class="contract-header">CONTRATO DE LOCAÇÃO RESIDENCIAL</div>
+                <div class="contract-stamp">PROPRIEDADE DA IMOBILIÁRIA DA SÉ</div>
+                
+                <p class="contract-body">
+                    Pelo presente instrumento particular, o locatário abaixo qualificado declara estar ciente de todas as cláusulas restritivas de convívio e assume total responsabilidade civil, física e psicológica sobre quaisquer eventos ocorridos no interior da unidade autônoma denominada <strong>Apartamento 404</strong>.
+                </p>
+                
+                <p class="contract-body-warning">
+                    * O locatário firma este termo sabendo que o imóvel é entregue no estado atual de conservação, renunciando a qualquer direito de reclamação posterior sobre ruídos estruturais, falhas elétricas ou fenômenos de percepção.
+                </p>
+
+                <div class="input-wrapper">
+                    <label for="player-name" class="signature-label">ASSINATURA DO LOCATÁRIO(A):</label>
+                    <input type="text" id="player-name" placeholder="Escreva seu nome completo..." maxlength="15" value="Letícia">
+                    <button id="btn-submit-name" class="menu-btn signature-btn">Firmar Contrato</button>
+                </div>
             </div>
         </div>
 
-        <!-- ... mantenha as telas anteriores aqui ... -->
-        </div> <!-- fechamento da screen-name -->
-
-        <!-- TELA 4: ÁREA DE JOGO PRINCIPAL (ADICIONE ESSE BLOCO AQUI) -->
-        <div id="screen-game" class="screen hidden">
-            <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; max-height: 340px; padding: 10px 20px; margin-bottom: 20px;">
-                <div id="story-text" style="font-size: 1.15rem; line-height: 1.9; color: #cccccc; white-space: pre-line; overflow-y: auto;"></div>
-            </div>
-            <div id="choices-container" style="display: flex; flex-direction: column; gap: 12px; margin-top: auto; min-height: 140px; justify-content: flex-end;"></div>
-        </div>
-
-    </div> <!-- Esse é o fechamento do seu game-container original -->
-    <script src="main.js"></script>
-</body>
-</html>
-
-
-        <!-- TELA 4: O JOGO EM ANDAMENTO -->
+        <!-- TELA 4: ÁREA DE JOGO PRINCIPAL -->
         <div id="screen-game" class="screen hidden">
             <div class="story-box-wrapper">
+                <!-- O texto da história e as falas do monstro entrarão aqui -->
                 <div id="story-text" class="story-text"></div>
             </div>
+            <!-- Os botões de decisões vão aparecer aqui embaixo -->
             <div id="choices-container"></div>
         </div>
 
     </div>
 
-    <!-- Scripts na ordem correta de execução -->
-    <script src="story.js"></script>
-    <script src="engine.js"></script>
+    <!-- Script de inicialização centralizado -->
     <script src="main.js"></script>
 </body>
 </html>
