@@ -1,41 +1,60 @@
 window.addEventListener("DOMContentLoaded", () => {
     
     const bgMusic = document.getElementById("bg-music");
-    const menuMusicURL = "https://soundhelix.com"; 
+    // Link alternativo de áudio curto e leve para testes estáveis
+    const menuMusicURL = "https://google.com"; 
 
-    // Função interna e organizada para trocar telas
+    // Função interna e organizada para trocar telas de forma segura
     function switchScreen(hideId, showId) {
-        document.getElementById(hideId).classList.add("hidden");
-        document.getElementById(showId).classList.remove("hidden");
+        const hideElement = document.getElementById(hideId);
+        const showElement = document.getElementById(showId);
+        
+        if (hideElement && showElement) {
+            hideElement.classList.add("hidden");
+            document.getElementById(showId).classList.remove("hidden");
+        }
     }
 
     // 1. Botão "Entendido" (Tela de Aviso -> Menu Principal)
-    document.getElementById("btn-warning-continue").addEventListener("click", () => {
-        switchScreen("screen-warning", "screen-menu");
-        
-        // Ativa a trilha sonora ao registrar a primeira interação física do jogador
-        bgMusic.src = menuMusicURL;
-        bgMusic.volume = 0.25;
-        bgMusic.play().catch(() => console.log("Áudio bloqueado pelas restrições do navegador."));
-    });
+    const btnWarning = document.getElementById("btn-warning-continue");
+    if (btnWarning) {
+        btnWarning.addEventListener("click", () => {
+            switchScreen("screen-warning", "screen-menu");
+            
+            // Tenta tocar o áudio com segurança para não travar o navegador
+            if (bgMusic) {
+                bgMusic.src = menuMusicURL;
+                bgMusic.volume = 0.20;
+                bgMusic.play().catch(e => console.log("Áudio aguardando permissões adicionais."));
+            }
+        });
+    }
 
     // 2. Botão "Entrar no Apartamento" (Menu Principal -> Tela de Nome)
-    document.getElementById("btn-start").addEventListener("click", () => {
-        switchScreen("screen-menu", "screen-name");
-    });
+    const btnStart = document.getElementById("btn-start");
+    if (btnStart) {
+        btnStart.addEventListener("click", () => {
+            switchScreen("screen-menu", "screen-name");
+        });
+    }
 
     // 3. Botão "Confirmar Assinatura" 
-    document.getElementById("btn-submit-name").addEventListener("click", () => {
-        const inputField = document.getElementById("player-name");
-        const finalName = inputField.value.trim() || "Letícia";
+    const btnSubmit = document.getElementById("btn-submit-name");
+    if (btnSubmit) {
+        btnSubmit.addEventListener("click", () => {
+            const inputField = document.getElementById("player-name");
+            const finalName = inputField ? inputField.value.trim() : "Letícia";
+            
+            console.log(`Nome registrado: ${finalName}. Pronto para a próxima página!`);
+            alert(`Contrato assinado sob o nome de: ${finalName}.`);
+        });
+    }
 
-        // Um aviso temporário para confirmar o funcionamento completo antes de chamarmos o jogo
-        alert(`Contrato do Apartamento 404 assinado por: ${finalName}.\n\nPronto para passarmos para a página de gameplay!`);
-    });
-
-    // 4. Botão "Sair"
-    document.getElementById("btn-exit").addEventListener("click", () => {
-        alert("O Apartamento 404 nunca esquece seus inquilinos.");
-        window.close();
-    });
+    // 4. Botão "Sair" (Ajustado para não quebrar a página)
+    const btnExit = document.getElementById("btn-exit");
+    if (btnExit) {
+        btnExit.addEventListener("click", () => {
+            alert("O Apartamento 404 não permite que você saia tão facilmente...");
+        });
+    }
 });
