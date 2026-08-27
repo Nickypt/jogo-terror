@@ -1,40 +1,81 @@
-// BANCO DE DADOS DA HISTÓRIA (Prólogo Inicial)
+// BANCO DE DADOS DA HISTÓRIA (Prólogo e Conexão com Noite 1)
 const storyData = {
     prologue: {
         text: (name) => `O anúncio na internet parecia bom demais para ser verdade.\n\nUm apartamento de dois quartos, bem no centro da cidade, por um terço do preço padrão do mercado de aluguéis.\n\nO corretor de imóveis parecia estranhamente ansioso para assinar a papelada. Quando perguntei o motivo de estar tão barato, ele apenas sorriu amarelo, desviou o olhar com pressa e disse que o antigo inquilino mudou-se por 'motivos urgentes de saúde'.\n\nAgora, segurando as chaves frias diante da porta descascada do Apartamento 404, um calafrio na espinha me diz que eu devia ter feito mais perguntas...`,
+        bg: "#020202",
         choices: [
-            { text: "Girar a chave e entrar no apartamento", target: "fim_etapa" }
+            { text: "Girar a chave e entrar no apartamento", target: "noite1_inicio" }
         ]
     },
-    fim_etapa: {
-        text: (name) => `Você cruzou o portal do Apartamento 404 sob o nome de ${name}.\n\nParabéns! A primeira página, o sistema de nomes e o motor de transições estão funcionando 100%!`,
+    noite1_inicio: {
+        text: (name) => `Finalmente terminei de empilhar as caixas da mudança no canto da sala. Minhas costas doem e o ar aqui dentro parece parado, pesado pelo cheiro de poeira antiga.\n\nMas não importa. O Apartamento 404 é oficialmente o meu espaço. Minha independência.\n\nO silêncio do prédio é absoluto. Quase desconfortável.\n\n${name}: "Já passa da meia-noite... Melhor eu deitar antes que eu desmaie de cansaço."`,
+        bg: "#0d0d12", 
         choices: [
-            { text: "Voltar ao Menu Principal", target: "menu_principal" }
+            { text: "Apagar o abajur do quarto e fechar os olhos", target: "noite1_bzzz" }
+        ]
+    },
+    noite1_bzzz: {
+        text: (name) => `Rolo de um lado para o outro na cama nova. O teto alto parece me encarar no escuro. Quando meus olhos finalmente começam a pegar no sono...\n\n*Bzzzz, Bzzzz*\n\nAcordo com o coração batendo na garganta. O visor do relógio na parede brilha em um vermelho estático: 03:14 AM. O celular vibra na cômoda, iluminando o teto com uma luz azulada.\n\nHá uma mensagem de um número privado.\n\n<span class="monster-text">"Gostei das cortinas novas. Combinam com o seu cabelo, ${name}."</span>\n\n${name}: "Mas o quê...? Quem teria meu número? Como sabem das cortinas? Eu acabei de colocá-las..."`,
+        bg: "#040406", 
+        choices: [
+            { text: "Responder a mensagem exigindo explicações", target: "noite1_responder" },
+            { text: "Bloquear o número imediatamente e tentar ignorar", target: "noite1_bloquear" }
+        ]
+    },
+    noite1_responder: {
+        text: (name) => `Digito com os dedos trêmulos de raiva.\n\n${name}: "Quem é você? Isso não tem graça nenhuma. Vou chamar a polícia agora mesmo se não parar."\n\nTrês segundos longos se passam. O indicador de 'digitando...' pisca no topo da tela, torturando minha ansiedade. A resposta chega:\n\n<span class="monster-text">"A polícia demora 20 minutos para chegar aí embaixo, ${name}. Eu já estou aqui em cima."</span>`,
+        bg: "#040406",
+        choices: [
+            { text: "Tentar trancar as portas no escuro (Voltar ao Menu)", target: "menu_principal" }
+        ]
+    },
+    noite1_bloquear: {
+        text: (name) => `Decido não dar atenção. Bloqueio o contato, viro o celular para baixo e puxo o cobertor até o pescoço, tentando controlar a respiração.\n\nO silêncio agora parece uma armadilha. Cada estalo das paredes soa como um passo. Então, no canto mais escuro do quarto, o som real se manifesta.\n\n*ARRANHÃO METÁLICO SECO*\n\nAlgo longo e afiado arranha a madeira por dentro do meu guarda-roupa... a poucos centímetros de mim.`,
+        bg: "#040406",
+        choices: [
+            { text: "Encolher-se sob as cobertas (Voltar ao Menu)", target: "menu_principal" }
         ]
     }
 };
 
-window.addEventListener("DOMContentLoaded", () => {
-    
-    let playerName = "Letícia";
-    const bgMusic = document.getElementById("bg-music");
-    const menuMusicURL = "https://soundhelix.com"; 
+// MOTOR CENTRAL DE RENDERIZAÇÃO
+const Game = {
+    playerName: "Letícia",
+    bgMusic: document.getElementById("bg-music"),
+    menuMusicURL: "https://soundhelix.com", 
+    ambientMusicURL: "https://soundhelix.com",
 
-    function switchScreen(hideId, showId) {
+    setTheme(type) {
+        const themeStyle = document.getElementById("theme-stylesheet");
+        if (!themeStyle) return;
+        
+        if (type === "menu") {
+            themeStyle.href = "menu-style.css";
+            document.body.className = ""; 
+        } else if (type === "game") {
+            themeStyle.href = "game-style.css";
+            document.body.className = "game-active";
+        }
+    },
+
+    switchScreen(hideId, showId) {
         const hideElement = document.getElementById(hideId);
         const showElement = document.getElementById(showId);
         if (hideElement && showElement) {
             hideElement.classList.add("hidden");
             showElement.classList.remove("hidden");
         }
-    }
+    },
 
-    // Carrega os blocos de texto da história dinamicamente
-    function loadScene(sceneKey) {
+    loadScene(sceneKey) {
         if (sceneKey === "menu_principal") {
-            // Se o jogo pedir para voltar ao menu, restaura o estilo do menu
-            document.getElementById("theme-stylesheet").href = "menu-style.css";
-            switchScreen("screen-game", "screen-menu");
+            this.setTheme("menu");
+            this.switchScreen("screen-game", "screen-menu");
+            if (this.bgMusic) {
+                this.bgMusic.src = this.menuMusicURL;
+                this.bgMusic.volume = 0.25;
+                this.bgMusic.play();
+            }
             return;
         }
 
@@ -44,56 +85,66 @@ window.addEventListener("DOMContentLoaded", () => {
         const textElement = document.getElementById("story-text");
         const container = document.getElementById("choices-container");
 
-        // Injeta a história na tela
-        textElement.innerHTML = scene.text(playerName);
-        container.innerHTML = "";
+        if (textElement && container) {
+            container.innerHTML = "";
+            textElement.style.opacity = 0;
 
-        // Cria os botões de escolha
-        scene.choices.forEach(choice => {
-            const button = document.createElement("button");
-            // Estilização rápida para os botões do jogo enquanto não colamos o game-style completo
-            button.style.background = "#111";
-            button.style.color = "#aaa";
-            button.style.border = "1px solid #333";
-            button.style.padding = "14px";
-            button.style.cursor = "pointer";
-            button.style.fontFamily = "inherit";
-            button.style.textAlign = "left";
-            button.innerText = choice.text;
-            
-            button.addEventListener("click", () => loadScene(choice.target));
-            container.appendChild(button);
-        });
+            setTimeout(() => {
+                document.body.style.backgroundColor = scene.bg || "#020202";
+                textElement.innerHTML = scene.text(this.playerName);
+                textElement.scrollTop = 0;
+                textElement.style.opacity = 1;
+
+                scene.choices.forEach((choice, index) => {
+                    const button = document.createElement("button");
+                    button.className = "choice-btn";
+                    button.innerText = choice.text;
+                    button.style.animationDelay = `${0.2 + (index * 0.15)}s`;
+                    
+                    button.addEventListener("click", () => this.loadScene(choice.target));
+                    container.appendChild(button);
+                });
+            }, 400);
+        }
     }
+};
 
+// DISPARADOR DOS CLIQUES DOS BOTÕES FIXOS
+window.addEventListener("DOMContentLoaded", () => {
+    
     // 1. Tela de Aviso -> Menu Principal
     document.getElementById("btn-warning-continue").addEventListener("click", () => {
-        switchScreen("screen-warning", "screen-menu");
-        if (bgMusic) {
-            bgMusic.src = menuMusicURL;
-            bgMusic.volume = 0.20;
-            bgMusic.play().catch(() => console.log("Áudio aguardando permissão."));
+        Game.switchScreen("screen-warning", "screen-menu");
+        if (Game.bgMusic) {
+            Game.bgMusic.src = Game.menuMusicURL;
+            Game.bgMusic.volume = 0.25;
+            Game.bgMusic.play().catch(() => console.log("Áudio aguardando clique."));
         }
     });
 
-    // 2. Menu Principal -> Tela de Nome
+    // 2. Menu Principal -> Entrada de Nome
     document.getElementById("btn-start").addEventListener("click", () => {
-        switchScreen("screen-menu", "screen-name");
+        Game.switchScreen("screen-menu", "screen-name");
     });
 
-    // 3. Tela de Nome -> Avançar para o Jogo de verdade!
+    // 3. Entrada de Nome -> Inicialização do Jogo real
     document.getElementById("btn-submit-name").addEventListener("click", () => {
         const inputField = document.getElementById("player-name");
         if (inputField && inputField.value.trim() !== "") {
-            playerName = inputField.value.trim();
+            Game.playerName = inputField.value.trim();
         }
 
-        // Troca a folha de estilos para o jogo em andamento
-        document.getElementById("theme-stylesheet").href = "game-style.css";
-        switchScreen("screen-name", "screen-game");
+        Game.setTheme("game");
+        Game.switchScreen("screen-name", "screen-game");
         
-        // Inicia a história carregando o prólogo!
-        loadScene("prologue");
+        if (Game.bgMusic) {
+            Game.bgMusic.src = Game.ambientMusicURL;
+            Game.bgMusic.volume = 0.15;
+            Game.bgMusic.play().catch(() => console.log("Áudio aguardando clique."));
+        }
+
+        // Executa a carga do prólogo de forma totalmente limpa e correta
+        Game.loadScene("prologue");
     });
 
     // 4. Botão Sair
