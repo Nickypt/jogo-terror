@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apartamento 404</title>
+    <!-- O arquivo CSS começa apontando para o menu e será trocado via JS -->
+    <link id="theme-stylesheet" rel="stylesheet" href="menu-style.css">
+</head>
+<body>
+
+    <!-- Elementos Invisíveis de Áudio -->
+    <audio id="bg-music" loop></audio>
+    <audio id="sfx"></audio>
+
+    <div id="game-container">
+        
+        <!-- TELA 1: AVISO DE GATILHO -->
+        <div id="screen-warning" class="screen">
+            <p class="warning-text">AVISO: Este jogo contém elementos de suspense psicológico, claustrofobia e sons repentinos.</p>
+            <p class="warning-text subtitle">Recomendamos o uso de fones de ouvido e jogar em um ambiente escuro para a experiência completa.</p>
+            <button id="btn-warning-continue" class="menu-btn">Entendido</button>
+        </div>
+
+        <!-- TELA 2: MENU PRINCIPAL -->
+        <div id="screen-menu" class="screen hidden">
+            <h1 class="game-title">APARTAMENTO <span class="glitch">404</span></h1>
+            <div class="menu-buttons">
+                <button id="btn-start" class="menu-btn">Entrar no Apartamento</button>
+                <button id="btn-continue" class="menu-btn" disabled>Continuar Noite</button>
+                <button id="btn-exit" class="menu-btn">Sair</button>
+            </div>
+        </div>
+
+        <!-- TELA 3: ENTRADA DE NOME -->
+        <div id="screen-name" class="screen hidden">
+            <p class="warning-text">Para quem o contrato de aluguel do apartamento foi assinado?</p>
+            <div class="input-wrapper">
+                <input type="text" id="player-name" placeholder="Digite seu nome..." maxlength="15" value="Letícia">
+                <button id="btn-submit-name" class="menu-btn">Confirmar Assinatura</button>
+            </div>
+        </div>
+
+        <!-- TELA 4: O JOGO EM ANDAMENTO -->
+        <div id="screen-game" class="screen hidden">
+            <div id="story-text" class="story-text"></div>
+            <div id="choices-container"></div>
+        </div>
+
+    </div>
+
+    <!-- Scripts carregados na ordem correta de dependência -->
+    <script src="story.js"></script>
+    <script src="engine.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,140 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body.menu-active {
+    background: radial-gradient(circle, #0a0505 0%, #020101 100%);
+    color: #d1d1d1;
+    font-family: 'Courier New', Courier, monospace;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+}
+
+#game-container {
+    width: 100%;
+    max-width: 750px;
+    height: 550px;
+    padding: 50px;
+    background: rgba(5, 5, 5, 0.98);
+    border: 1px solid #2a0808;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.95), 0 0 20px rgba(139, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 2px;
+}
+
+.game-title {
+    font-size: 3.5rem;
+    text-align: center;
+    letter-spacing: 8px;
+    color: #e6e6e6;
+    margin-bottom: 60px;
+    font-weight: 900;
+    text-shadow: 0 0 10px rgba(139, 0, 0, 0.2);
+    animation: titlePulse 4s infinite alternate;
+}
+
+.glitch {
+    color: #8b0000;
+    text-shadow: 3px 3px #000;
+    display: inline-block;
+}
+
+.menu-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    max-width: 320px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.menu-btn {
+    background: #0d0d0d;
+    color: #8c8c8c;
+    border: 1px solid #1f1f1f;
+    padding: 15px 25px;
+    font-family: inherit;
+    font-size: 1rem;
+    letter-spacing: 2px;
+    cursor: pointer;
+    text-align: center;
+    text-transform: uppercase;
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.menu-btn:hover:not(:disabled) {
+    background: #1a0505;
+    color: #ffffff;
+    border-color: #8b0000;
+    box-shadow: 0 0 15px rgba(139, 0, 0, 0.4);
+    letter-spacing: 4px;
+}
+
+.menu-btn:disabled {
+    color: #262626;
+    border-color: #0d0d0d;
+    cursor: not-allowed;
+}
+
+.screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+}
+
+.warning-text {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    text-align: center;
+    color: #a6a6a6;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+}
+
+.warning-text.subtitle {
+    font-size: 0.85rem;
+    color: #4d4d4d;
+    margin-bottom: 50px;
+}
+
+.input-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    max-width: 340px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+#player-name {
+    background: #000000;
+    border: 1px solid #262626;
+    color: #fff;
+    padding: 14px;
+    font-family: inherit;
+    font-size: 1.1rem;
+    text-align: center;
+    letter-spacing: 2px;
+    outline: none;
+    transition: all 0.3s;
+}
+
+#player-name:focus {
+    border-color: #8b0000;
+    box-shadow: 0 0 12px rgba(139, 0, 0, 0.3);
+}
+
+.hidden { display: none !important; }
+
+@keyframes titlePulse {
+    0% { text-shadow: 0 0 10px rgba(139, 0, 0, 0.2); }
+    100% { text-shadow: 0 0 25px rgba(139, 0, 0, 0.7), 0 0 5px rgba(255, 255, 255, 0.2); }
+}

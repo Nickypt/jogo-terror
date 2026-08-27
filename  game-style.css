@@ -1,0 +1,105 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body.game-active {
+    background-color: #020202;
+    color: #e0e0e0;
+    font-family: 'Courier New', Courier, monospace;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+    transition: background-color 2s ease-in-out;
+}
+
+#game-container {
+    width: 100%;
+    max-width: 800px;
+    height: 600px;
+    padding: 45px;
+    background: linear-gradient(180deg, rgba(5, 5, 5, 0.92) 0%, rgba(0, 0, 0, 0.98) 100%);
+    border-top: 2px solid #3a0000;
+    border-bottom: 2px solid #3a0000;
+    box-shadow: inset 0 0 100px rgba(0, 0, 0, 0.95);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+}
+
+.story-text {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: #cccccc;
+    white-space: pre-line;
+    margin-bottom: 20px;
+    overflow-y: auto;
+    padding-right: 10px;
+    height: 320px;
+}
+
+.phone-message {
+    background: #0a0a0d;
+    border-left: 3px solid #8b0000;
+    padding: 15px 20px;
+    margin: 20px 0;
+    font-size: 1.05rem;
+    color: #ff4d4d;
+    letter-spacing: 1px;
+    animation: phoneVibrate 0.3s ease-in-out;
+}
+
+#choices-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: auto;
+}
+
+.choice-btn {
+    background: rgba(14, 14, 14, 0.8);
+    color: #b3b3b3;
+    border: 1px solid #222222;
+    padding: 14px 20px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    cursor: pointer;
+    text-align: left;
+    transition: all 0.2s ease-in-out;
+    position: relative;
+    overflow: hidden;
+}
+
+.choice-btn:hover {
+    background: rgba(25, 4, 4, 0.9);
+    color: #ffffff;
+    border-color: #aa0000;
+    padding-left: 32px;
+}
+
+.choice-btn:hover::before {
+    content: "> ";
+    color: #8b0000;
+    font-weight: bold;
+    position: absolute;
+    left: 15px;
+}
+
+.hidden { display: none !important; }
+
+.story-text::-webkit-scrollbar { width: 4px; }
+.story-text::-webkit-scrollbar-track { background: #000; }
+.story-text::-webkit-scrollbar-thumb { background: #333; }
+
+@keyframes phoneVibrate {
+    0% { transform: translate(0, 0); }
+    20% { transform: translate(-2px, 2px); }
+    40% { transform: translate(2px, -2px); }
+    60% { transform: translate(-2px, -2px); }
+    80% { transform: translate(2px, 2px); }
+    100% { transform: translate(0, 0); }
+}
