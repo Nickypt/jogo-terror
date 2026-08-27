@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://gstatic.com" crossorigin>
     <link href="https://googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Creepster&display=swap" rel="stylesheet">
     
-    <!-- Este ID nos permite trocar o arquivo CSS dinamicamente usando JavaScript -->
+    <!-- Este ID permite ao JavaScript trocar o estilo visual entre o Menu e o Jogo -->
     <link id="theme-stylesheet" rel="stylesheet" href="menu-style.css">
 </head>
 <body>
@@ -29,7 +29,6 @@
 
         <!-- TELA 2: MENU PRINCIPAL -->
         <div id="screen-menu" class="screen hidden">
-            <!-- Título em destaque com a fonte macabra única -->
             <h1 class="game-title">APARTAMENTO <span class="glitch">404</span></h1>
             <div class="menu-buttons">
                 <button id="btn-start" class="menu-btn">Entrar no Apartamento</button>
@@ -63,16 +62,15 @@
         <!-- TELA 4: ÁREA DE JOGO PRINCIPAL -->
         <div id="screen-game" class="screen hidden">
             <div class="story-box-wrapper">
-                <!-- O texto da história e as falas do monstro entrarão aqui -->
                 <div id="story-text" class="story-text"></div>
             </div>
-            <!-- Os botões de decisões vão aparecer aqui embaixo -->
             <div id="choices-container"></div>
         </div>
 
     </div>
 
-    <!-- Script de inicialização centralizado -->
+    <!-- Scripts carregados de forma organizada e separada -->
+    <script src="story.js"></script>
     <script src="main.js"></script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 /* =============================================================
-   APARTAMENTO 404 - ESTILO DO JOGO EM ANDAMENTO
+   APARTAMENTO 404 - ESTILO DO JOGO EM ANDAMENTO (CINEMÁTICO)
    ============================================================= */
 
 * {
@@ -9,7 +9,7 @@
 }
 
 body.game-active {
-    background-color: #020202; /* Fundo padrão escuro para iniciar */
+    background-color: #010102;
     color: #e0e0e0;
     font-family: "Courier Prime", monospace;
     display: flex;
@@ -17,90 +17,108 @@ body.game-active {
     align-items: center;
     height: 100vh;
     overflow: hidden;
-    transition: background-color 2.5s ease-in-out;
 }
 
-/* Container do Jogo (Ajustado para se comportar como uma tela narrativa limpa) */
+/* O Container se adapta para virar a tela da história com as imagens de fundo */
 #game-container {
-    width: 100%;
+    width: 90%;
     max-width: 850px;
     height: 620px;
-    padding: 40px;
-    background: linear-gradient(180deg, rgba(3, 3, 3, 0.93) 0%, rgba(0, 0, 0, 0.98) 100%);
-    border-top: 1px solid #4a0000;
-    border-bottom: 1px solid #4a0000;
-    box-shadow: inset 0 0 120px rgba(0, 0, 0, 1), 0 0 40px rgba(0, 0, 0, 0.9);
+    padding: 0;
+    background-color: #000;
+    border: 1px solid #1f0b0b;
+    box-shadow: 0 0 50px rgba(0, 0, 0, 1);
     display: flex;
     flex-direction: column;
     position: relative;
-    transition: background 1.5s ease-in-out; /* Preparado para receber imagens */
+    overflow: hidden;
+    transition: background-image 1.2s ease-in-out; 
+    background-size: cover;
+    background-position: center;
 }
 
-/* Espaço dedicado para os blocos de texto */
+/* Camada de sombra escura para aumentar o contraste da leitura sobre as fotos */
+#game-container::before {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60%;
+    background: linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.4) 60%, transparent 100%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Caixa fixa dedicada exclusivamente para as narrações */
 .story-box-wrapper {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    max-height: 340px;
-    padding: 10px 20px;
-    margin-bottom: 20px;
+    position: absolute;
+    bottom: 140px;
+    left: 0;
+    width: 100%;
+    padding: 0 40px;
+    z-index: 2;
+    max-height: 200px;
+    overflow-y: auto;
 }
 
 .story-text {
     font-size: 1.15rem;
-    line-height: 1.9;
-    color: #cccccc;
+    line-height: 1.8;
+    color: #dcdcdc;
     white-space: pre-line;
-    overflow-y: auto;
-    padding-right: 10px;
-    transition: opacity 0.4s ease-in-out;
+    text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.9);
+    transition: opacity 0.3s ease-in-out;
 }
 
-/* Texto corrompido, dramático e assustador do monstro */
+/* Texto corrompido e trêmulo para as manifestações do monstro */
 .monster-text {
-    color: #990000;
+    color: #a10000;
     font-weight: bold;
-    font-size: 1.25rem;
-    letter-spacing: 3px;
-    text-shadow: 0 0 8px rgba(139, 0, 0, 0.6);
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+    text-shadow: 0 0 8px rgba(255, 0, 0, 0.4);
     display: inline-block;
-    animation: textDistort 0.3s infinite alternate;
+    animation: textDistort 0.2s infinite alternate;
 }
 
-/* Área inferior para abrigar as escolhas */
+/* Container de botões alinhado perfeitamente na base */
 #choices-container {
+    position: absolute;
+    bottom: 30px;
+    left: 0;
+    width: 100%;
+    padding: 0 40px;
     display: flex;
     flex-direction: column;
-    gap: 12px;
-    margin-top: auto;
-    min-height: 140px;
-    justify-content: flex-end;
+    gap: 10px;
+    z-index: 2;
 }
 
-/* Botões de escolhas estilizados para o gameplay */
+/* Estilização moderna dos botões sobre o cenário */
 .choice-btn {
-    background: rgba(12, 12, 12, 0.85);
-    color: #999;
-    border: 1px solid #1f1f1f;
-    padding: 15px 25px;
+    background: rgba(10, 10, 10, 0.85);
+    color: #8c8c8c;
+    border: 1px solid #261515;
+    padding: 14px 20px;
     font-family: inherit;
     font-size: 0.95rem;
     cursor: pointer;
     text-align: left;
     border-radius: 2px;
-    position: relative;
+    backdrop-filter: blur(3px);
     opacity: 0;
-    transform: translateY(10px);
-    animation: choiceAppear 0.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+    transform: translateY(5px);
+    animation: choiceAppear 0.4s ease-out forwards;
+    position: relative;
 }
 
 .choice-btn:hover {
-    background: rgba(26, 3, 3, 0.95);
+    background: rgba(26, 4, 4, 0.95);
     color: #ffffff;
     border-color: #8b0000;
     padding-left: 35px;
-    box-shadow: 0 0 10px rgba(139, 0, 0, 0.15);
+    box-shadow: 0 0 10px rgba(139, 0, 0, 0.2);
 }
 
 .choice-btn:hover::before {
@@ -113,20 +131,42 @@ body.game-active {
 
 .hidden { display: none !important; }
 
-/* Scrollbar Sombria */
-.story-text::-webkit-scrollbar { width: 3px; }
-.story-text::-webkit-scrollbar-track { background: #000; }
-.story-text::-webkit-scrollbar-thumb { background: #222; }
+/* =============================================================
+   REAÇÕES FÍSICAS DA TELA (ANIMAÇÕES)
+   ============================================================= */
 
-/* Animações de Efeito */
+/* Classe aplicada via JS que faz a tela tremer no susto */
+.shake-effect {
+    animation: screenShake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+/* Classe aplicada via JS que simula a falha de luz/piscada */
+.flicker-effect {
+    animation: screenFlicker 0.5s ease-in-out;
+}
+
+@keyframes screenShake {
+    10%, 90% { transform: translate3d(-2px, 0, 0); }
+    20%, 80% { transform: translate3d(4px, 0, 0); }
+    30%, 50%, 70% { transform: translate3d(-6px, 0, 0); }
+    40%, 60% { transform: translate3d(6px, 0, 0); }
+}
+
+@keyframes screenFlicker {
+    0%, 100% { opacity: 1; filter: brightness(1); }
+    25%, 75% { opacity: 0.1; filter: brightness(0.1); }
+    50% { opacity: 0.8; filter: brightness(0.5); }
+}
+
 @keyframes choiceAppear {
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes textDistort {
-    0% { transform: skewX(-1deg); filter: blur(0px); }
-    100% { transform: skewX(1deg); filter: blur(0.3px); }
+    0% { transform: skewX(-1deg); }
+    100% { transform: skewX(1deg); }
 }
+
+.story-text::-webkit-scrollbar { width: 3px; }
+.story-text::-webkit-scrollbar-track { background: transparent; }
+.story-text::-webkit-scrollbar-thumb { background: #331111; }
