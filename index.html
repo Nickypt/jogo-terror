@@ -3,74 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Apartamento 404</title>
-    <!-- Importação de Fontes do Google (Courier Prime para textos e Creepster para o título de terror) -->
-    <link rel="preconnect" href="https://googleapis.com">
-    <link rel="preconnect" href="https://gstatic.com" crossorigin>
-    <link href="https://googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Creepster&display=swap" rel="stylesheet">
-    
-    <!-- Este ID permite ao JavaScript trocar o estilo visual entre o Menu e o Jogo -->
-    <link id="theme-stylesheet" rel="stylesheet" href="menu-style.css">
+    <title>Apartamento 404: Olho Mágico</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-    <!-- Elementos invisíveis para reprodução de áudio -->
-    <audio id="bg-music" loop></audio>
-    <audio id="sfx"></audio>
+    <!-- Efeitos Visuais Retro Ambientais -->
+    <div class="vhs-overlay"></div>
+    <div class="vhs-scanlines"></div>
 
     <div id="game-container">
-        
-        <!-- TELA 1: AVISO DE GATILHO -->
-        <div id="screen-warning" class="screen">
-            <p class="warning-text">AVISO: Este jogo contém elementos de suspense psicológico, claustrofobia e sons repentinos.</p>
-            <p class="warning-text subtitle">Recomendamos o uso de fones de ouvido e jogar em um ambiente escuro para a experiência completa.</p>
-            <button id="btn-warning-continue" class="menu-btn">Entendido</button>
-        </div>
-
-        <!-- TELA 2: MENU PRINCIPAL -->
-        <div id="screen-menu" class="screen hidden">
-            <h1 class="game-title">APARTAMENTO <span class="glitch">404</span></h1>
-            <div class="menu-buttons">
-                <button id="btn-start" class="menu-btn">Entrar no Apartamento</button>
-                <button id="btn-continue" class="menu-btn" disabled>Continuar Noite</button>
-                <button id="btn-exit" class="menu-btn">Sair</button>
-            </div>
-        </div>
-
-        <!-- TELA 3: ENTRADA DE NOME (ESTILO CONTRATO CONDENADO) -->
-        <div id="screen-name" class="screen hidden">
-            <div class="contract-paper">
-                <div class="contract-header">CONTRATO DE LOCAÇÃO RESIDENCIAL</div>
-                <div class="contract-stamp">PROPRIEDADE DA IMOBILIÁRIA DA SÉ</div>
-                
-                <p class="contract-body">
-                    Pelo presente instrumento particular, o locatário abaixo qualificado declara estar ciente de todas as cláusulas restritivas de convívio e assume total responsabilidade civil, física e psicológica sobre quaisquer eventos ocorridos no interior da unidade autônoma denominada <strong>Apartamento 404</strong>.
-                </p>
-                
-                <p class="contract-body-warning">
-                    * O locatário firma este termo sabendo que o imóvel é entregue no estado atual de conservação, renunciando a qualquer direito de reclamação posterior sobre ruídos estruturais, falhas elétricas ou fenômenos de percepção.
-                </p>
-
-                <div class="input-wrapper">
-                    <label for="player-name" class="signature-label">ASSINATURA DO LOCATÁRIO(A):</label>
-                    <input type="text" id="player-name" placeholder="Escreva seu nome completo..." maxlength="15" value="Letícia">
-                    <button id="btn-submit-name" class="menu-btn signature-btn">Firmar Contrato</button>
+        <!-- Interface de Informações Superiores -->
+        <div id="ui-top">
+            <div id="relogio" class="retro-text">00:00 AM</div>
+            
+            <!-- Barra de Sanidade -->
+            <div id="container-sanidade">
+                <span class="retro-text">SANIDADE:</span>
+                <div id="barra-sanidade-bg">
+                    <div id="barra-sanidade-nivel"></div>
                 </div>
             </div>
+            
+            <div id="status-porta" class="retro-text">PORTA: DESTRANCADA</div>
         </div>
 
-        <!-- TELA 4: ÁREA DE JOGO PRINCIPAL -->
-        <div id="screen-game" class="screen hidden">
-            <div class="story-box-wrapper">
-                <div id="story-text" class="story-text"></div>
+        <!-- TELA DE INTRODUÇÃO: O BILHETE -->
+        <div id="tela-intro" class="tela">
+            <div class="papel-bilhete">
+                <h2>REGISTRO DE ENTRADA: APTO 404</h2>
+                <p class="texto-manuscrito">
+                    "Se você está lendo isso, significa que o contrato já foi assinado. Sinto muito.<br><br>
+                    Eles não vão deixar você sair do Bloco B à noite. As regras mudaram depois do incidente no 4º andar. Se ouvir batidas entre 00:00 e 06:00, <strong>olhe pelo olho mágico antes de qualquer coisa</strong>. Nem tudo o que tem forma humana pertence a este mundo.<br><br>
+                    Aguente até o amanhecer. O sol os espanta."
+                </p>
+                <span class="assinatura">- Inquilino Anterior</span>
+                <button id="btn-iniciar" class="btn-retro">AMASSAR BILHETE E ENTRAR</button>
             </div>
-            <div id="choices-container"></div>
         </div>
 
+        <!-- TELA 1: DENTRO DO APARTAMENTO -->
+        <div id="tela-quarto" class="tela hidden">
+            <div class="caixa-dialogo idled" id="caixa-dialogo-quarto">
+                <span id="nome-falante">Arthur:</span>
+                <p id="texto-falante">O silêncio desse apartamento me dá calafrios...</p>
+            </div>
+            
+            <div class="porta-container">
+                <div class="macaneta" id="macaneta-porta"></div>
+                <button id="btn-olho-magico" title="Olhar pelo Olho Mágico"></button>
+            </div>
+            
+            <div class="controles-quarto">
+                <button id="btn-trancar" class="btn-retro">TRANCAR PORTA</button>
+            </div>
+        </div>
+
+        <!-- TELA 2: VISÃO DO OLHO MÁGICO -->
+        <div id="tela-olho" class="tela hidden">
+            <div class="lente-circulo">
+                <div id="corredor-fundo" class="corredor-luz-ligada">
+                    <!-- Silhuetas de Ameaças/Visitas -->
+                    <div id="entidade" class="hidden"></div>
+                </div>
+            </div>
+
+            <div class="controles-olho">
+                <button id="btn-voltar" class="btn-retro">AFASTAR DA PORTA</button>
+                <button id="btn-luz" class="btn-retro">INTERRUPTOR LUZ</button>
+            </div>
+        </div>
+        
+        <!-- TELA DE FIM DE JOGO / FINAIS ALTERNATIVOS -->
+        <div id="tela-mensagem" class="tela-fim hidden">
+            <h1 id="titulo-fim">SISTEMA CORROMPIDO</h1>
+            <p id="texto-fim">Erro 404: Realidade não encontrada.</p>
+            <p id="subtexto-fim" class="subtexto"></p>
+            <button id="btn-reiniciar" class="btn-retro" onclick="location.reload()">REINICIAR LINHA TEMPORAL</button>
+        </div>
     </div>
 
-    <!-- Scripts carregados de forma organizada e separada -->
-    <script src="story.js"></script>
-    <script src="main.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
