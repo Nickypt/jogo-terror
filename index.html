@@ -13,7 +13,7 @@
 
     <div id="game-container">
         <!-- Interface de Informações Superiores -->
-        <div id="ui-top">
+        <div id="ui-top" class="hidden">
             <div id="relogio" class="retro-text">00:00 AM</div>
             
             <!-- Barra de Sanidade -->
@@ -27,8 +27,20 @@
             <div id="status-porta" class="retro-text">PORTA: DESTRANCADA</div>
         </div>
 
-        <!-- TELA DE INTRODUÇÃO: O BILHETE -->
-        <div id="tela-intro" class="tela">
+        <!-- TELA 1: MENU PRINCIPAL -->
+        <div id="tela-menu" class="tela">
+            <div class="menu-conteudo">
+                <h1 class="titulo-jogo retro-text">APARTAMENTO<br><span class="glitch-404">404</span></h1>
+                <p class="subtitulo-jogo">SIMULADOR DE VIGILÂNCIA PORTUÁRIA v1.04</p>
+                <div class="menu-botoes">
+                    <button id="btn-menu-jogar" class="btn-retro btn-menu">INICIAR JOGO</button>
+                </div>
+            </div>
+            <div class="rodape-menu">© 1998 MATRIX SYSTEMS COMP.</div>
+        </div>
+
+        <!-- TELA 2: O BILHETE DE INTRODUÇÃO -->
+        <div id="tela-intro" class="tela hidden">
             <div class="papel-bilhete">
                 <h2>REGISTRO DE ENTRADA: APTO 404</h2>
                 <p class="texto-manuscrito">
@@ -41,7 +53,7 @@
             </div>
         </div>
 
-        <!-- TELA 1: DENTRO DO APARTAMENTO -->
+        <!-- TELA 3: DENTRO DO APARTAMENTO -->
         <div id="tela-quarto" class="tela hidden">
             <div class="caixa-dialogo idled" id="caixa-dialogo-quarto">
                 <span id="nome-falante">Arthur:</span>
@@ -58,7 +70,7 @@
             </div>
         </div>
 
-        <!-- TELA 2: VISÃO DO OLHO MÁGICO -->
+        <!-- TELA 4: VISÃO DO OLHO MÁGICO -->
         <div id="tela-olho" class="tela hidden">
             <div class="lente-circulo">
                 <div id="corredor-fundo" class="corredor-luz-ligada">
@@ -73,7 +85,7 @@
             </div>
         </div>
         
-        <!-- TELA DE FIM DE JOGO / FINAIS ALTERNATIVOS -->
+        <!-- TELA 5: FIM DE JOGO / FINAIS ALTERNATIVOS -->
         <div id="tela-mensagem" class="tela-fim hidden">
             <h1 id="titulo-fim">SISTEMA CORROMPIDO</h1>
             <p id="texto-fim">Erro 404: Realidade não encontrada.</p>

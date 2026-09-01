@@ -10,18 +10,20 @@ let loopRelogio, loopSorteio, timeoutAcao, loopSanidade;
 // Mecânica de Sanidade (0 a 100)
 let sanidade = 100; 
 
-// --- SISTEMA DE ÁUDIO (Links de áudios públicos e estáveis) ---
+// --- SISTEMA DE ÁUDIO ---
 const somBatida = new Audio("https://google.com");
 const somSusto = new Audio("https://google.com"); 
 const somEletrico = new Audio("https://google.com");
 
 // Elementos do DOM
 const gameContainer = document.getElementById('game-container');
+const telaMenu = document.getElementById('tela-menu');
 const telaIntro = document.getElementById('tela-intro');
 const telaQuarto = document.getElementById('tela-quarto');
 const telaOlho = document.getElementById('tela-olho');
 const telaMensagem = document.getElementById('tela-mensagem');
 
+const btnMenuJogar = document.getElementById('btn-menu-jogar');
 const btnIniciar = document.getElementById('btn-iniciar');
 const btnOlhoMagico = document.getElementById('btn-olho-magico');
 const btnVoltar = document.getElementById('btn-voltar');
@@ -31,6 +33,7 @@ const btnLuz = document.getElementById('btn-luz');
 const txtRelogio = document.getElementById('relogio');
 const txtPorta = document.getElementById('status-porta');
 const barraSanidade = document.getElementById('barra-sanidade-nivel');
+const txtUiTop = document.getElementById('ui-top');
 const txtTituloFim = document.getElementById('titulo-fim');
 const txtTextoFim = document.getElementById('texto-fim');
 const txtSubtextoFim = document.getElementById('subtexto-fim');
@@ -42,10 +45,39 @@ const elMacaneta = document.getElementById('macaneta-porta');
 const elCorredor = document.getElementById('corredor-fundo');
 const elEntidade = document.getElementById('entidade');
 
-// --- EVENTO INICIAL ---
+// --- FUNÇÃO AUXILIAR PARA TRANSIÇÃO COM ESTÁTICA ---
+function transicionarTela(telaSair, telaEntrar, tipoEfeito = "fade") {
+    gameContainer.classList.add('estatica-transicao');
+    
+    setTimeout(() => {
+        telaSair.classList.add('hidden');
+        telaEntrar.classList.remove('hidden');
+        
+        gameContainer.classList.remove('estatica-transicao');
+        telaEntrar.classList.add('fade-in-efeito');
+        
+        if (tipoEfeito === "olho") {
+            const lente = document.querySelector('.lente-circulo');
+            lente.classList.add('piscar-olho-transicao');
+            setTimeout(() => lente.classList.remove('piscar-olho-transicao'), 400);
+        }
+
+        setTimeout(() => {
+            telaEntrar.classList.remove('fade-in-efeito');
+        }, 600);
+    }, 200);
+}
+
+// --- EVENTO 1: CLIQUE NO MENU PRINCIPAL ---
+btnMenuJogar.addEventListener('click', () => {
+    somEletrico.play().catch(() => {});
+    transicionarTela(telaMenu, telaIntro, "fade");
+});
+
+// --- EVENTO 2: CLIQUE NO BILHETE DA INTRODUÇÃO ---
 btnIniciar.addEventListener('click', () => {
-    telaIntro.classList.add('hidden');
-    telaQuarto.classList.remove('hidden');
+    transicionarTela(telaIntro, telaQuarto, "fade");
+    txtUiTop.classList.remove('hidden'); 
     exibirDialogo("Arthur", "Que bilhete bizarro... Isso deve ser um trote dos moradores antigos. Mas é melhor ficar atento.", false);
     iniciarCiclosDoJogo();
 });
@@ -60,8 +92,7 @@ function exibirDialogo(nome, texto, erro = false) {
 
 // --- ROTAS DE CÂMERA / TELAS ---
 btnOlhoMagico.addEventListener('click', () => {
-    telaQuarto.classList.add('hidden');
-    telaOlho.classList.remove('hidden');
+    transicionarTela(telaQuarto, telaOlho, "olho");
     
     if(eventoEmAndamento) {
         somSusto.loop = true;
@@ -80,8 +111,7 @@ btnOlhoMagico.addEventListener('click', () => {
 });
 
 btnVoltar.addEventListener('click', () => {
-    telaOlho.classList.add('hidden');
-    telaQuarto.classList.remove('hidden');
+    transicionarTela(telaOlho, telaQuarto, "fade");
     elCaixaDialogo.classList.add('idled');
     somSusto.pause(); 
 });
@@ -172,7 +202,7 @@ function dispararVisitaAleatoria() {
     atualizarRenderLuz();
 
     timeoutAcao = setTimeout(() => {
-        avaliarAcoesJogador();
+        evaluarAcoesJogador();
     }, 14000);
 }
 
@@ -238,22 +268,4 @@ function finalizarJogo(motivo) {
         if(window.vizinhoMorto) {
             txtTituloFim.textContent = "FINAL 3: ISOLAMENTO PARANOICO";
             txtTituloFim.style.color = "orange";
-            txtTextoFim.textContent = "Você sobreviveu trancando tudo, mas o Sr. Clóvis foi pego por sua causa. Ao escolher o egoísmo por medo, você quebrou sua própria mente.";
-        } else {
-            txtTituloFim.textContent = "FINAL 1: O AMANHECER";
-            txtTituloFim.style.color = "#33ff33";
-            txtTextoFim.textContent = "06:00 AM. O sol raiou e limpou o corredor. Você recolhe suas malas e deixa o Apartamento 404 para sempre!";
-        }
-    } 
-    else if (motivo === "MORTE_MONSTRO") {
-        txtTituloFim.textContent = "FINAL 2: ERRO DE EXISTÊNCIA";
-        txtTituloFim.style.color = "#da4939";
-        txtTextoFim.textContent = "Você olhou demais sem se proteger. A silhueta quebrou a tranca e te arrastou para o vazio do 4º andar.";
-    } 
-    else if (motivo === "MORTE_IMPOSTOR") {
-        txtTituloFim.textContent = "FINAL 4: DISFARCE COGNITIVO";
-        txtTituloFim.style.color = "#da4939";
-        txtTextoFim.textContent = "Você abriu a porta para o falso entregador após as 03h. Sua mente colapsou ao ver a verdadeira face dele.";
-    }
-    else if (motivo === "MORTE_SANIDADE") {
-Use o código com cuidado.txtTituloFim.textContent = "FINAL 5: COLAPSO PSICÓTICO";txtTituloFim.style.color = "purple";txtTextoFim.textContent = "Sua sanidade chegou a 0%. Ficar encarando o Homem Alto derreteu sua percepção da realidade. Você perdeu o controle e abriu a porta por conta própria.";}}
+Use o código com cuidado.txtTextoFim.textContent = "Você sobreviveu trancando tudo, mas o Sr. Clóvis foi pego por sua causa. Ao escolher o egoísmo por medo, você quebrou sua própria mente.";} else {txtTituloFim.textContent = "FINAL 1: O AMANHECER";txtTituloFim.style.color = "#33ff33";txtTextoFim.textContent = "06:00 AM. O sol raiou e limpou o corredor. Você recolhe suas malas e deixa o Apartamento 404 para sempre!";}}else if (motivo === "MORTE_MONSTRO") {txtTituloFim.textContent = "FINAL 2: ERRO DE EXISTÊNCIA";txtTituloFim.style.color = "#da4939";txtTextoFim.textContent = "Você olhou demais sem se proteger. A silhueta quebrou a tranca e te arrastou para o vazio do 4º andar.";}else if (motivo === "MORTE_IMPOSTOR") {txtTituloFim.textContent = "FINAL 4: DISFARCE COGNITIVO";txtTituloFim.style.color = "#da4939";txtTextoFim.textContent = "Você abriu a porta para o falso entregador após as 03h. Sua mente colapsou ao ver a verdadeira face dele.";}else if (motivo === "MORTE_SANIDADE") {txtTituloFim.textContent = "FINAL 5: COLAPSO PSICÓTICO";txtTituloFim.style.color = "purple";txtTextoFim.textContent = "Sua sanidade chegou a 0%. Ficar encarando o Homem Alto pelo olho mágico derreteu sua percepção da realidade. Você perdeu o controle e abriu a porta por conta própria.";}}

@@ -28,27 +28,28 @@ body {
     font-size: 22px; z-index: 10;
 }
 
-.tela { width: 100%; height: 100%; position: relative; }
-.hidden { display: none !important; }
+/* Gerenciamento Base de Telas e Transições */
+.tela {
+    width: 100%; height: 100%; position: relative;
+    opacity: 1;
+    transition: opacity 0.5s ease-in-out, filter 0.3s ease;
+}
+
+.hidden { display: none !important; opacity: 0; }
 
 /* --- INTERFACE DE SANIDADE --- */
 #container-sanidade {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    display: flex; align-items: center; gap: 10px;
 }
 
 #barra-sanidade-bg {
-    width: 150px;
-    height: 14px;
-    border: 1px solid #33ff33;
-    background-color: #000;
+    width: 150px; height: 14px;
+    border: 1px solid #33ff33; background-color: #000;
     padding: 1px;
 }
 
 #barra-sanidade-nivel {
-    width: 100%;
-    height: 100%;
+    width: 100%; height: 100%;
     background-color: #33ff33;
     transition: width 0.2s ease, background-color 0.5s ease;
 }
@@ -64,31 +65,39 @@ body {
     100% { transform: translate(-1px, -2px) rotate(0.5deg); }
 }
 
-/* --- ESTÉTICA: INTRODUÇÃO / BILHETE --- */
-#tela-intro {
-    background-color: #050505;
-    display: flex; justify-content: center; align-items: center;
+/* --- ESTÉTICA: MENU PRINCIPAL --- */
+#tela-menu {
+    background-color: #030303;
+    display: flex; flex-direction: column;
+    justify-content: space-between; align-items: center;
+    padding: 60px 20px; box-sizing: border-box;
 }
 
+.menu-conteudo { text-align: center; margin-top: auto; margin-bottom: auto; }
+
+.titulo-jogo {
+    font-size: 48px; line-height: 1.2; letter-spacing: 4px;
+    color: #33ff33; margin: 0 0 10px 0;
+    animation: piscarTitulo 2s infinite steps(1);
+}
+
+.glitch-404 { font-size: 64px; color: #11aa11; }
+.subtitulo-jogo { font-size: 12px; color: #118811; letter-spacing: 2px; margin-bottom: 40px; }
+.btn-menu { font-size: 18px !important; padding: 12px 40px !important; letter-spacing: 2px; animation: pulsarBotao 2s infinite alternate; }
+.rodape-menu { font-size: 11px; color: #226622; letter-spacing: 1px; }
+
+/* --- ESTÉTICA: INTRODUÇÃO / BILHETE --- */
+#tela-intro { background-color: #050505; display: flex; justify-content: center; align-items: center; }
+
 .papel-bilhete {
-    background-color: #121210;
-    border: 2px dashed #444;
+    background-color: #121210; border: 2px dashed #444;
     padding: 30px; width: 80%; max-width: 500px;
-    box-shadow: 0 0 20px rgba(0,0,0,0.8);
-    color: #bfae93;
+    box-shadow: 0 0 20px rgba(0,0,0,0.8); color: #bfae93;
 }
-.papel-bilhete h2 {
-    font-size: 18px; margin-top: 0; color: #da4939; text-align: center;
-}
-.texto-manuscrito {
-    font-style: italic; line-height: 1.5; font-size: 15px; text-align: justify;
-}
-.assinatura {
-    display: block; text-align: right; margin-top: 15px; font-weight: bold;
-}
-.papel-bilhete .btn-retro {
-    display: block; margin: 25px auto 0 auto;
-}
+.papel-bilhete h2 { font-size: 18px; margin-top: 0; color: #da4939; text-align: center; }
+.texto-manuscrito { font-style: italic; line-height: 1.5; font-size: 15px; text-align: justify; }
+.assinatura { display: block; text-align: right; margin-top: 15px; font-weight: bold; }
+.papel-bilhete .btn-retro { display: block; margin: 25px auto 0 auto; }
 
 /* --- ESTÉTICA: DENTRO DO APARTAMENTO --- */
 #tela-quarto {
@@ -99,123 +108,93 @@ body {
 
 .caixa-dialogo {
     position: absolute; top: 75px; left: 50%; transform: translateX(-50%);
-    width: 85%; background: rgba(0, 0, 0, 0.85);
-    border: 1px solid #33ff33; padding: 15px; box-sizing: border-box;
+    width: 85%; background: rgba(0, 0, 0, 0.85); border: 1px solid #33ff33; 
+    padding: 15px; box-sizing: border-box; transition: all 0.3s ease; transform: translateY(0);
 }
 .caixa-dialogo p { margin: 5px 0 0 0; font-size: 15px; color: #fff; }
 .caixa-dialogo span { font-weight: bold; color: #33ff33; }
-.idled { border-color: #226622; opacity: 0.8; }
+.caixa-dialogo.idled { transform: translateY(-10px); opacity: 0; pointer-events: none; }
 
 .porta-container {
     position: absolute; top: 50%; left: 50%; transform: translate(-50%, -45%);
-    width: 160px; height: 320px;
-    border: 3px solid #222; background-color: #161616;
+    width: 160px; height: 320px; border: 3px solid #222; background-color: #161616;
     box-shadow: inset 0 0 30px #000;
 }
 
 #btn-olho-magico {
     position: absolute; top: 30%; left: 50%; transform: translate(-50%, -50%);
-    width: 20px; height: 20px;
-    background: radial-gradient(#444, #111);
+    width: 20px; height: 20px; background: radial-gradient(#444, #111);
     border: 2px solid #555; border-radius: 50%; cursor: pointer;
 }
 #btn-olho-magico:hover { box-shadow: 0 0 10px #33ff33; }
 
 .macaneta {
-    position: absolute; top: 55%; right: 15px;
-    width: 12px; height: 25px; background-color: #444; border-radius: 2px;
-    transition: transform 0.2s ease;
+    position: absolute; top: 55%; right: 15px; width: 12px; height: 25px; 
+    background-color: #444; border-radius: 2px; transition: transform 0.2s ease;
 }
-.macaneta-mexendo {
-    animation: mexerMacaneta 0.4s infinite alternate;
-}
-
-@keyframes mexerMacaneta {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(25deg); }
-}
+.macaneta-mexendo { animation: mexerMacaneta 0.4s infinite alternate; }
 
 .controles-quarto { position: absolute; bottom: 30px; width: 100%; text-align: center; }
 
 /* --- ESTÉTICA: LENTE DO OLHO MÁGICO (DISTORÇÃO) --- */
 .lente-circulo {
     position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-    width: 420px; height: 420px; border-radius: 50%;
-    border: 20px solid #000; overflow: hidden;
-    box-shadow: inset 0 0 60px #000, 0 0 30px rgba(0,0,0,1);
+    width: 420px; height: 420px; border-radius: 50%; border: 20px solid #000; 
+    overflow: hidden; box-shadow: inset 0 0 60px #000, 0 0 30px rgba(0,0,0,1);
 }
 
 #corredor-fundo { width: 100%; height: 100%; transition: filter 0.2s; position: relative; }
 
 .corredor-luz-ligada {
     background: #1f1f1a url('https://unsplash.com') no-repeat center/cover;
-    filter: sepia(0.6) contrast(1.4) brightness(0.4) blur(0.5px);
-    transform: scale(1.1);
+    filter: sepia(0.6) contrast(1.4) brightness(0.4) blur(0.5px); transform: scale(1.1);
 }
-.corredor-luz-piscando {
-    animation: flashLuz 0.6s infinite alternate;
-}
-.corredor-luz-desligada {
-    background: #020202 !important; filter: none !important;
-}
-
-@keyframes flashLuz {
-    0%, 20%, 60%, 100% { filter: sepia(0.6) contrast(1.4) brightness(0.35) blur(0.5px); }
-    10%, 30%, 70% { filter: sepia(0.6) contrast(1.4) brightness(0.05) blur(0.5px); }
-}
+.corredor-luz-piscando { animation: flashLuz 0.6s infinite alternate; }
+.corredor-luz-desligada { background: #020202 !important; filter: none !important; }
 
 /* Identidades das Visitas no Corredor */
-#entidade {
-    position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%);
-    width: 150px; height: 300px; transition: all 0.5s ease;
-}
+#entidade { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); width: 150px; height: 300px; transition: all 0.5s ease; }
+.homem-alto { background: url('https://unsplash.com') no-repeat center/contain; filter: brightness(0) contrast(1); transform: scaleX(0.7) scaleY(1.3) translateX(-50%); }
+.vizinho { background: url('https://unsplash.com') no-repeat center/contain; filter: brightness(0.2) sepia(1) hue-rotate(10deg); }
+.entregador { background: url('https://unsplash.com') no-repeat center/contain; filter: brightness(0.2) sepia(1) hue-rotate(80deg); }
 
-.homem-alto {
-    background: url('https://unsplash.com') no-repeat center/contain;
-    filter: brightness(0) contrast(1); transform: scaleX(0.7) scaleY(1.3) translateX(-50%);
-}
-.vizinho {
-    background: url('https://unsplash.com') no-repeat center/contain;
-    filter: brightness(0.2) sepia(1) hue-rotate(10deg);
-}
-.entregador {
-    background: url('https://unsplash.com') no-repeat center/contain;
-    filter: brightness(0.2) sepia(1) hue-rotate(80deg);
-}
-
-.controles-olho {
-    position: absolute; bottom: 25px; width: 100%;
-    display: flex; justify-content: center; gap: 20px;
-}
+.controles-olho { position: absolute; bottom: 25px; width: 100%; display: flex; justify-content: center; gap: 20px; }
 
 /* Botões Customizados */
 .btn-retro {
     background-color: #000; color: #33ff33; border: 1px solid #33ff33;
-    padding: 10px 24px; font-family: 'Courier New', monospace;
-    cursor: pointer; font-weight: bold; font-size: 13px;
-    box-shadow: 0 0 5px rgba(0,255,0,0.2);
+    padding: 10px 24px; font-family: 'Courier New', monospace; cursor: pointer;
+    font-weight: bold; font-size: 13px; box-shadow: 0 0 5px rgba(0,255,0,0.2);
 }
 .btn-retro:hover { background-color: #33ff33; color: #000; box-shadow: 0 0 10px #33ff33; }
 
-/* FILTROS DE EFEITOS CRT/VHS */
+/* --- FILTROS DE EFEITOS CRT/VHS --- */
 .vhs-overlay {
     position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.4) 100%);
-    z-index: 95; pointer-events: none;
+    background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.4) 100%); z-index: 95; pointer-events: none;
 }
 .vhs-scanlines {
     position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%);
-    background-size: 100% 4px; z-index: 99; pointer-events: none;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%); background-size: 100% 4px; z-index: 99; pointer-events: none;
 }
 
 /* Telas de Encerramento */
 .tela-fim {
     position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    background-color: #000; display: flex; flex-direction: column;
-    justify-content: center; align-items: center; z-index: 200; text-align: center;
-    padding: 20px; box-sizing: border-box;
+    background-color: #000; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 200; text-align: center; padding: 20px; box-sizing: border-box;
 }
 .tela-fim h1 { font-size: 36px; color: #da4939; margin-bottom: 10px; text-shadow: 0 0 10px red; }
 .tela-fim p { font-size: 16px; color: #eee; max-width: 600px; line-height: 1.6; }
 .subtexto { font-size: 13px !important; color: #888 !important; margin-top: -5px; margin-bottom: 25px; }
+
+/* --- TIMELINES DE ANIMAÇÃO --- */
+@keyframes mexerMacaneta { 0% { transform: rotate(0deg); } 100% { transform: rotate(25deg); } }
+@keyframes fadeInTela { from { opacity: 0; filter: blur(10px) brightness(0); } to { opacity: 1; filter: blur(0) brightness(1); } }
+@keyframes glitchTransicao { 0% { filter: contrast(2) brightness(1.5) saturate(0); transform: scale(1); } 50% { filter: contrast(3) brightness(2) blur(1px); transform: skewX(2deg); } 100% { filter: contrast(1.5) brightness(0.8) saturate(0); transform: scale(1.01); } }
+@keyframes fecharAbrirOlho { 0%, 40% { clip-path: ellipse(100% 0% at 50% 50%); filter: brightness(0); } 100% { clip-path: ellipse(100% 100% at 50% 50%); filter: brightness(1); } }
+@keyframes pulsarBotao { 0% { box-shadow: 0 0 10px rgba(0, 255, 0, 0.2); border-color: #11aa11; } 100% { box-shadow: 0 0 25px rgba(0, 255, 0, 0.6); border-color: #33ff33; } }
+@keyframes piscarTitulo { 0%, 100% { opacity: 1; text-shadow: 0 0 15px #33ff33; } 45% { opacity: 1; } 46% { opacity: 0.7; } 48% { opacity: 1; } 80% { opacity: 1; } 81% { opacity: 0.3; } 82% { opacity: 1; } }
+
+.fade-in-efeito { animation: fadeInTela 0.6s ease-out forwards; }
+.estatica-transicao { animation: glitchTransicao 0.2s ease-in-out infinite alternate; }
+.piscar-olho-transicao { animation: fecharAbrirOlho 0.4s ease-in-out forwards; }
