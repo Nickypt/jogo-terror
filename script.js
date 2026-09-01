@@ -4,8 +4,10 @@ let portaTrancada = false;
 let luzCorredorLigada = true;
 let eventoEmAndamento = false;
 let tipoVisitaAtual = ""; 
-let acaoTratada = false;
 let loopRelogio, loopSorteio, timeoutAcao, loopSanidade;
+
+// Trava lógica para evitar que cliques seguidos travem as transições
+let transicionando = false; 
 
 // Mecânica de Sanidade (0 a 100)
 let sanidade = 100; 
@@ -45,8 +47,20 @@ const elMacaneta = document.getElementById('macaneta-porta');
 const elCorredor = document.getElementById('corredor-fundo');
 const elEntidade = document.getElementById('entidade');
 
+// Desabilita todos os botões de controle de tela durante a transição
+function configurarBotoesGlobais(status) {
+    btnMenuJogar.disabled = status;
+    btnIniciar.disabled = status;
+    btnOlhoMagico.disabled = status;
+    btnVoltar.disabled = status;
+}
+
 // --- FUNÇÃO AUXILIAR PARA TRANSIÇÃO COM ESTÁTICA ---
 function transicionarTela(telaSair, telaEntrar, tipoEfeito = "fade") {
+    if (transicionando) return; // Se já estiver rodando um efeito, ignora novos cliques
+    transicionando = true;
+    configurarBotoesGlobais(true);
+
     gameContainer.classList.add('estatica-transicao');
     
     setTimeout(() => {
@@ -64,7 +78,9 @@ function transicionarTela(telaSair, telaEntrar, tipoEfeito = "fade") {
 
         setTimeout(() => {
             telaEntrar.classList.remove('fade-in-efeito');
-        }, 600);
+            transicionando = false;
+            configurarBotoesGlobais(false);
+        }, 500);
     }, 200);
 }
 
@@ -158,7 +174,6 @@ function iniciarCiclosDoJogo() {
         }
     }, 18000);
 
-    // Loop de Controle da Sanidade
     loopSanidade = setInterval(() => {
         if (eventoEmAndamento && !telaOlho.classList.contains('hidden') && tipoVisitaAtual === "homem-alto") {
             sanidade -= 6; 
@@ -246,26 +261,11 @@ function evaluarAcoesJogador() {
 }
 
 function recuarAmeaca(mensagemSucesso) {
-    exibirDialogo("Arthur", mensagemSucesso, false);
+    exibirDialogo("Arthur", mensajeSucesso, false);
     eventoEmAndamento = false;
     tipoVisitaAtual = "";
     atualizarRenderLuz();
 }
 
 // --- GERENCIADOR DE FINAIS ---
-function finalizarJogo(motivo) {
-    clearInterval(loopRelogio);
-    clearInterval(loopSorteio);
-    clearInterval(loopSanidade);
-    clearTimeout(timeoutAcao);
-    somSusto.pause();
-
-    telaMensagem.classList.remove('hidden');
-    telaQuarto.classList.add('hidden');
-    telaOlho.classList.add('hidden');
-
-    if (motivo === "VITORIA") {
-        if(window.vizinhoMorto) {
-            txtTituloFim.textContent = "FINAL 3: ISOLAMENTO PARANOICO";
-            txtTituloFim.style.color = "orange";
-Use o código com cuidado.txtTextoFim.textContent = "Você sobreviveu trancando tudo, mas o Sr. Clóvis foi pego por sua causa. Ao escolher o egoísmo por medo, você quebrou sua própria mente.";} else {txtTituloFim.textContent = "FINAL 1: O AMANHECER";txtTituloFim.style.color = "#33ff33";txtTextoFim.textContent = "06:00 AM. O sol raiou e limpou o corredor. Você recolhe suas malas e deixa o Apartamento 404 para sempre!";}}else if (motivo === "MORTE_MONSTRO") {txtTituloFim.textContent = "FINAL 2: ERRO DE EXISTÊNCIA";txtTituloFim.style.color = "#da4939";txtTextoFim.textContent = "Você olhou demais sem se proteger. A silhueta quebrou a tranca e te arrastou para o vazio do 4º andar.";}else if (motivo === "MORTE_IMPOSTOR") {txtTituloFim.textContent = "FINAL 4: DISFARCE COGNITIVO";txtTituloFim.style.color = "#da4939";txtTextoFim.textContent = "Você abriu a porta para o falso entregador após as 03h. Sua mente colapsou ao ver a verdadeira face dele.";}else if (motivo === "MORTE_SANIDADE") {txtTituloFim.textContent = "FINAL 5: COLAPSO PSICÓTICO";txtTituloFim.style.color = "purple";txtTextoFim.textContent = "Sua sanidade chegou a 0%. Ficar encarando o Homem Alto pelo olho mágico derreteu sua percepção da realidade. Você perdeu o controle e abriu a porta por conta própria.";}}
+Use o código com cuidado.function finalizarJogo(motivo) {clearInterval(loopRelogio);clearInterval(loopSorteio);clearInterval(loopSanidade);clearTimeout(timeoutAcao);somSusto.pause();telaMensagem.classList.remove('hidden');telaQuarto.classList.add('hidden');telaOlho.classList.add('hidden');if (motivo === "VITORIA") {if(window.vizinhoMorto) {txtTituloFim.textContent = "FINAL 3: ISOLAMENTO PARANOICO";txtTituloFim.style.color = "orange";txtTextoFim.textContent = "Você sobreviveu trancando tudo, mas o Sr. Clóvis foi pego por sua causa. Ao escolher o egoísmo por medo, você quebrou sua própria mente.";} else {txtTituloFim.textContent = "FINAL 1: O AMANHECER";txtTituloFim.style.color = "#33ff33";txtTextoFim.textContent = "06:00 AM. O sol raiou e limpou o corredor. Você recolhe suas malas e deixa o Apartamento 404 para sempre!";}}else if (motivo === "MORTE_MONSTRO") {txtTituloFim.textContent = "FINAL 2: ERRO DE EXISTÊNCIA";txtTituloFim.style.color = "#da4939";txtTextoFim.textContent = "Você olhou demais sem se proteger. A silhueta quebrou a tranca e te arrastou para o vazio do 4º andar.";}else if (motivo === "MORTE_IMPOSTOR") {txtTituloFim.textContent = "FINAL 4: DISFARCE COGNITIVO";txtTituloFim.style.color = "#da4939";txtTextoFim.textContent = "Você abriu a porta para o falso entregador após as 03h. Sua mente colapsou ao ver a verdadeira face dele.";}else if (motivo === "MORTE_SANIDADE") {txtTituloFim.textContent = "FINAL 5: COLAPSO PSICÓTICO";txtTituloFim.style.color = "purple";txtTextoFim.textContent = "Sua sanidade chegou a 0%. Ficar encarando o Homem Alto pelo olho mágico derreteu sua percepção da realidade. Você perdeu o controle e abriu a porta por conta própria.";}}
