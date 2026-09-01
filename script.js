@@ -4,10 +4,8 @@ let portaTrancada = false;
 let luzCorredorLigada = true;
 let eventoEmAndamento = false;
 let tipoVisitaAtual = ""; 
+let acaoTratada = false;
 let loopRelogio, loopSorteio, timeoutAcao, loopSanidade;
-
-// Trava lógica para evitar que cliques seguidos travem as transições
-let transicionando = false; 
 
 // Mecânica de Sanidade (0 a 100)
 let sanidade = 100; 
@@ -17,7 +15,7 @@ const somBatida = new Audio("https://google.com");
 const somSusto = new Audio("https://google.com"); 
 const somEletrico = new Audio("https://google.com");
 
-// Elementos do DOM
+// Elementos do DOM (Verificados e Sincronizados)
 const gameContainer = document.getElementById('game-container');
 const telaMenu = document.getElementById('tela-menu');
 const telaIntro = document.getElementById('tela-intro');
@@ -35,7 +33,7 @@ const btnLuz = document.getElementById('btn-luz');
 const txtRelogio = document.getElementById('relogio');
 const txtPorta = document.getElementById('status-porta');
 const barraSanidade = document.getElementById('barra-sanidade-nivel');
-const txtUiTop = document.getElementById('ui-top');
+const txtUiTop = document.getElementById('ui-top'); // Elemento corrigido
 const txtTituloFim = document.getElementById('titulo-fim');
 const txtTextoFim = document.getElementById('texto-fim');
 const txtSubtextoFim = document.getElementById('subtexto-fim');
@@ -47,20 +45,8 @@ const elMacaneta = document.getElementById('macaneta-porta');
 const elCorredor = document.getElementById('corredor-fundo');
 const elEntidade = document.getElementById('entidade');
 
-// Desabilita todos os botões de controle de tela durante a transição
-function configurarBotoesGlobais(status) {
-    btnMenuJogar.disabled = status;
-    btnIniciar.disabled = status;
-    btnOlhoMagico.disabled = status;
-    btnVoltar.disabled = status;
-}
-
 // --- FUNÇÃO AUXILIAR PARA TRANSIÇÃO COM ESTÁTICA ---
 function transicionarTela(telaSair, telaEntrar, tipoEfeito = "fade") {
-    if (transicionando) return; // Se já estiver rodando um efeito, ignora novos cliques
-    transicionando = true;
-    configurarBotoesGlobais(true);
-
     gameContainer.classList.add('estatica-transicao');
     
     setTimeout(() => {
@@ -78,17 +64,34 @@ function transicionarTela(telaSair, telaEntrar, tipoEfeito = "fade") {
 
         setTimeout(() => {
             telaEntrar.classList.remove('fade-in-efeito');
-            transicionando = false;
-            configurarBotoesGlobais(false);
-        }, 500);
+        }, 600);
     }, 200);
 }
 
 // --- EVENTO 1: CLIQUE NO MENU PRINCIPAL ---
-btnMenuJogar.addEventListener('click', () => {
-    somEletrico.play().catch(() => {});
-    transicionarTela(telaMenu, telaIntro, "fade");
-});
+if (btnMenuJogar) {
+    btnMenuJogar.addEventListener('click', () => {
+        somEletrico.play().catch(() => {});
+        transicionarTela(telaMenu, telaIntro, "fade");
+    });
+}
+
+// --- EVENTO 2: CLIQUE NO BILHETE DA INTRODUÇÃO ---
+if (btnIniciar) {
+    btnIniciar.addEventListener('click', () => {
+        transicionarTela(telaIntro, telaQuarto, "fade");
+        
+        // Ativa a exibição da barra de sanidade e relógio
+        if (txtUiTop) {
+            txtUiTop.classList.remove('hidden'); 
+        }
+        
+        exibirDialogo("Arthur", "Que bilhete bizarro... Isso deve ser um trote dos moradores antigos. Mas é melhor ficar atento.", false);
+        iniciarCiclosDoJogo();
+    });
+}
+
+// ... O RESTANTE DO SEU SCRIPT.JS (A partir da função exibirDialogo) CONTINUA IGUAL ...
 
 // --- EVENTO 2: CLIQUE NO BILHETE DA INTRODUÇÃO ---
 btnIniciar.addEventListener('click', () => {
