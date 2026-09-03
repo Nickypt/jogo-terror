@@ -7,9 +7,10 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Efeitos Visuais Retro Ambientais -->
+    <!-- Efeitos Visuais Retro Ambientais Degradados -->
     <div class="vhs-overlay"></div>
     <div class="vhs-scanlines"></div>
+    <div class="filtro-sujeira"></div>
 
     <div id="game-container">
         <!-- Interface de Informações Superiores -->
@@ -27,7 +28,7 @@
             <div id="status-porta" class="retro-text">PORTA: DESTRANCADA</div>
         </div>
 
-               <!-- TELA 1: MENU PRINCIPAL -->
+        <!-- TELA 1: MENU PRINCIPAL -->
         <div id="tela-menu" class="tela">
             <div class="menu-conteudo">
                 <h1 class="titulo-jogo retro-text">APARTAMENTO<br><span class="glitch-404">404</span></h1>
@@ -35,7 +36,7 @@
                 <div class="menu-botoes">
                     <button id="btn-menu-jogar" class="btn-retro btn-menu">INICIAR JOGO</button>
                 </div>
-                <!-- NOVO: Lista de finais arquivados -->
+                <!-- Lista de finais arquivados -->
                 <div id="finais-conquistados" class="retro-text">
                     <h3>REGISTROS DE SOBREVIVÊNCIA:</h3>
                     <ul>
@@ -72,12 +73,14 @@
             </div>
             
             <div class="porta-container">
+                <div class="moldura-velha"></div>
                 <div class="macaneta" id="macaneta-porta"></div>
                 <button id="btn-olho-magico" title="Olhar pelo Olho Mágico"></button>
             </div>
             
             <div class="controles-quarto">
                 <button id="btn-trancar" class="btn-retro">TRANCAR PORTA</button>
+                <button id="btn-abrir-porta" class="btn-retro btn-perigo">ABRIR PORTA</button>
             </div>
         </div>
 
@@ -105,9 +108,8 @@
         </div>
     </div>
 
-    <!-- NOVO: Tela flash de Jumpscare -->
+    <!-- Tela flash de Jumpscare -->
     <div id="jumpscare-container" class="hidden"></div>
-
 
     <script src="script.js"></script>
 </body>

@@ -1,8 +1,8 @@
-/* Configurações Globais Terminais */
+/* Configurações Globais: Prédio Antigo / Terror Analógico */
 body {
     margin: 0; padding: 0;
-    background-color: #020202;
-    color: #33ff33;
+    background-color: #050505;
+    color: #26b326;
     font-family: 'Courier New', Courier, monospace;
     display: flex; justify-content: center; align-items: center;
     height: 100vh; overflow: hidden; user-select: none;
@@ -11,34 +11,34 @@ body {
 #game-container {
     position: relative;
     width: 800px; height: 600px;
-    background-color: #0a0a0a;
-    border: 4px solid #1a1a1a;
-    box-shadow: 0 0 40px rgba(0, 255, 0, 0.1);
+    background-color: #0d0e0d;
+    border: 6px double #1f2e1f;
+    box-shadow: inset 0 0 100px #000, 0 0 50px rgba(0, 0, 0, 0.9);
+    overflow: hidden;
 }
 
 .retro-text {
     font-weight: bold;
-    text-shadow: 0 0 8px rgba(0, 255, 0, 0.6);
+    text-shadow: 0 0 6px rgba(38, 179, 38, 0.5);
 }
 
 #ui-top {
     position: absolute;
     top: 20px; left: 25px; right: 25px;
     display: flex; justify-content: space-between;
-    font-size: 22px; z-index: 10;
+    font-size: 20px; z-index: 10;
 }
 
-/* Gerenciamento de Telas à prova de erros */
+/* Gerenciamento de Telas */
 .tela {
     width: 100%; 
     height: 100%; 
-    position: absolute; /* Mudado de relative para absolute para garantir sobreposição perfeita */
+    position: absolute;
     top: 0;
     left: 0;
-    background-color: #0a0a0a;
+    background-color: #0b0c0b;
 }
 
-/* Classe hidden agora tem poder máximo de ocultação */
 .hidden { 
     display: none !important; 
 }
@@ -49,194 +49,467 @@ body {
 }
 
 #barra-sanidade-bg {
-    width: 150px; height: 14px;
-    border: 1px solid #33ff33; background-color: #000;
+    width: 140px; height: 12px;
+    border: 1px solid #26b326; background-color: #020302;
     padding: 1px;
 }
 
 #barra-sanidade-nivel {
     width: 100%; height: 100%;
-    background-color: #33ff33;
+    background-color: #26b326;
     transition: width 0.2s ease, background-color 0.5s ease;
 }
 
 /* Efeito de Tremor de Pânico */
 .tremer-tela {
-    animation: tremor 0.1s infinite alternate;
-    border-color: red !important;
+    animation: tremor 0.08s infinite alternate;
+    border-color: #7a1515 !important;
 }
 
 @keyframes tremor {
-    0% { transform: translate(1px, 1px) rotate(0deg); }
-    100% { transform: translate(-1px, -2px) rotate(0.5deg); }
-}
-
-/* Garante que o display: flex só funcione quando a tela NÃO estiver oculta */
-.tela {
-    width: 100%; 
-    height: 100%; 
-    position: absolute;
-    top: 0;
-    left: 0;
-    background-color: #0a0a0a;
+    0% { transform: translate(2px, 1px) rotate(0deg); }
+    100% { transform: translate(-2px, -1px) rotate(0.4deg); }
 }
 
 /* --- ESTÉTICA: MENU PRINCIPAL --- */
 #tela-menu {
-    background-color: #030303;
+    background: radial-gradient(circle, #0e120e 0%, #030503 100%);
     display: flex; flex-direction: column;
     justify-content: space-between; align-items: center;
-    padding: 60px 20px; box-sizing: border-box;
+    padding: 50px 20px; box-sizing: border-box;
     z-index: 5;
 }
 #tela-menu.hidden { display: none !important; }
 
-/* --- ESTÉTICA: INTRODUÇÃO / BILHETE --- */
-#tela-intro { 
-    background-color: #050505; 
-    display: flex; justify-content: center; align-items: center; 
-    z-index: 6; /* Aumentado para ficar ACIMA do menu quando ativo */
+.menu-conteudo { text-align: center; margin-top: auto; margin-bottom: auto; }
+
+.titulo-jogo {
+    font-size: 52px; line-height: 1.1; letter-spacing: 6px;
+    color: #26b326; margin: 0 0 10px 0;
+    text-shadow: 3px 3px 0px #092409;
 }
+
+.glitch-404 { font-size: 72px; color: #a31c1c; text-shadow: 2px 2px 0px #000; }
+.subtitulo-jogo { font-size: 11px; color: #166116; letter-spacing: 2px; margin-bottom: 30px; }
+.btn-menu { font-size: 16px !important; padding: 12px 50px !important; letter-spacing: 2px; }
+.rodape-menu { font-size: 11px; color: #143b14; letter-spacing: 1px; }
+
+/* --- HISTÓRICO DE FINAIS NO MENU --- */
+#finais-conquistados {
+    margin-top: 35px;
+    font-size: 11px;
+    text-align: left;
+    display: inline-block;
+    border-top: 1px dashed #166116;
+    padding-top: 15px;
+    width: 100%;
+    max-width: 420px;
+}
+#finais-conquistados h3 { margin: 0 0 10px 0; font-size: 12px; color: #166116; letter-spacing: 1px; }
+#finais-conquistados ul { list-style: none; padding: 0; margin: 0; }
+#finais-conquistados li { margin-bottom: 6px; font-family: monospace; }
+.final-bloqueado { color: #102610; text-shadow: none; }
+.final-desbloqueado { color: #26b326 !important; text-shadow: 0 0 4px rgba(38, 179, 38, 0.6); }
+
+/* --- ESTÉTICA: INTRODUÇÃO / BILHETE --- */
+#tela-intro { background-color: #030403; display: flex; justify-content: center; align-items: center; z-index: 6; }
 #tela-intro.hidden { display: none !important; }
 
-.papel-bilhete h2 { font-size: 18px; margin-top: 0; color: #da4939; text-align: center; }
-.texto-manuscrito { font-style: italic; line-height: 1.5; font-size: 15px; text-align: justify; }
-.assinatura { display: block; text-align: right; margin-top: 15px; font-weight: bold; }
-.papel-bilhete .btn-retro { display: block; margin: 25px auto 0 auto; }
+.papel-bilhete {
+    background-color: #141310; border: 1px solid #2d2b26;
+    padding: 35px; width: 85%; max-width: 480px;
+    box-shadow: 0 0 30px rgba(0,0,0,0.9); color: #8c806c;
+    border-radius: 2px;
+}
+.papel-bilhete h2 { font-size: 16px; margin-top: 0; color: #a31c1c; text-align: center; letter-spacing: 1px; }
+.texto-manuscrito { font-style: italic; line-height: 1.6; font-size: 14px; text-align: justify; color: #9c917d; }
+.assinatura { display: block; text-align: right; margin-top: 20px; font-weight: bold; color: #736958; }
+.papel-bilhete .btn-retro { display: block; margin: 30px auto 0 auto; }
 
-/* --- ESTÉTICA: DENTRO DO APARTAMENTO --- */
+/* --- ESTÉTICA: DENTRO DO APARTAMENTO (CENÁRIO ASSUSTADOR) --- */
 #tela-quarto {
-    background: linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.95)), 
-                url('https://unsplash.com') no-repeat center/cover;
-    filter: sepia(0.2) contrast(1.1);
+    background: linear-gradient(180px, rgba(0,0,0,0.92) 0%, rgba(10,14,10,0.96) 100%),
+                repeating-linear-gradient(0deg, rgba(0,0,0,0.15), rgba(0,0,0,0.15) 2px, transparent 2px, transparent 4px);
     z-index: 3;
 }
 
 .caixa-dialogo {
-    position: absolute; top: 75px; left: 50%; transform: translateX(-50%);
-    width: 85%; background: rgba(0, 0, 0, 0.85); border: 1px solid #33ff33; 
-    padding: 15px; box-sizing: border-box; transition: all 0.3s ease; transform: translateY(0);
+    position: absolute; bottom: 120px; left: 50%; transform: translateX(-50%);
+    width: 85%; background: rgba(5, 7, 5, 0.95); border: 1px solid #1f3d1f; 
+    padding: 15px; box-sizing: border-box; transition: all 0.2s ease;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.8);
 }
-.caixa-dialogo p { margin: 5px 0 0 0; font-size: 15px; color: #fff; }
-.caixa-dialogo span { font-weight: bold; color: #33ff33; }
-.caixa-dialogo.idled { transform: translateY(-10px); opacity: 0; pointer-events: none; }
+.caixa-dialogo p { margin: 6px 0 0 0; font-size: 14px; color: #cbd6cb; line-height: 1.4; }
+.caixa-dialogo span { font-weight: bold; color: #26b326; letter-spacing: 1px; }
+.caixa-dialogo.idled { opacity: 0; transform: translate(-50%, 10px); pointer-events: none; }
 
+/* Estrutura da Porta de Madeira Velha */
 .porta-container {
-    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -45%);
-    width: 160px; height: 320px; border: 3px solid #222; background-color: #161616;
-    box-shadow: inset 0 0 30px #000;
+    position: absolute; top: 42%; left: 50%; transform: translate(-50%, -50%);
+    width: 170px; height: 310px; 
+    border: 6px solid #141714; 
+    background: linear-gradient(90deg, #1f241f 0%, #161a16 50%, #111411 100%);
+    box-shadow: inset 0 0 40px #000, 0 10px 25px rgba(0,0,0,0.8);
+}
+.moldura-velha {
+    position: absolute; top: -1px; left: -1px; right: -1px; bottom: -1px;
+    border: 2px dashed #0c0e0c; pointer-events: none;
 }
 
 #btn-olho-magico {
-    position: absolute; top: 30%; left: 50%; transform: translate(-50%, -50%);
-    width: 20px; height: 20px; background: radial-gradient(#444, #111);
-    border: 2px solid #555; border-radius: 50%; cursor: pointer;
+    position: absolute; top: 32%; left: 50%; transform: translate(-50%, -50%);
+    width: 22px; height: 22px; background: radial-gradient(#3a423a, #0d0f0d);
+    border: 2px solid #283028; border-radius: 50%; cursor: pointer;
+    box-shadow: 0 0 5px #000;
 }
-#btn-olho-magico:hover { box-shadow: 0 0 10px #33ff33; }
+#btn-olho-magico:hover { border-color: #26b326; box-shadow: 0 0 8px rgba(38,179,38,0.4); }
 
 .macaneta {
-    position: absolute; top: 55%; right: 15px; width: 12px; height: 25px; 
-    background-color: #444; border-radius: 2px; transition: transform 0.2s ease;
+    position: absolute; top: 55%; right: 12px; width: 10px; height: 26px; 
+    background-color: #2d332d; border: 1px solid #191c19; border-radius: 1px; transition: transform 0.1s ease;
 }
-.macaneta-mexendo { animation: mexerMacaneta 0.4s infinite alternate; }
+.macaneta-mexendo { animation: mexerMacaneta 0.3s infinite alternate; }
 
-.controles-quarto { position: absolute; bottom: 30px; width: 100%; text-align: center; }
+.controles-quarto { 
+    position: absolute; bottom: 35px; width: 100%; 
+    display: flex; justify-content: center; gap: 20px; 
+}
 
 /* --- ESTÉTICA: LENTE DO OLHO MÁGICO --- */
-#tela-olho { z-index: 2; }
+#tela-olho { z-index: 2; background-color: #020302; }
 .lente-circulo {
     position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-    width: 420px; height: 420px; border-radius: 50%; border: 20px solid #000; 
-    overflow: hidden; box-shadow: inset 0 0 60px #000, 0 0 30px rgba(0,0,0,1);
+    width: 410px; height: 410px; border-radius: 50%; border: 30px solid #000; 
+    overflow: hidden; box-shadow: inset 0 0 80px #000, 0 0 50px #000;
 }
 
-#corredor-fundo { width: 100%; height: 100%; transition: filter 0.2s; position: relative; }
+#corredor-fundo { width: 100%; height: 100%; transition: filter 0.3s; position: relative; }
 
 .corredor-luz-ligada {
-    background: #1f1f1a url('https://unsplash.com') no-repeat center/cover;
-    filter: sepia(0.6) contrast(1.4) brightness(0.4) blur(0.5px); transform: scale(1.1);
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.7)), #181c18;
+    filter: sepia(0.5) contrast(1.3) brightness(0.35) blur(0.4px); transform: scale(1.05);
 }
-.corredor-luz-piscando { animation: flashLuz 0.6s infinite alternate; }
-.corredor-luz-desligada { background: #020202 !important; filter: none !important; }
+.corredor-luz-piscando { animation: flashLuz 0.4s infinite alternate; }
+.corredor-luz-desligada { background: #010201 !important; filter: none !important; }
+
+@keyframes flashLuz {
+    0% { filter: sepia(0.5) contrast(1.3) brightness(0.35) blur(0.4px); }
+    100% { filter: sepia(0.5) contrast(1.1) brightness(0.08) blur(0.6px); }
+}
 
 /* Identidades das Visitas */
-#entidade { position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); width: 150px; height: 300px; transition: all 0.5s ease; }
-.homem-alto { background: url('https://unsplash.com') no-repeat center/contain; filter: brightness(0) contrast(1); transform: scaleX(0.7) scaleY(1.3) translateX(-50%); }
-.vizinho { background: url('https://unsplash.com') no-repeat center/contain; filter: brightness(0.2) sepia(1) hue-rotate(10deg); }
-.entregador { background: url('https://unsplash.com') no-repeat center/contain; filter: brightness(0.2) sepia(1) hue-rotate(80deg); }
+#entidade { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 140px; height: 280px; }
+.homem-alto { background: linear-gradient(to top, rgba(0,0,0,1) 80%, rgba(20,0,0,1)), #000; clip-path: polygon(30% 0%, 70% 0%, 85% 100%, 15% 100%); filter: blur(1px); width: 80px !important; height: 320px !important; }
+.vizinho { background: #131713; border: 1px solid #222; border-radius: 50% 50% 0 0; filter: brightness(0.3); opacity: 0.8; }
+.entregador { background: #1a1616; border-radius: 30% 30% 0 0; filter: brightness(0.25); }
 
-.controles-olho { position: absolute; bottom: 25px; width: 100%; display: flex; justify-content: center; gap: 20px; }
+.controles-olho { position: absolute; bottom: 35px; width: 100%; display: flex; justify-content: center; gap: 20px; }
 
-/* Botões Customizados */
+/* Botões Customizados Industriais Antigos */
 .btn-retro {
-    background-color: #000; color: #33ff33; border: 1px solid #33ff33;
+    background-color: #070807; color: #1e871e; border: 1px solid #1f3d1f;
     padding: 10px 24px; font-family: 'Courier New', monospace; cursor: pointer;
-    font-weight: bold; font-size: 13px; box-shadow: 0 0 5px rgba(0,255,0,0.2);
+    font-weight: bold; font-size: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+    transition: all 0.1s;
 }
-.btn-retro:hover { background-color: #33ff33; color: #000; box-shadow: 0 0 10px #33ff33; }
+.btn-retro:hover { background-color: #1f3d1f; color: #020302; box-shadow: 0 0 10px rgba(38,179,38,0.3); }
+.btn-perigo { border-color: #611818; color: #9c2828; }
+.btn-perigo:hover { background-color: #4a1212; color: #fff; box-shadow: 0 0 10px rgba(255,0,0,0.2); }
 
-/* FILTROS DE EFEITOS CRT/VHS */
+/* FILTROS DE EFEITOS CRT/VHS/SUJEIRA */
 .vhs-overlay {
     position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.4) 100%); z-index: 95; pointer-events: none;
+    background: radial-gradient(circle, transparent 30%, rgba(0,0,0,0.65) 100%); z-index: 95; pointer-events: none;
 }
 .vhs-scanlines {
     position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%); background-size: 100% 4px; z-index: 99; pointer-events: none;
+    background: linear-gradient(rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.25) 50%); background-size: 100% 4px; z-index: 99; pointer-events: none;
+}
+.filtro-sujeira {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    opacity: 0.04; background-image: radial-gradient(#fff 1px, transparent 0); background-size: 24px 24px; z-index: 96; pointer-events: none;
 }
 
 /* Telas de Encerramento */
 .tela-fim {
     position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-    background-color: #000; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 200; text-align: center; padding: 20px; box-sizing: border-box;
+    background-color: #030403; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 200; text-align: center; padding: 20px; box-sizing: border-box;
 }
-.tela-fim h1 { font-size: 36px; color: #da4939; margin-bottom: 10px; text-shadow: 0 0 10px red; }
-.tela-fim p { font-size: 16px; color: #eee; max-width: 600px; line-height: 1.6; }
-.subtexto { font-size: 13px !important; color: #888 !important; margin-top: -5px; margin-bottom: 25px; }
+.tela-fim h1 { font-size: 32px; color: #a31c1c; margin-bottom: 12px; text-shadow: 0 0 8px rgba(163,28,28,0.6); letter-spacing: 2px; }
+.tela-fim p { font-size: 15px; color: #a6b3a6; max-width: 580px; line-height: 1.5; }
+.subtexto { font-size: 12px !important; color: #4e5c4e !important; margin-top: 5px; margin-bottom: 30px; }
 
 /* TIMELINES DE ANIMAÇÃO */
-@keyframes mexerMacaneta { 0% { transform: rotate(0deg); } 100% { transform: rotate(25deg); } }
-@keyframes glitchTransicao { 0% { filter: contrast(2) brightness(1.5) saturate(0); } 50% { filter: contrast(3) brightness(2) blur(1px); } 100% { filter: contrast(1.5) brightness(0.8) saturate(0); } }
-@keyframes fecharAbrirOlho { 0%, 40% { clip-path: ellipse(100% 0% at 50% 50%); filter: brightness(0); } 100% { clip-path: ellipse(100% 100% at 50% 50%); filter: brightness(1); } }
-@keyframes pulsarBotao { 0% { box-shadow: 0 0 10px rgba(0, 255, 0, 0.2); border-color: #11aa11; } 100% { box-shadow: 0 0 25px rgba(0, 255, 0, 0.6); border-color: #33ff33; } }
-@keyframes piscarTitulo { 0%, 100% { opacity: 1; text-shadow: 0 0 15px #33ff33; } 45% { opacity: 1; } 46% { opacity: 0.7; } 48% { opacity: 1; } 80% { opacity: 1; } 81% { opacity: 0.3; } 82% { opacity: 1; } }
-
-.estatica-transicao { animation: glitchTransicao 0.2s infinite alternate; }
-.piscar-olho-transicao { animation: fecharAbrirOlho 0.4s ease-in-out forwards; }
-
-
-/* --- SISTEMA DE FINAIS NO MENU --- */
-#finais-conquistados {
-    margin-top: 30px;
-    font-size: 12px;
-    text-align: left;
-    display: inline-block;
-    border-top: 1px dashed #33ff33;
-    padding-top: 15px;
-}
-#finais-conquistados h3 { margin: 0 0 10px 0; font-size: 13px; color: #11aa11; }
-#finais-conquistados ul { list-style: none; padding: 0; margin: 0; }
-#finais-conquistados li { margin-bottom: 5px; transition: color 0.3s; }
-.final-bloqueado { color: #225522; text-shadow: none; }
-.final-desbloqueado { color: #33ff33 !important; text-shadow: 0 0 5px rgba(0, 255, 0, 0.8); }
+@keyframes mexerMacaneta { 0% { transform: rotate(0deg); } 100% { transform: rotate(18deg); } }
 
 /* --- SISTEMA DE JUMPSCARE --- */
 #jumpscare-container {
-    position: absolute; top: 0; left: 0;
-    width: 100%; height: 100%;
-    z-index: 500; /* Acima de absolutamente tudo */
-    background-color: #000;
-    display: flex; justify-content: center; align-items: center;
-}
-.animar-jumpscare {
-    animation: flashSusto 0.15s infinite alternate;
-    /* Imagem conceitual distorcida em CSS puro caso você não tenha imagem pronta */
-    background: radial-gradient(circle, #da4939 10%, #000 70%), url('https://unsplash.com') no-repeat center/cover;
-    background-blend-mode: difference;
-    filter: invert(1) contrast(3) saturate(2);
+Use o código com cuidado.position: absolute; top: 0; left: 0;width: 100%; height: 100%;z-index: 500;background-color: #000;}.animar-jumpscare {animation: flashSusto 0.1s infinite alternate;background: radial-gradient(circle, #5e0d0d 15%, #000 80%);}@keyframes flashSusto {0% { transform: scale(1) translate(3px, -1px); filter: brightness(1.6) invert(0.9); }100% { transform: scale(1.08) translate(-3px, 2px); filter: brightness(0.6) invert(0); }}
+---
+
+### 3. Atualização da Lógica do Jogo (`script.js`)
+
+Adicionamos o `btnAbrirPorta` e toda a lógica de diálogos dinâmicos estruturados no método `abrirPortaComConversa()`. Se houver alguém lá fora e a porta for aberta, ramificações de diálogos seguras ou fatais acontecem na hora. Se não houver ninguém, o personagem apenas observa o vazio.
+
+Substitua todo o conteúdo do seu **`script.js`** por este código limpo e integrado:
+
+```javascript
+// --- GERENCIAMENTO DE ESTADO DO SISTEMA ---
+let horaAtiva = 0;
+let portaTrancada = false;
+let luzCorredorLigada = true;
+let eventoEmAndamento = false;
+let tipoVisitaAtual = ""; 
+let loopRelogio, loopSorteio, timeoutAcao, loopSanidade;
+let sanidade = 100; 
+
+// --- SISTEMA DE ÁUDIO ---
+const somBatida = new Audio("https://google.com");
+const somSusto = new Audio("https://google.com"); 
+const somEletrico = new Audio("https://google.com");
+
+// --- ELEMENTOS DO DOM ---
+const gameContainer = document.getElementById('game-container');
+const telaMenu = document.getElementById('tela-menu');
+const telaIntro = document.getElementById('tela-intro');
+const telaQuarto = document.getElementById('tela-quarto');
+const telaOlho = document.getElementById('tela-olho');
+const telaMensagem = document.getElementById('tela-mensagem');
+const elJumpscare = document.getElementById('jumpscare-container');
+
+const btnMenuJogar = document.getElementById('btn-menu-jogar');
+const btnIniciar = document.getElementById('btn-iniciar');
+const btnOlhoMagico = document.getElementById('btn-olho-magico');
+const btnVoltar = document.getElementById('btn-voltar');
+const btnTrancar = document.getElementById('btn-trancar');
+const btnAbrirPorta = document.getElementById('btn-abrir-porta');
+const btnLuz = document.getElementById('btn-luz');
+
+const txtRelogio = document.getElementById('relogio');
+const txtPorta = document.getElementById('status-porta');
+const barraSanidade = document.getElementById('barra-sanidade-nivel');
+const txtUiTop = document.getElementById('ui-top');
+const txtTituloFim = document.getElementById('titulo-fim');
+const txtTextoFim = document.getElementById('texto-fim');
+const txtSubtextoFim = document.getElementById('subtexto-fim');
+
+const elCaixaDialogo = document.getElementById('caixa-dialogo-quarto');
+const txtFalante = document.getElementById('texto-falante');
+const txtNomeFalante = document.getElementById('nome-falante');
+const elMacaneta = document.getElementById('macaneta-porta');
+const elCorredor = document.getElementById('corredor-fundo');
+const elEntidade = document.getElementById('entidade');
+
+// --- SISTEMA DE PERSISTÊNCIA DE FINAIS ---
+function atualizarMenuFinais() {
+    const finaisConquistados = JSON.parse(localStorage.getItem('apto404_finais')) || {};
+    
+    const listaFinais = {
+        'F1': { id: 'f1', texto: 'FINAL 1: O AMANHECER (Sobreviveu à Noite)' },
+        'F2': { id: 'f2', texto: 'FINAL 2: ERRO DE EXISTÊNCIA (O Homem Alto te pegou)' },
+        'F3': { id: 'f3', texto: 'FINAL 3: ISOLAMENTO PARANOICO (Você ignorou o vizinho)' },
+        'F4': { id: 'f4', texto: 'FINAL 4: DISFARCE COGNITIVO (Enganado após as 03h)' },
+        'F5': { id: 'f5', texto: 'FINAL 5: COLAPSO PSICÓTICO (Sua sanidade derreteu)' }
+    };
+
+    for (let chave in listaFinais) {
+        if (finaisConquistados[chave]) {
+            const el = document.getElementById(listaFinais[chave].id);
+            if (el) {
+                el.textContent = listaFinais[chave].texto;
+                el.className = 'final-desbloqueado';
+            }
+        }
+    }
 }
 
-@keyframes flashSusto {
-    0% { transform: scale(1) translate(2px, -2px); filter: brightness(1.5) invert(1); }
-    100% { transform: scale(1.1) translate(-2px, 2px); filter: brightness(0.8) invert(0); }
+function salvarFinal(chaveFinal) {
+    let finaisConquistados = JSON.parse(localStorage.getItem('apto404_finais')) || {};
+    finaisConquistados[chaveFinal] = true;
+    localStorage.setItem('apto404_finais', JSON.stringify(finaisConquistados));
+}
+
+// Inicializa a exibição de conquistas
+atualizarMenuFinais();
+
+// --- TROCA DE TELA LIMPA E DIRETA ---
+function transicionarTela(telaSair, telaEntrar, tipoEfeito = "fade") {
+    gameContainer.classList.add('tremer-tela');
+    
+    setTimeout(() => {
+        telaSair.classList.add('hidden');
+        telaEntrar.classList.remove('hidden');
+        gameContainer.classList.remove('tremer-tela');
+        
+        if (tipoEfeito === "olho") {
+            const lente = document.querySelector('.lente-circulo');
+            if (lente) {
+                lente.style.opacity = 0.3;
+                setTimeout(() => lente.style.opacity = 1, 150);
+            }
+        }
+    }, 100);
+}
+
+// --- CONTROLE DE EVENTOS DE CLIQUE ---
+btnMenuJogar.addEventListener('click', () => {
+    somEletrico.play().catch(() => {});
+    transicionarTela(telaMenu, telaIntro, "fade");
+});
+
+btnIniciar.addEventListener('click', () => {
+    transicionarTela(telaIntro, telaQuarto, "fade");
+    txtUiTop.classList.remove('hidden'); 
+    exibirDialogo("Arthur", "Que bilhete bizarro... Isso deve ser um trote dos moradores antigos. Mas é melhor ficar atento.", false);
+    iniciarCiclosDoJogo();
+});
+
+function exibirDialogo(nome, texto, erro = false) {
+    elCaixaDialogo.classList.remove('idled');
+    txtNomeFalante.textContent = nome + ":";
+    txtFalante.textContent = texto;
+    txtNomeFalante.style.color = erro ? "#a31c1c" : "#26b326";
+    elCaixaDialogo.style.borderColor = erro ? "#a31c1c" : "#1f3d1f";
+}
+
+// --- ROTAS DE INTERAÇÃO DO JOGO ---
+btnOlhoMagico.addEventListener('click', () => {
+    transicionarTela(telaQuarto, telaOlho, "olho");
+    
+    if (eventoEmAndamento) {
+        somSusto.loop = true;
+        somSusto.play().catch(() => {});
+
+        if (tipoVisitaAtual === "homem-alto") {
+            exibirDialogo("Arthur", "O que diabos... Aquela silhueta longa não se move... Seus braços quase tocam o chão!", true);
+        } else if (tipoVisitaAtual === "vizinho") {
+            exibirDialogo("Sr. Clóvis (Apto 403)", "Arthur, meu filho? Por favor abra a porta... Ouvi passos pesados aqui fora.");
+        } else if (tipoVisitaAtual === "entregador") {
+            exibirDialogo("Entregador", "Entrega para o 404! Pizza quentinha, patrão!");
+        }
+    } else {
+        exibirDialogo("Arthur", "O corredor está completamente deserto, escuro e gélido.", false);
+    }
+});
+
+btnVoltar.addEventListener('click', () => {
+    transicionarTela(telaOlho, telaQuarto, "fade");
+    elCaixaDialogo.classList.add('idled');
+    somSusto.pause(); 
+});
+
+btnTrancar.addEventListener('click', () => {
+    portaTrancada = !portaTrancada;
+    if (portaTrancada) {
+        btnTrancar.textContent = "DESTRANCAR PORTA";
+        txtPorta.textContent = "PORTA: TRANCADA";
+        txtPorta.style.color = "#a31c1c";
+    } else {
+        btnTrancar.textContent = "TRANCAR PORTA";
+        txtPorta.textContent = "PORTA: DESTRANCADA";
+        txtPorta.style.color = "#26b326";
+    }
+});
+
+// NOVA MECÂNICA: ABRIR PORTA E INTERAGIR COM QUEM ESTÁ FORA
+btnAbrirPorta.addEventListener('click', () => {
+    if (portaTrancada) {
+        exibirDialogo("Arthur", "Não posso abrir a porta. Ela está trancada por dentro.", false);
+        return;
+    }
+    
+    abrirPortaComConversa();
+});
+
+btnLuz.addEventListener('click', () => {
+    luzCorredorLigada = !luzCorredorLigada;
+    somEletrico.play().catch(() => {});
+    atualizarRenderLuz();
+});
+
+function atualizarRenderLuz() {
+    if (!luzCorredorLigada) {
+        elCorredor.className = "corredor-luz-desligada";
+    } else {
+        elCorredor.className = (tipoVisitaAtual === "homem-alto") ? "corredor-luz-ligada corridor-luz-piscando" : "corredor-luz-ligada";
+    }
+}
+
+// --- CRONÔMETROS DO GAME ---
+function iniciarCiclosDoJogo() {
+    loopRelogio = setInterval(() => {
+        horaAtiva++;
+        txtRelogio.textContent = `0${horaAtiva}:00 AM`;
+        if (horaAtiva >= 6) finalizarJogo("VITORIA");
+    }, 45000);
+
+    loopSorteio = setInterval(() => {
+        if (!eventoEmAndamento && horaAtiva < 6) {
+            if (Math.random() > 0.4) dispararVisitaAleatoria();
+        }
+    }, 18000);
+
+    loopSanidade = setInterval(() => {
+        if (eventoEmAndamento && !telaOlho.classList.contains('hidden') && tipoVisitaAtual === "homem-alto") {
+            sanidade -= 6; 
+        } else if (sanidade < 100 && !eventoEmAndamento) {
+            sanidade += 1; 
+        }
+
+        sanidade = Math.max(0, Math.min(100, sanidade));
+        barraSanidade.style.width = `${sanidade}%`;
+
+        if (sanidade > 50) {
+            barraSanidade.style.backgroundColor = "#26b326";
+            gameContainer.classList.remove('tremer-tela');
+        } else if (sanidade <= 50 && sanidade > 20) {
+            barraSanidade.style.backgroundColor = "orange";
+            gameContainer.classList.remove('tremer-tela');
+        } else if (sanidade <= 20) {
+            barraSanidade.style.backgroundColor = "#a31c1c";
+            gameContainer.classList.add('tremer-tela'); 
+        }
+
+        if (sanidade <= 0) {
+            finalizarJogo("MORTE_SANIDADE");
+        }
+    }, 1000);
+}
+
+function dispararVisitaAleatoria() {
+    eventoEmAndamento = true;
+    let pools = ["homem-alto", "vizinho", "entregador"];
+    tipoVisitaAtual = pools[Math.floor(Math.random() * pools.length)];
+    
+    elEntidade.className = tipoVisitaAtual;
+    elEntidade.classList.remove('hidden');
+    
+    somBatida.play().catch(() => {});
+    elMacaneta.classList.add('macaneta-mexendo');
+    exibirDialogo("Efeito", "* TOC, TOC, TOC! Alguém força agressivamente a maçaneta da sua porta... *", true);
+    atualizarRenderLuz();
+
+    timeoutAcao = setTimeout(() => {
+        evaluarAcoesJogador();
+    }, 14000);
+}
+
+// EXECUÇÃO AUTOMÁTICA SE O TEMPO ESGOTAR SEM ABRIR A PORTA
+function evaluarAcoesJogador() {
+    elMacaneta.classList.remove('macaneta-mexendo');
+    somSusto.pause(); 
+    
+    if (tipoVisitaAtual === "homem-alto") {
+        if (!luzCorredorLigada || portaTrancada) {
+            recuarAmeaca("A silhueta longa se desfez na escuridão profunda do bloco.");
+        } else {
+            finalizarJogo("MORTE_MONSTRO");
+        }
+    } 
+    else if (tipoVisitaAtual === "vizinho") {
+        if (portaTrancada) {
+recuarAmeaca("Você ouve um grito dilacerante no corredor. O Sr. Clóvis sumiu.");window.vizinhoMorto = true;} else {recuarAmeaca("O idoso cansou de bater e mancou de volta para o 403.");}}else if (tipoVisitaAtual === "entregador") {if (horaAtiva >= 3) {if (portaTrancada || !luzCorredorLigada) {recuarAmeaca("O disfarce vacilou. A voz deformada derreteu de eco até sumir.");} else {finalizarJogo("MORTE_IMPOSTOR");}} else {recuarAmeaca("O entregador largou o pedido na portaria e foi embora.");}}}// NOVA FUNÇÃO LÓGICA: INTERAÇÃO DE DIÁLOGOS ATIVA AO CLICAR EM ABRIRfunction abrirPortaComConversa() {clearTimeout(timeoutAcao); // Cancela o cronômetro automático já que houve reação diretaelMacaneta.classList.remove('macaneta-mexendo');if (!eventoEmAndamento) {exibirDialogo("Arthur", "Abri a porta... O corredor está complemente escuro, frio e deserto. Não há nada aqui.", false);return;}if (tipoVisitaAtual === "homem-alto") {exibirDialogo("Arthur", "Eu abri a porta... Oh não, ELE ESTÁ BEM NA MINHA FRE...", true);setTimeout(() => finalizarJogo("MORTE_MONSTRO"), 1000);}else if (tipoVisitaAtual === "vizinho") {exibirDialogo("Sr. Clóvis (Apto 403)", "Obrigado, meu filho! Algo terrível estava me seguindo pelas escadas...", false);setTimeout(() => {recuarAmeaca("Você acolheu o idoso. Ele está tremendo sentado na sua cama, mas a salvo.");}, 3500);}else if (tipoVisitaAtual === "entregador") {if (horaAtiva >= 3) {exibirDialogo("Entregador", "Aqui está o seu pedaç... DE CARNE HUMANA!", true);setTimeout(() => finalizarJogo("MORTE_IMPOSTOR"), 1200);} else {exibirDialogo("Arthur", "Peguei a caixa de pizza morna com o rapaz. Ele me deu boa noite e desceu pelo elevador velho.", false);setTimeout(() => {recuarAmeaca("Você jantou. Pelo menos esse entregador era real.");}, 3500);}}}function recuarAmeaca(mensagemSucesso) {exibirDialogo("Arthur", mensagemSucesso, false);eventoEmAndamento = false;tipoVisitaAtual = "";elEntidade.classList.add('hidden');atualizarRenderLuz();}// --- TELA DE ENCERRAMENTO COM FILTRO DE JUMPSCARE ---function finalizarJogo(motivo) {clearInterval(loopRelogio);clearInterval(loopSorteio);clearInterval(loopSanidade);clearTimeout(timeoutAcao);somSusto.pause();const ehMorte = motivo === "MORTE_MONSTRO" || motivo === "MORTE_IMPOSTOR" || motivo === "MORTE_SANIDADE";const tempoEspera = ehMorte ? 1600 : 0;if (ehMorte) {somSusto.currentTime = 0;somSusto.loop = false;somSusto.play().catch(() => {});elJumpscare.classList.remove('hidden');elJumpscare.classList.add('animar-jumpscare');}setTimeout(() => {if (ehMorte) {elJumpscare.classList.remove('animar-jumpscare');elJumpscare.classList.add('hidden');}telaMensagem.classList.remove('hidden');telaQuarto.classList.add('hidden');telaOlho.classList.add('hidden');txtUiTop.classList.add('hidden');if (motivo === "VITORIA") {if (window.vizinhoMorto) {txtTituloFim.textContent = "FINAL 3: ISOLAMENTO PARANOICO";txtTituloFim.style.color = "orange";txtTextoFim.textContent = "Você sobreviveu trancando tudo até o amanhecer, mas os gritos do Sr. Clóvis ecoarão na sua mente para sempre. Sobreviver à custa dos outros custou sua alma.";salvarFinal('F3');} else {txtTituloFim.textContent = "FINAL 1: O AMANHECER";txtTituloFim.style.color = "#26b326";txtTextoFim.textContent = "06:00 AM. A luz opaca do sol passa pelas janelas trincadas do Bloco B. Você junta seus relatórios, tranca o apartamento e abandona este prédio amaldiçoado.";salvarFinal('F1');}} else if (motivo === "MORTE_MONSTRO") {txtTituloFim.textContent = "FINAL 2: ERRO DE EXISTÊNCIA";txtTituloFim.style.color = "#a31c1c";txtTextoFim.textContent = "Você abriu brechas na segurança ou encarou demais o abismo. O Homem Alto dobrou o espaço geométrico do seu quarto e arrastou sua existência para fora do plano real.";salvarFinal('F2');} else if (motivo === "MORTE_IMPOSTOR") {txtTituloFim.textContent = "FINAL 4: DISFARCE COGNITIVO";txtTituloFim.style.color = "#a31c1c";txtTextoFim.textContent = "Você falhou em checar o relógio e abriu a porta para o mímico após as 03h00. O disfarce orgânico caiu diante dos seus olhos enquanto sua mente colapsava por completo.";salvarFinal('F4');} else if (motivo === "MORTE_SANIDADE") {txtTituloFim.textContent = "FINAL 5: COLAPSO PSICÓTICO";txtTituloFim.style.color = "purple";txtTextoFim.textContent = "Sua sanidade derreteu a zero por vigiar o monstro compulsivamente. Tomado por uma histeria delirante, suas mãos destrancaram e abriram a porta voluntariamente para o escuro.";
+    salvarFinal('F5');
+}
+atualizarMenuFinais();}, tempoEspera);
 }
