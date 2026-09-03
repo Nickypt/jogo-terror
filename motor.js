@@ -10,15 +10,33 @@ function transicionarTela(telaSair, telaEntrar) {
     }, 100);
 }
 
-// Vinculação de Eventos Clássicos de Interface
 btnMenuJogar.addEventListener('click', () => { somEletrico.play().catch(() => {}); transicionarTela(telaMenu, telaIntro); });
 btnIniciar.addEventListener('click', () => { transicionarTela(telaIntro, telaQuarto); txtUiTop.classList.remove('hidden'); iniciarCiclosDoJogo(); });
 
+// Trancamento com Resposta Visual Avançada na Porta
 btnTrancar.addEventListener('click', () => {
     portaTrancada = !portaTrancada;
     btnTrancar.textContent = portaTrancada ? "DESTRANCAR PORTA" : "TRANCAR PORTA";
     txtPorta.textContent = portaTrancada ? "PORTA: TRANCADA" : "PORTA: DESTRANCADA";
     txtPorta.style.color = portaTrancada ? "#a31c1c" : "#26b326";
+    
+    // Altera a classe na folha da porta para mover o ferrolho via CSS
+    if (portaTrancada) {
+        document.querySelector('.porta-container').classList.add('porta-trancada-visual');
+    } else {
+        document.querySelector('.porta-container').classList.remove('porta-trancada-visual');
+    }
+});
+
+// Evento interativo ao clicar no disjuntor físico do cenário
+document.getElementById('painel-eletrico-quarto').addEventListener('click', () => {
+    if (!eventoEmAndamento) {
+        falarMensagemSimples("Arthur", "É o disjuntor interno do apartamento. A fiação está estalando de velha, mas a rede está estável no momento.");
+    } else if (tipoVisitaAtual === "anomalia") {
+        falarMensagemSimples("Arthur", "Os fios estão derretendo! Preciso ir até a lente e apagar o interruptor do corredor para isolar isso!");
+    } else {
+        falarMensagemSimples("Arthur", "O relé elétrico está vibrando forte por causa do barulho lá fora.");
+    }
 });
 
 btnLuz.addEventListener('click', () => {
@@ -30,15 +48,19 @@ btnLuz.addEventListener('click', () => {
 });
 
 function atualizarRenderLuz() {
-    if (!luzCorredorLigada) { elCorredor.className = "corredor-luz-desligada"; }
-    else {
+    const painelQuarto = document.getElementById('painel-eletrico-quarto');
+    if (!luzCorredorLigada) { 
+        elCorredor.className = "corredor-luz-desligada";
+        if(painelQuarto) painelQuarto.classList.add('painel-apagado');
+    } else {
+        if(painelQuarto) painelQuarto.classList.remove('painel-apagado');
         if (tipoVisitaAtual === "homem-alto") elCorredor.className = "corredor-luz-ligada corridor-luz-piscando";
         else if (tipoVisitaAtual === "anomalia") elCorredor.className = "corredor-luz-ligada corridor-luz-caotica";
         else elCorredor.className = "corredor-luz-ligada";
     }
 }
 
-// Entrada na visão do Olho Mágico (Monitoramento em tempo real)
+// Entrada na visão do Olho Mágico
 btnOlhoMagico.addEventListener('click', () => {
     transicionarTela(telaQuarto, telaOlho);
     
@@ -54,13 +76,13 @@ btnOlhoMagico.addEventListener('click', () => {
                 elOlhoPensamento.textContent = "Arthur: 'Vejo o idoso do 403 pelo reflexo da lâmpada velha. Ele parece machucado.'";
             } else if (tipoVisitaAtual === "entregador") {
                 elOlhoEscuta.textContent = horaAtiva >= 3 ? "Mímico: 'Sua... pizza... chegou...'" : "Entregador: 'Moço, por favor, assina rápido!'";
-                elOlhoPensamento.textContent = horaAtiva >= 3 ? "Arthur: 'Céus, olhe os dedos dele no trinco... são longos e disformes!'" : "Arthur: 'Parece só o entregador noturno regular.'";
+                elOlhoPensamento.textContent = horaAtiva >= 3 ? "Arthur: 'Olha os dedos dele no trinco... são longos e disformes!'" : "Arthur: 'Parece só o entregador noturno regular.'";
             } else if (tipoVisitaAtual === "garotinha") {
                 elOlhoEscuta.textContent = "Voz Suave: 'Moço, me deixa entrar? Está muito frio aqui fora...'";
                 elOlhoPensamento.textContent = "Arthur: 'QUE COMPORTAMENTO MACABRO! A voz é de criança, mas na lente ela tem órbitas escuras vazias!'";
             } else if (tipoVisitaAtual === "anomalia") {
                 elOlhoEscuta.textContent = "Fora: [Zumbido ensurdecedor de alta tensão / Placas fritando]";
-                elOlhoPensamento.textContent = "Arthur: 'A fiação do corredor está derretendo! Se eu não desligar a luz, ela vai arrombar!'";
+                elOlhoPensamento.textContent = "Arthur: 'A fiação do corredor está derretendo! Se eu não mantiver o interruptor desligado, ela entra!'";
             }
         }, 300);
     } else {
@@ -76,10 +98,10 @@ btnVoltar.addEventListener('click', () => {
     somSusto.pause(); 
 });
 
-// Resolução Ativa: Botão de Abrir Porta Clicado
+// Abertura Interativa da Fechadura
 btnAbrirPorta.addEventListener('click', () => {
     if (portaTrancada) {
-        falarMensagemSimples("Arthur", "Droga! A porta está trancada por dentro. Preciso destrancar primeiro.");
+        falarMensagemSimples("Arthur", "Droga! A porta está trancada por dentro. Não dá para abrir sem girar a tranca antes.");
         return;
     }
     
@@ -88,7 +110,7 @@ btnAbrirPorta.addEventListener('click', () => {
     clearInterval(loopAudioOlho);
 
     if (!eventoEmAndamento) {
-        falarMensagemSimples("Arthur", "Abri a porta... O corredor está completamente deserto e gélido. Só há escuridão.");
+        falarMensagemSimples("Arthur", "Abri a porta... Mas o corredor do cortiço está deserto. Só sinto um vento congelante passando.");
         return;
     }
 
@@ -113,7 +135,7 @@ btnAbrirPorta.addEventListener('click', () => {
             iniciarSequenciaDialogos([
                 { nome: "Arthur", texto: "Obrigado, peguei a janta." },
                 { nome: "Entregador", texto: "Valeu chefe. Cuidado com esse bloco à noite... esse lugar é amaldiçoado." }
-            ], () => recuarAmeaca("Você jantou. Pelo menos esse entregador era real e legítimo. O perigo recuou."));
+            ], () => recuarAmeaca("Você jantou no escuro. A comida estava real e gostosa. O perigo passou."));
         }
     } 
     else if (tipoVisitaAtual === "garotinha") {
@@ -130,7 +152,7 @@ btnAbrirPorta.addEventListener('click', () => {
     }
 });
 
-// Relógios Cíclicos do Loop Principal
+// Cronômetros Internos de Avanço de Fase
 function iniciarCiclosDoJogo() {
     loopRelogio = setInterval(() => {
         horaAtiva++;
@@ -172,26 +194,5 @@ function dispararVisitaAleatoria() {
     somBatida.play().catch(() => {});
     elMacaneta.classList.add('macaneta-mexendo');
     
-    // Alimenta as filas de falas iniciais correspondentes
     if (tipoVisitaAtual === "garotinha") iniciarSequenciaDialogos(BANCO_DIALOGOS["garotinha_falsa"]);
-    else if (tipoVisitaAtual === "vizinho") iniciarSequenciaDialogos(BANCO_DIALOGOS["vizinho_pede_ajuda"]);
-    else if (tipoVisitaAtual === "entregador") iniciarSequenciaDialogos(horaAtiva >= 3 ? BANCO_DIALOGOS["entregador_impostor"] : BANCO_DIALOGOS["entregador_normal"]);
-    else if (tipoVisitaAtual === "anomalia") iniciarSequenciaDialogos(BANCO_DIALOGOS["anomalia_eletrica"]);
-    else iniciarSequenciaDialogos([{ nome: "Efeito", texto: "* TOC, TOC! Alguém força violentamente a maçaneta da sua porta por fora... *" }]);
-    
-    atualizarRenderLuz();
-    timeoutAcao = setTimeout(() => evaluarAcoesJogador(), 14000);
-}
-
-// Resolução se o cronômetro esgotar sem abertura da porta
-function evaluarAcoesJogador() {
-    elMacaneta.className = "macaneta";
-    somSusto.pause();
-    
-    if (tipoVisitaAtual === "homem-alto") {
-        if (!luzCorredorLigada || portaTrancada) recuarAmeaca("A silhueta se diluiu lentamente no breu do bloco.");
-        else finalizarJogo("MORTE_MONSTRO");
-    } 
-    else if (tipoVisitaAtual === "vizinho") {
-        if (portaTrancada) { recuarAmeaca("Um baque surdo ecoa... O Sr. Clóvis parou de gritar."); window.vizinhoMorto = true; }
-Use o código com cuidado.else recuarAmeaca("O idoso cansou de esmurrar a porta e saiu mancando.");}else if (tipoVisitaAtual === "entregador") {if (horaAtiva >= 3) {if (portaTrancada || !luzCorredorLigada) recuarAmeaca("Os passos arrastados indicam que a criatura recuou frustrada.");else finalizarJogo("MORTE_IMPOSTOR");} else {recuarAmeaca("O entregador deixou a embalagem no chão do corredor e foi embora resmungando.");}}else if (tipoVisitaAtual === "garotinha") {if (portaTrancada || !luzCorredorLigada) recuarAmeaca("O choro infantil cessa, dando lugar a uma risada distorcida que sobe as escadas.");else finalizarJogo("MORTE_GAROTINHA");}else if (tipoVisitaAtual === "anomalia") {if (!luzCorredorLigada) recuarAmeaca("Sem eletricidade externa ativa na rede, a massa de plasma se dissipou.");else finalizarJogo("MORTE_MONSTRO");}}function recuarAmeaca(mensagemSucesso) {iniciarSequenciaDialogos([{ nome: "Arthur", texto: mensagemSucesso }]);eventoEmAndamento = false;tipoVisitaAtual = "";elEntidade.classList.add('hidden');elOlhoEscuta.textContent = ""; elOlhoPensamento.textContent = "";atualizarRenderLuz();}// Gatilhos Finais e Controle do Flash de Jumpscarefunction finalizarJogo(motivo) {clearInterval(loopRelogio); clearInterval(loopSorteio); clearInterval(loopSanidade);clearTimeout(timeoutAcao); clearInterval(loopAudioOlho);somSusto.pause();const ehMorte = motivo !== "VITORIA";if (ehMorte) {somSusto.currentTime = 0; somSusto.play().catch(() => {});elJumpscare.className = "animar-jumpscare";}setTimeout(() => {elJumpscare.className = "hidden";telaMensagem.classList.remove('hidden');telaQuarto.classList.add('hidden'); telaOlho.classList.add('hidden'); txtUiTop.classList.add('hidden');if (motivo === "VITORIA") {if (window.vizinhoMorto) {txtTituloFim.textContent = "FINAL 3: ISOLAMENTO PARANOICO";txtTextoFim.textContent = "Você sobreviveu trancado, mas os gritos de socorro do Sr. Clóvis ficarão gravados na sua mente. O preço da vida foi o seu egoísmo.";salvarFinal('F3');} else {txtTituloFim.textContent = "FINAL 1: O AMANHECER";txtTextoFim.textContent = "06:00 AM. O sol finalmente raia sobre o Bloco B. Você recolhe suas coisas e foge desse complexo decrépito para sempre.";salvarFinal('F1');}} else if (motivo === "MORTE_MONSTRO") {txtTituloFim.textContent = "FINAL 2: ERRO DE EXISTÊNCIA";txtTextoFim.textContent = "O Homem Alto distorceu a geometria euclidiana do quarto e deletou seus dados biológicos do universo tridimensional.";salvarFinal('F2');} else if (motivo === "MORTE_IMPOSTOR") {txtTituloFim.textContent = "FINAL 4: DISFARCE COGNITIVO";txtTextoFim.textContent = "Você aceitou a comida do mímico após as 03:00 AM. Sua mente colapsou instantaneamente ao contemplar o verdadeiro vácuo orgânico sob o boné.";salvarFinal('F4');} else if (motivo === "MORTE_SANIDADE") {txtTituloFim.textContent = "FINAL 5: COLAPSO PSICÓTICO";txtTextoFim.textContent = "Sua sanidade derreteu a zero por vigiar o abismo. Tomado por uma histeria delirante, suas mãos destrancaram a porta sozinhas e você correu para o corredor escuro.";salvarFinal('F5');} else if (motivo === "MORTE_GAROTINHA") {txtTituloFim.textContent = "FINAL 6: ALMA APRISIONADA";txtTextoFim.textContent = "Você cedeu à simpatia infantil. A garotinha dilacerou sua carne e agora sua alma faz parte do reboco bolorento deste edifício.";salvarFinal('F6');}atualizarMenuFinais();}, ehMorte ? 1600 : 0);}
+Use o código com cuidado.else if (tipoVisitaAtual === "vizinho") iniciarSequenciaDialogos(BANCO_DIALOGOS["vizinho_pede_ajuda"]);else if (tipoVisitaAtual === "entregador") iniciarSequenciaDialogos(horaAtiva >= 3 ? BANCO_DIALOGOS["entregador_impostor"] : BANCO_DIALOGOS["entregador_normal"]);else if (tipoVisitaAtual === "anomalia") iniciarSequenciaDialogos(BANCO_DIALOGOS["anomalia_eletrica"]);else iniciarSequenciaDialogos([{ nome: "Efeito", texto: "* TOC, TOC! Alguém força violentamente a maçaneta da sua porta por fora... *" }]);atualizarRenderLuz();timeoutAcao = setTimeout(() => evaluarAcoesJogador(), 14000);}function evaluarAcoesJogador() {elMacaneta.className = "macaneta";somSusto.pause();if (tipoVisitaAtual === "homem-alto") {if (!luzCorredorLigada || portaTrancada) recuarAmeaca("A silhueta se diluiu lentamente no breu do bloco.");else finalizarJogo("MORTE_MONSTRO");}else if (tipoVisitaAtual === "vizinho") {if (portaTrancada) { recuarAmeaca("Um baque surdo ecoa... O Sr. Clóvis parou de gritar."); window.vizinhoMorto = true; }else recuarAmeaca("O idoso cansou de esmurrar a porta e saiu mancando.");}else if (tipoVisitaAtual === "entregador") {if (horaAtiva >= 3) {if (portaTrancada || !luzCorredorLigada) recuarAmeaca("Os passos arrastados indicam que a criatura recuou frustrada.");else finalizarJogo("MORTE_IMPOSTOR");} else {recuarAmeaca("O entregador deixou a embalagem no chão do corredor e foi embora resmungando.");}}else if (tipoVisitaAtual === "garotinha") {if (portaTrancada || !luzCorredorLigada) recuarAmeaca("A voz de criança se transforma em um grunhido pesado que se afasta.");else finalizarJogo("MORTE_GAROTINHA");}else if (tipoVisitaAtual === "anomalia") {if (!luzCorredorLigada) recuarAmeaca("Sem eletricidade externa ativa na rede, a massa de plasma se dissipou.");else finalizarJogo("MORTE_MONSTRO");}}function recuarAmeaca(mensagemSucesso) {iniciarSequenciaDialogos([{ nome: "Arthur", texto: mensagemSucesso }]);eventoEmAndamento = false;tipoVisitaAtual = "";elEntidade.classList.add('hidden');elOlhoEscuta.textContent = ""; elOlhoPensamento.textContent = "";atualizarRenderLuz();}function finalizarJogo(motivo) {clearInterval(loopRelogio); clearInterval(loopSorteio); clearInterval(loopSanidade);clearTimeout(timeoutAcao); clearInterval(loopAudioOlho);somSusto.pause();const ehMorte = motivo !== "VITORIA";if (ehMorte) {somSusto.currentTime = 0; somSusto.play().catch(() => {});elJumpscare.className = "animar-jumpscare";}setTimeout(() => {elJumpscare.className = "hidden";telaMensagem.classList.remove('hidden');telaQuarto.classList.add('hidden'); telaOlho.classList.add('hidden'); txtUiTop.classList.add('hidden');if (motivo === "VITORIA") {if (window.vizinhoMorto) {txtTituloFim.textContent = "FINAL 3: ISOLAMENTO PARANOICO";txtTextoFim.textContent = "Você sobreviveu trancado, mas as súplicas de socorro do Sr. Clóvis ficarão gravadas na sua mente. O preço da vida foi o seu egoísmo.";salvarFinal('F3');} else {txtTituloFim.textContent = "FINAL 1: O AMANHECER";txtTextoFim.textContent = "06:00 AM. O sol finalmente raia sobre o Bloco B. Você recolhe suas coisas e foge desse complexo decrépito para sempre.";salvarFinal('F1');}} else if (motivo === "MORTE_MONSTRO") {txtTituloFim.textContent = "FINAL 2: ERRO DE EXISTÊNCIA";txtTextoFim.textContent = "O Homem Alto distorceu a geometria euclidiana do quarto e deletou seus dados biológicos do universo tridimensional.";salvarFinal('F2');} else if (motivo === "MORTE_IMPOSTOR") {txtTituloFim.textContent = "FINAL 4: DISFARCE COGNITIVO";txtTextoFim.textContent = "Você aceitou a comida do mímico após as 03:00 AM. Sua mente colapsou instantaneamente ao contemplar o verdadeiro vácuo orgânico sob o boné.";salvarFinal('F4');} else if (motivo === "MORTE_SANIDADE") {txtTituloFim.textContent = "FINAL 5: COLAPSO PSICÓTICO";txtTextoFim.textContent = "Sua sanidade derreteu a zero por vigiar o abismo. Tomado por uma histeria delirante, suas mãos destrancaram a porta sozinhas e você correu para o corredor escuro.";salvarFinal('F5');} else if (motivo === "MORTE_GAROTINHA") {txtTituloFim.textContent = "FINAL 6: ALMA APRISIONADA";txtTextoFim.textContent = "Você cedeu à simpatia infantil. A garotinha dilacerou sua carne e agora sua alma faz parte do reboco bolorento deste edifício.";salvarFinal('F6');}atualizarMenuFinais();}, ehMorte ? 1600 : 0);}

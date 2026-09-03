@@ -32,6 +32,7 @@ const btnVoltar = document.getElementById('btn-voltar');
 const btnTrancar = document.getElementById('btn-trancar');
 const btnAbrirPorta = document.getElementById('btn-abrir-porta');
 const btnLuz = document.getElementById('btn-luz');
+const btnLimparDados = document.getElementById('btn-limpar-dados');
 const txtStatusLuz = document.getElementById('txt-status-luz');
 
 const txtRelogio = document.getElementById('relogio');
@@ -52,7 +53,7 @@ const elEntidade = document.getElementById('entidade');
 const elOlhoEscuta = document.getElementById('olho-escuta');
 const elOlhoPensamento = document.getElementById('olho-pensamento');
 
-// Rastreio e Atualização LocalStorage de Finais
+// --- SISTEMA DE GESTÃO DE JOGADOR E EXCLUSÃO DE FINAIS ---
 function atualizarMenuFinais() {
     const finaisConquistados = JSON.parse(localStorage.getItem('apto404_finais')) || {};
     const listaFinais = {
@@ -63,12 +64,25 @@ function atualizarMenuFinais() {
         'F5': { id: 'f5', texto: 'FINAL 5: COLAPSO PSICÓTICO (Sanidade Derretida)' },
         'F6': { id: 'f6', texto: 'FINAL 6: ALMA APRISIONADA (Abriu para a Garotinha)' }
     };
+
+    let possuiFinais = false;
+
     for (let chave in listaFinais) {
-        if (finaisConquistados[chave]) {
-            const el = document.getElementById(listaFinais[chave].id);
-            if (el) { el.textContent = listaFinais[chave].texto; el.className = 'final-desbloqueado'; }
+        const el = document.getElementById(listaFinais[chave].id);
+        if (el) {
+            if (finaisConquistados[chave]) {
+                el.textContent = listaFinais[chave].texto;
+                el.className = 'final-desbloqueado';
+                possuiFinais = true;
+            } else {
+                el.textContent = "FINAL " + listaFinais[chave].id.replace('f', '') + ": ???";
+                el.className = 'final-bloqueado';
+            }
         }
     }
+
+    // Exibe ou esconde o botão de apagar progresso dinamicamente
+    btnLimparDados.style.display = possuiFinais ? "block" : "none";
 }
 
 function salvarFinal(chaveFinal) {
@@ -77,5 +91,14 @@ function salvarFinal(chaveFinal) {
     localStorage.setItem('apto404_finais', JSON.stringify(finaisConquistados));
 }
 
-// Roda automaticamente para desenhar o menu inicial
+// Ouvinte do botão de limpar progresso no Menu
+btnLimparDados.addEventListener('click', (e) => {
+    e.stopPropagation();
+    if(confirm("Deseja apagar todos os registros de sobrevivência arquivados neste terminal?")) {
+        localStorage.removeItem('apto404_finais');
+        atualizarMenuFinais();
+    }
+});
+
+// Executa na inicialização
 atualizarMenuFinais();

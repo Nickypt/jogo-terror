@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="entidades.css">
 </head>
 <body>
-    <!-- Filtros de Ambiente Retro -->
     <div class="vhs-overlay"></div>
     <div class="vhs-scanlines"></div>
     <div class="filtro-sujeira"></div>
@@ -36,7 +35,10 @@
                     <button id="btn-menu-jogar" class="btn-retro btn-menu">INICIAR JOGO</button>
                 </div>
                 <div id="finais-conquistados" class="retro-text">
-                    <h3>REGISTROS DE SOBREVIVÊNCIA:</h3>
+                    <div class="menu-finais-header">
+                        <h3>REGISTROS DE SOBREVIVÊNCIA:</h3>
+                        <button id="btn-limpar-dados" class="btn-retro btn-pequeno" title="Apagar progresso do jogador atual">APAGAR REGISTROS</button>
+                    </div>
                     <ul>
                         <li id="f1" class="final-bloqueado">FINAL 1: ???</li>
                         <li id="f2" class="final-bloqueado">FINAL 2: ???</li>
@@ -64,8 +66,18 @@
             </div>
         </div>
 
-        <!-- TELA 3: DENTRO DO APARTAMENTO -->
+        <!-- TELA 3: DENTRO DO APARTAMENTO (Design Complexo & Interativo) -->
         <div id="tela-quarto" class="tela hidden">
+            <!-- Detalhes Ambientais Imersivos -->
+            <div class="detalhe-parede rachadura-1"></div>
+            <div class="detalhe-parede umidade-canto"></div>
+            
+            <!-- Painel Elétrico Interativo Físico no Quarto -->
+            <div id="painel-eletrico-quarto" title="Disjuntor Interno do Apartamento">
+                <div class="fiação-exposta"></div>
+                <div class="led-energia"></div>
+            </div>
+
             <div class="caixa-dialogo idled" id="caixa-dialogo-quarto">
                 <span id="nome-falante">Arthur:</span>
                 <p id="texto-falante">...</p>
@@ -74,6 +86,8 @@
             
             <div class="porta-container">
                 <div class="moldura-velha"></div>
+                <div class="textura-madeira-podre"></div>
+                <div class="tranca-ferrolho" id="visual-tranca"></div>
                 <div class="macaneta" id="macaneta-porta"></div>
                 <button id="btn-olho-magico" title="Olhar pelo Olho Mágico"></button>
             </div>
@@ -99,6 +113,7 @@
 
             <div class="controles-olho">
                 <button id="btn-voltar" class="btn-retro">AFASTAR DA PORTA</button>
+                <!-- O Interruptor ganhou indicador de fusível visual -->
                 <button id="btn-luz" class="btn-retro"><span id="txt-status-luz">LUZ: LIGADA</span></button>
             </div>
         </div>
@@ -114,7 +129,6 @@
 
     <div id="jumpscare-container" class="hidden"></div>
 
-    <!-- Scripts Modulares -->
     <script src="estado.js"></script>
     <script src="dialogos.js"></script>
     <script src="motor.js"></script>

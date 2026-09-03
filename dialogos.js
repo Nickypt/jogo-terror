@@ -1,10 +1,15 @@
 // ==========================================================================
-// FILA NARRATIVA ESTILO VISUAL NOVEL (CLIQUE PARA CONTINUAR)
+// MOTOR NARRATIVO VISUAL NOVEL COM RENDERIZAÇÃO CARACTERE POR CARACTERE
 // ==========================================================================
 let filaDialogos = [];
 let callbackAoTerminar = null;
 
-// Banco de dados de falas longas com gatilhos de ambiguidade
+// Parâmetros do Efeito Máquina de Escrever
+let intervaloTexto = null;
+let textoCompletoAtual = "";
+let textoSendoExibido = false;
+const VELOCIDADE_DIGITACAO = 25; // Milissegundos por letra
+
 const BANCO_DIALOGOS = {
     "homem-alto": [
         { nome: "Arthur", texto: "A maçaneta parou de mexer repentinamente... mas sinto uma pressão absurda no peito." },
@@ -25,7 +30,7 @@ const BANCO_DIALOGOS = {
     ],
     "entregador_impostor": [
         { nome: "Voz Estranha", texto: "Sua... en-tre-ga... chegou... senhor Arthur..." },
-        { nome: "Voz Estranha", texto: "Abra a porta... ela vai esfriar... nós... nós trabalhamos tanto para trazer..." },
+        { nome: "Voz Estranha", texto: "Abra a porta... ela vai esfriar... nós... nós queremos tanto entrar..." },
         { nome: "Arthur", texto: "(Pensamento) Que voz bizarra... Soa como se várias frequências estivessem tentando falar ao mesmo tempo." }
     ],
     "garotinha_falsa": [
@@ -35,11 +40,10 @@ const BANCO_DIALOGOS = {
     ],
     "anomalia_eletrica": [
         { nome: "Efeito", texto: "* Um estalo violento de alta tensão atravessa a folha da porta, soltando faíscas pelas tomadas do quarto *" },
-        { nome: "Arthur", "Essa massa plasmática está se alimentando do circuito elétrico lá fora! Se eu não desligar o interruptor, ela frita a fechadura!" }
+        { nome: "Arthur", texto: "Essa massa plasmática está se alimentando do circuito elétrico lá fora! Se eu não desligar o interruptor, ela frita a fechadura!" }
     ]
 };
 
-// Executa e inicia uma cadeia narrativa clicável
 function iniciarSequenciaDialogos(lista, acaoFinal = null) {
     filaDialogos = [...lista];
     callbackAoTerminar = acaoFinal;
@@ -51,11 +55,19 @@ function falarMensagemSimples(nome, texto) {
 }
 
 function avancarDialogo() {
+    // Se o texto anterior ainda estiver sendo digitado, o clique força a exibição completa instantânea
+    if (textoSendoExibido) {
+        clearInterval(intervaloTexto);
+        txtFalante.textContent = textoCompletoAtual;
+        textoSendoExibido = false;
+        return;
+    }
+
     if (filaDialogos.length === 0) {
         elCaixaDialogo.classList.add('idled');
         if (callbackAoTerminar) {
             let acao = callbackAoTerminar;
-            callbackAoTerminar = null; // Limpa para evitar loops indesejados
+            callbackAoTerminar = null;
             acao();
         }
         return;
@@ -64,7 +76,22 @@ function avancarDialogo() {
     const falaAtual = filaDialogos.shift();
     elCaixaDialogo.classList.remove('idled');
     txtNomeFalante.textContent = falaAtual.nome + ":";
-    txtFalante.textContent = falaAtual.texto;
+    
+    // Configura os parâmetros da digitação progressiva
+    textoCompletoAtual = falaAtual.texto;
+    txtFalante.textContent = "";
+    textoSendoExibido = true;
+    
+    let indiceLetra = 0;
+    intervaloTexto = setInterval(() => {
+        txtFalante.textContent += textoCompletoAtual[indiceLetra];
+        indiceLetra++;
+        
+        if (indiceLetra >= textoCompletoAtual.length) {
+            clearInterval(intervaloTexto);
+            textoSendoExibido = false;
+        }
+    }, VELOCIDADE_DIGITACAO);
 
     // Diferenciação Cromática Narrativa
     if (falaAtual.nome === "Arthur") {
@@ -72,11 +99,11 @@ function avancarDialogo() {
     } else if (falaAtual.nome === "Efeito" || falaAtual.nome === "Voz Estranha") {
         txtNomeFalante.style.color = "#a31c1c";
     } else {
-        txtNomeFalante.style.color = "orange"; // Pessoas/Crianças ambíguas
+        txtNomeFalante.style.color = "orange";
     }
 }
 
-// Capturador de cliques na caixa para avançar
+// Ouvinte de clique unificado na caixa de diálogo
 elCaixaDialogo.addEventListener('click', (e) => {
     e.stopPropagation();
     avancarDialogo();
