@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Efeitos Visuais Retro Ambientais Degradados -->
     <div class="vhs-overlay"></div>
     <div class="vhs-scanlines"></div>
     <div class="filtro-sujeira"></div>
@@ -16,15 +15,12 @@
         <!-- Interface de Informações Superiores -->
         <div id="ui-top" class="hidden">
             <div id="relogio" class="retro-text">00:00 AM</div>
-            
-            <!-- Barra de Sanidade -->
             <div id="container-sanidade">
                 <span class="retro-text">SANIDADE:</span>
                 <div id="barra-sanidade-bg">
                     <div id="barra-sanidade-nivel"></div>
                 </div>
             </div>
-            
             <div id="status-porta" class="retro-text">PORTA: DESTRANCADA</div>
         </div>
 
@@ -36,7 +32,6 @@
                 <div class="menu-botoes">
                     <button id="btn-menu-jogar" class="btn-retro btn-menu">INICIAR JOGO</button>
                 </div>
-                <!-- Lista de finais arquivados -->
                 <div id="finais-conquistados" class="retro-text">
                     <h3>REGISTROS DE SOBREVIVÊNCIA:</h3>
                     <ul>
@@ -45,20 +40,21 @@
                         <li id="f3" class="final-bloqueado">FINAL 3: ???</li>
                         <li id="f4" class="final-bloqueado">FINAL 4: ???</li>
                         <li id="f5" class="final-bloqueado">FINAL 5: ???</li>
+                        <li id="f6" class="final-bloqueado">FINAL 6: ???</li>
                     </ul>
                 </div>
             </div>
             <div class="rodape-menu">© 1998 MATRIX SYSTEMS COMP.</div>
         </div>
 
-        <!-- TELA 2: O BILHETE DE INTRODUÇÃO -->
+        <!-- TELA 2: O BILHETE -->
         <div id="tela-intro" class="tela hidden">
             <div class="papel-bilhete">
                 <h2>REGISTRO DE ENTRADA: APTO 404</h2>
                 <p class="texto-manuscrito">
-                    "Se você está lendo isso, significa que o contrato já foi assinado. Sinto muito.<br><br>
-                    Eles não vão deixar você sair do Bloco B à noite. As regras mudaram depois do incidente no 4º andar. Se ouvir batidas entre 00:00 e 06:00, <strong>olhe pelo olho mágico antes de qualquer coisa</strong>. Nem tudo o que tem forma humana pertence a este mundo.<br><br>
-                    Aguente até o amanhecer. O sol os espanta."
+                    "Se você está lendo isso, o contrato foi assinado. Sinto muito.<br><br>
+                    Regras do Bloco B à noite: se ouvir batidas, <strong>olhe pelo olho mágico antes de abrir</strong>. Nem tudo o que fala ou bate pertence a este mundo.<br><br>
+                    Cuidado com as vozes doces. Tranque a porta. Se as luzes falharem, que Deus te ajude."
                 </p>
                 <span class="assinatura">- Inquilino Anterior</span>
                 <button id="btn-iniciar" class="btn-retro">AMASSAR BILHETE E ENTRAR</button>
@@ -69,7 +65,7 @@
         <div id="tela-quarto" class="tela hidden">
             <div class="caixa-dialogo idled" id="caixa-dialogo-quarto">
                 <span id="nome-falante">Arthur:</span>
-                <p id="texto-falante">O silêncio desse apartamento me dá calafrios...</p>
+                <p id="texto-falante">...</p>
             </div>
             
             <div class="porta-container">
@@ -88,27 +84,31 @@
         <div id="tela-olho" class="tela hidden">
             <div class="lente-circulo">
                 <div id="corredor-fundo" class="corredor-luz-ligada">
-                    <!-- Silhuetas de Ameaças/Visitas -->
                     <div id="entidade" class="hidden"></div>
                 </div>
             </div>
+            
+            <!-- NOVO: Caixa de pensamentos e áudio-diálogos sobreposta na lente -->
+            <div id="caixa-olho-audivel" class="retro-text">
+                <div id="olho-escuta"></div>
+                <div id="olho-pensamento"></div>
+            </div>
 
             <div class="controles-olho">
-                <button id="btn-voltar" class="btn-retro">AFASTAR DA PORTA</button>
-                <button id="btn-luz" class="btn-retro">INTERRUPTOR LUZ</button>
+                <button id="btn-voltar" class="btn-retro">AFAFASTADO DA PORTA</button>
+                <button id="btn-luz" class="btn-retro"><span id="txt-status-luz">LUZ: LIGADA</span></button>
             </div>
         </div>
         
-        <!-- TELA 5: FIM DE JOGO / FINAIS ALTERNATIVOS -->
+        <!-- TELA 5: FIM DE JOGO -->
         <div id="tela-mensagem" class="tela-fim hidden">
             <h1 id="titulo-fim">SISTEMA CORROMPIDO</h1>
-            <p id="texto-fim">Erro 404: Realidade não encontrada.</p>
+            <p id="texto-fim">Erro 404...</p>
             <p id="subtexto-fim" class="subtexto"></p>
             <button id="btn-reiniciar" class="btn-retro" onclick="location.reload()">REINICIAR LINHA TEMPORAL</button>
         </div>
     </div>
 
-    <!-- Tela flash de Jumpscare -->
     <div id="jumpscare-container" class="hidden"></div>
 
     <script src="script.js"></script>
