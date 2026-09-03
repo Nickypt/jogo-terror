@@ -1,3 +1,6 @@
+// ==========================================================================
+// CONTROLADOR DE AMBIENTE, LANTERNA E MECÂNICAS DO APARTAMENTO
+// ==========================================================================
 function transicionarTela(telaSair, telaEntrar) {
     gameContainer.classList.add('tremer-tela');
     setTimeout(() => {
@@ -15,31 +18,42 @@ gameContainer.addEventListener('mousemove', (e) => {
     document.documentElement.style.setProperty('--mouse-y', `${y}%`);
 });
 
+// Mecânica de ligar/desligar lanterna interativa
 btnLanterna.addEventListener('click', () => {
-    if (bateriaLanterna <= 0) { falarMensagemSimples("Arthur", "pensamento", "A lanterna está completamente descarregada."); return; }
+    if (bateriaLanterna <= 0) { falarMensagemSimples("Arthur", "pensamento", "A lanterna está sem carga."); return; }
     lanternaLigada = !lanternaLigada;
+    atualizarRenderLanterna();
+});
+
+function atualizarRenderLanterna() {
     const foco = document.getElementById('lanterna-foco');
     if (lanternaLigada) {
-        foco.className = "lanterna-ligada"; btnLanterna.textContent = "DESLIGAR LANTERNA"; iniciarConsumoBateria();
+        foco.className = "lanterna-ligada";
+        btnLanterna.textContent = "DESLIGAR LANTERNA";
+        iniciarConsumoBateria();
     } else {
-        foco.className = "lanterna-desligada"; btnLanterna.textContent = "LIGAR LANTERNA"; clearInterval(loopBateria);
+        // Se a energia do quarto caiu e a lanterna desligar, volta a escuridão analógica total
+        foco.className = !energiaQuartoAtiva ? "lanterna-escuridao-total" : "lanterna-desligada";
+        btnLanterna.textContent = "LIGAR LANTERNA";
+        clearInterval(loopBateria);
     }
-});
+}
 
 function iniciarConsumoBateria() {
     clearInterval(loopBateria);
     loopBateria = setInterval(() => {
         if (lanternaLigada && bateriaLanterna > 0) {
-            bateriaLanterna -= 1.5; bateriaLanterna = Math.max(0, batteryLanterna || bateriaLanterna);
+            bateriaLanterna -= 1.5;
+            bateriaLanterna = Math.max(0, batteryLanterna = bateriaLanterna);
             barraBateria.style.width = `${bateriaLanterna}%`;
             if (bateriaLanterna < 25 && Math.random() > 0.6) {
                 document.getElementById('lanterna-foco').style.opacity = 0.2;
                 setTimeout(() => document.getElementById('lanterna-foco').style.opacity = 1, 80);
             }
             if (bateriaLanterna <= 0) {
-                lanternaLigada = false; document.getElementById('lanterna-foco').className = "lanterna-desligada";
-                btnLanterna.textContent = "LIGAR LANTERNA"; clearInterval(loopBateria);
-                falarMensagemSimples("Arthur", "pensamento", "A lanterna queimou... Fiquei no breu total.");
+                lanternaLigada = false;
+                atualizarRenderLanterna();
+                falarMensagemSimples("Arthur", "pensamento", "A lanterna descarregou totalmente!");
             }
         }
     }, 1000);
@@ -54,6 +68,21 @@ btnTrancar.addEventListener('click', () => {
     else document.querySelector('.porta-container').classList.remove('porta-trancada-visual');
 });
 
+// INTERAÇÃO CLICÁVEL COM O DISJUNTOR PARA REPARAR QUEDAS DE ENERGIA
+document.getElementById('painel-eletrico-quarto').addEventListener('click', () => {
+    if (energiaQuartoAtiva) {
+        falarMensagemSimples("Arthur", "pensamento", "O disjuntor interno está operando normalmente.");
+    } else {
+        // Conserta o blackout
+        energiaQuartoAtiva = true;
+        somEletrico.play().catch(() => {});
+        document.getElementById('painel-eletrico-quarto').classList.remove('painel-apagado');
+        telaQuarto.classList.remove('energia-queda');
+        atualizarRenderLanterna();
+        falarMensagemSimples("Arthur", "arthur", "Pronto! Substituí o fusível queimado e rearmar a chave. A luz do quarto voltou!");
+    }
+});
+
 btnLuz.addEventListener('click', () => {
     luzCorredorLigada = !luzCorredorLigada; somEletrico.play().catch(() => {});
     txtStatusLuz.textContent = luzCorredorLigada ? "LUZ: LIGADA" : "LUZ: DESLIGADA";
@@ -62,10 +91,8 @@ btnLuz.addEventListener('click', () => {
 });
 
 function atualizarRenderLuz() {
-    const painelQuarto = document.getElementById('painel-eletrico-quarto');
-    if (!luzCorredorLigada) { elCorredor.className = "corredor-luz-desligada"; if(painelQuarto) painelQuarto.classList.add('painel-apagado'); }
+    if (!luzCorredorLigada) { elCorredor.className = "corredor-luz-desligada"; }
     else {
-        if(painelQuarto) painelQuarto.className = "led-energia";
         if (tipoVisitaAtual === "homem-alto") elCorredor.className = "corredor-luz-ligada corridor-luz-piscando";
         else if (tipoVisitaAtual === "anomalia") elCorredor.className = "corredor-luz-ligada corridor-luz-caotica";
         else elCorredor.className = "corredor-luz-ligada";

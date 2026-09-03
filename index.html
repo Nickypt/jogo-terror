@@ -6,6 +6,7 @@
     <title>Apartamento 404: Olho Mágico</title>
     <link rel="stylesheet" href="base.css">
     <link rel="stylesheet" href="telas.css">
+    <link rel="stylesheet" href="baloes.css">
     <link rel="stylesheet" href="entidades.css">
 </head>
 <body>
@@ -87,11 +88,11 @@
                 <p class="texto-manuscrito">
                     "Se você está lendo isso, o contrato foi assinado. Sinto muito.<br><br>
                     Regras do Bloco B à noite: se ouvir batidas entre 00:00 e 06:00, <strong>olhe pelo olho mágico antes de abrir</strong>. Nem tudo o que tem forma humana pertence a este mundo.<br><br>
-                    Alguns são inteligentes. Vão usar seus medos, chorar e fingir racionalidade humana. Outros são puros predadores violentos. Se começarem a rasgar e arranhar a madeira, afaste-se da porta ou sua mente vai colapsar.<br><br>
-                    Não deixe sua lanterna descarregar. O escuro total aqui atrai coisas piores. Ah, e não fique trancado muito tempo seguido... o ar desse quarto acaba rápido."
+                    Alguns mimetizam vozes e memórias. Outros são violentos. Mantenha as luzes funcionando no disjuntor da parede. <strong>O escuro completo deste quarto drena sua sanidade a níveis críticos</strong>. Conserte o fusível antes que eles cheguem.<br><br>
+                    Não gaste a bateria da lanterna à toa, ela será sua única salvação nos apagões."
                 </p>
                 <span class="assinatura">- Inquilino Anterior</span>
-                <button id="btn-iniciar" class="btn-retro">AMASSAR BILHETE E ENTRAR</button>
+                <button id="btn-iniciar" class="btn-retro">ENTRAR NO APARTAMENTO</button>
             </div>
         </div>
 
@@ -100,9 +101,11 @@
             <div class="detalhe-parede rachadura-1"></div>
             <div class="detalhe-parede umidade-canto"></div>
             
-            <div id="painel-eletrico-quarto" title="Disjuntor Interno do Apartamento">
+            <!-- Painel Elétrico Interativo -->
+            <div id="painel-eletrico-quarto" title="Disjuntor Interno">
                 <div class="fiação-exposta"></div>
                 <div class="led-energia"></div>
+                <span class="txt-disjuntor">DISJUNTOR</span>
             </div>
 
             <div class="caixa-dialogo idled" id="caixa-dialogo-quarto">
@@ -112,12 +115,14 @@
                 <div id="container-escolhas" class="hidden"></div>
             </div>
             
+            <!-- Porta com Visibilidade Fixa -->
             <div class="porta-container">
                 <div class="moldura-velha"></div>
                 <div class="textura-madeira-podre"></div>
                 <div id="marcas-arranhao" class="hidden"></div>
                 <div class="tranca-ferrolho" id="visual-tranca"></div>
                 <div class="macaneta" id="macaneta-porta"></div>
+                <!-- O Olho mágico agora é um botão físico correto -->
                 <button id="btn-olho-magico" title="Olhar pelo Olho Mágico"></button>
             </div>
             
@@ -158,7 +163,6 @@
 
     <div id="jumpscare-container" class="hidden"></div>
 
-    <!-- Scripts Modulares Importantes -->
     <script src="estado.js"></script>
     <script src="dialogos.js"></script>
     <script src="ambiente.js"></script>

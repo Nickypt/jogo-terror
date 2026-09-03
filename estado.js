@@ -1,3 +1,6 @@
+// ==========================================================================
+// GERENCIADOR DE ESTADO GLOBAL E PERSISTÊNCIA DO SISTEMA
+// ==========================================================================
 let horaAtiva = 0;
 let portaTrancada = false;
 let luzCorredorLigada = true;
@@ -8,9 +11,14 @@ let sanidade = 100;
 let lanternaLigada = false;
 let bateriaLanterna = 100;
 let nomeJogadorAtual = "CONVIDADO";
-let segundosNestaPartida = 0;
 
-let loopRelogio, loopSorteio, timeoutAcao, loopSanidade, loopAudioOlho, loopBateria, loopContadorTempo;
+// NOVO: Controle das Quedas de Energia do Apartamento
+let energiaQuartoAtiva = true; 
+
+let segundosNestaPartida = 0;
+let loopContadorTempo;
+
+let loopRelogio, loopSorteio, timeoutAcao, loopSanidade, loopAudioOlho, loopBateria, loopQuedaEnergia;
 
 let oxigenioQuarto = 100;
 const barraOxigenio = document.getElementById('barra-oxigenio-nivel');
@@ -19,10 +27,9 @@ const somBatida = new Audio("https://google.com");
 const somSusto = new Audio("https://google.com"); 
 const somEletrico = new Audio("https://google.com");
 
-// NOVO: Chiado de Rádio Analógico (White Noise) de Fundo
-const somChiadoMenu = new Audio("https://soundjay.com");
+const somChiadoMenu = new Audio("https://soundjay.com"); 
 somChiadoMenu.loop = true;
-somChiadoMenu.volume = 0.12;
+somChiadoMenu.volume = 0.15; 
 
 const gameContainer = document.getElementById('game-container');
 const telaMenu = document.getElementById('tela-menu');
@@ -85,18 +92,20 @@ function atualizarMenuFinais() {
     };
     
     let possuiDados = false;
-    for (let cf in listaFinais) {
-        const el = document.getElementById(listaFinais[cf].id);
+    for (let chaveFinal in listaFinais) {
+        const el = document.getElementById(listaFinais[chaveFinal].id);
         if (el) {
-            if (finaisConquistados[cf]) { el.textContent = listaFinais[cf].texto; el.className = 'final-desbloqueado'; possuiDados = true; }
-            else { el.textContent = "FINAL " + listaFinais[cf].id.replace('f', '') + ": ???"; el.className = 'final-bloqueado'; }
+            if (finaisConquistados[chaveFinal]) { el.textContent = listaFinais[chaveFinal].texto; el.className = 'final-desbloqueado'; possuiDados = true; }
+            else { el.textContent = "FINAL " + listaFinais[chaveFinal].id.replace('f', '') + ": ???"; el.className = 'final-bloqueado'; }
         }
     }
 
     const stats = JSON.parse(localStorage.getItem(chaveStats)) || { tentativas: 0, segundosVividos: 0 };
     txtStatTentativas.textContent = stats.tentativas;
     const totalMinutos = Math.floor(stats.segundosVividos / 60);
-    txtStatTempo.textContent = `${Math.floor(totalMinutos / 60)}h ${(totalMinutos % 60) < 10 ? '0' : ''}${totalMinutos % 60}m`;
+    const horas = Math.floor(totalMinutos / 60);
+    const minutosRestantes = totalMinutos % 60;
+    txtStatTempo.textContent = `${horas}h ${minutosRestantes < 10 ? '0' : ''}${minutosRestantes}m`;
 
     if (stats.tentativas > 0 || stats.segundosVividos > 0) possuiDados = true;
     btnLimparDados.style.display = possuiDados ? "block" : "none";
@@ -130,6 +139,6 @@ window.addEventListener('mouseenter', () => {
 }, { once: true });
 
 inputNome.addEventListener('input', () => { nomeJogadorAtual = inputNome.value.trim() || "CONVIDADO"; atualizarMenuFinais(); });
-btnLimparDados.addEventListener('click', (e) => { e.stopPropagation(); if(confirm(`Deseja apagar o histórico de [${nomeJogadorAtual.toUpperCase()}]?`)) { localStorage.removeItem(obterChaveArmazenamento()); localStorage.removeItem(obterChaveEstatisticas()); atualizarMenuFinais(); } });
+btnLimparDados.addEventListener('click', (e) => { e.stopPropagation(); if(confirm(`Deseja apagar progressos de [${nomeJogadorAtual.toUpperCase()}]?`)) { localStorage.removeItem(obterChaveArmazenamento()); localStorage.removeItem(obterChaveEstatisticas()); atualizarMenuFinais(); } });
 
 atualizarMenuFinais();
