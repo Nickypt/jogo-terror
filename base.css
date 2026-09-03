@@ -1,0 +1,59 @@
+/* ==========================================================================
+   CONFIGURAÇÕES GLOBAIS E ESTÉTICA RETRO ANALÓGICA
+   ========================================================================== */
+body {
+    margin: 0; padding: 0;
+    background-color: #050505;
+    color: #26b326;
+    font-family: 'Courier New', Courier, monospace;
+    display: flex; justify-content: center; align-items: center;
+    height: 100vh; overflow: hidden; user-select: none;
+}
+
+#game-container {
+    position: relative;
+    width: 800px; height: 600px;
+    background-color: #0d0e0d;
+    border: 6px double #1f2e1f;
+    box-shadow: inset 0 0 100px #000, 0 0 50px rgba(0, 0, 0, 0.9);
+    overflow: hidden;
+}
+
+.retro-text {
+    font-weight: bold;
+    text-shadow: 0 0 6px rgba(38, 179, 38, 0.5);
+}
+
+#ui-top {
+    position: absolute; top: 20px; left: 25px; right: 25px;
+    display: flex; justify-content: space-between;
+    font-size: 20px; z-index: 10;
+}
+
+.hidden { display: none !important; }
+
+/* Filtros Visuais VHS / CRT / Prédio Velho */
+.vhs-overlay {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: radial-gradient(circle, transparent 30%, rgba(0,0,0,0.65) 100%); z-index: 95; pointer-events: none;
+}
+.vhs-scanlines {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.25) 50%); background-size: 100% 4px; z-index: 99; pointer-events: none;
+}
+.filtro-sujeira {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    opacity: 0.04; background-image: radial-gradient(#fff 1px, transparent 0); background-size: 24px 24px; z-index: 96; pointer-events: none;
+}
+
+/* Botões Rusticos Industriais */
+.btn-retro {
+    background-color: #070807; color: #1e871e; border: 1px solid #1f3d1f;
+    padding: 10px 24px; font-family: 'Courier New', monospace; cursor: pointer;
+    font-weight: bold; font-size: 12px; box-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+.btn-retro:hover {
+    background-color: #1f3d1f; color: #020302; box-shadow: 0 0 10px rgba(38,179,38,0.3);
+}
+.btn-perigo { border-color: #611818; color: #9c2828; }
+.btn-perigo:hover { background-color: #4a1212; color: #fff; }

@@ -4,15 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Apartamento 404: Olho Mágico</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="base.css">
+    <link rel="stylesheet" href="telas.css">
+    <link rel="stylesheet" href="entidades.css">
 </head>
 <body>
+    <!-- Filtros de Ambiente Retro -->
     <div class="vhs-overlay"></div>
     <div class="vhs-scanlines"></div>
     <div class="filtro-sujeira"></div>
 
     <div id="game-container">
-        <!-- Interface de Informações Superiores -->
+        <!-- Interface Superior (UI) -->
         <div id="ui-top" class="hidden">
             <div id="relogio" class="retro-text">00:00 AM</div>
             <div id="container-sanidade">
@@ -47,13 +50,13 @@
             <div class="rodape-menu">© 1998 MATRIX SYSTEMS COMP.</div>
         </div>
 
-        <!-- TELA 2: O BILHETE -->
+        <!-- TELA 2: BILHETE DE INTRODUÇÃO -->
         <div id="tela-intro" class="tela hidden">
             <div class="papel-bilhete">
                 <h2>REGISTRO DE ENTRADA: APTO 404</h2>
                 <p class="texto-manuscrito">
                     "Se você está lendo isso, o contrato foi assinado. Sinto muito.<br><br>
-                    Regras do Bloco B à noite: se ouvir batidas, <strong>olhe pelo olho mágico antes de abrir</strong>. Nem tudo o que fala ou bate pertence a este mundo.<br><br>
+                    Regras do Bloco B à noite: se ouvir batidas entre 00:00 e 06:00, <strong>olhe pelo olho mágico antes de abrir</strong>. Nem tudo o que tem forma humana pertence a este mundo.<br><br>
                     Cuidado com as vozes doces. Tranque a porta. Se as luzes falharem, que Deus te ajude."
                 </p>
                 <span class="assinatura">- Inquilino Anterior</span>
@@ -66,6 +69,7 @@
             <div class="caixa-dialogo idled" id="caixa-dialogo-quarto">
                 <span id="nome-falante">Arthur:</span>
                 <p id="texto-falante">...</p>
+                <div id="indicador-clique">▼</div>
             </div>
             
             <div class="porta-container">
@@ -88,19 +92,18 @@
                 </div>
             </div>
             
-            <!-- NOVO: Caixa de pensamentos e áudio-diálogos sobreposta na lente -->
             <div id="caixa-olho-audivel" class="retro-text">
                 <div id="olho-escuta"></div>
                 <div id="olho-pensamento"></div>
             </div>
 
             <div class="controles-olho">
-                <button id="btn-voltar" class="btn-retro">AFAFASTADO DA PORTA</button>
+                <button id="btn-voltar" class="btn-retro">AFASTAR DA PORTA</button>
                 <button id="btn-luz" class="btn-retro"><span id="txt-status-luz">LUZ: LIGADA</span></button>
             </div>
         </div>
         
-        <!-- TELA 5: FIM DE JOGO -->
+        <!-- TELA 5: GAME OVER -->
         <div id="tela-mensagem" class="tela-fim hidden">
             <h1 id="titulo-fim">SISTEMA CORROMPIDO</h1>
             <p id="texto-fim">Erro 404...</p>
@@ -111,6 +114,9 @@
 
     <div id="jumpscare-container" class="hidden"></div>
 
-    <script src="script.js"></script>
+    <!-- Scripts Modulares -->
+    <script src="estado.js"></script>
+    <script src="dialogos.js"></script>
+    <script src="motor.js"></script>
 </body>
 </html>

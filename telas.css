@@ -1,0 +1,61 @@
+/* ==========================================================================
+   DESIGN DAS TELAS, MAPAS DE INTERFACE E CLIQUES DE DIÁLOGO
+   ========================================================================== */
+.tela { width: 100%; height: 100%; position: absolute; top: 0; left: 0; background-color: #0b0c0b; }
+
+#barra-sanidade-bg { width: 140px; height: 12px; border: 1px solid #26b326; background-color: #020302; padding: 1px; }
+#barra-sanidade-nivel { width: 100%; height: 100%; background-color: #26b326; transition: width 0.2s ease; }
+
+/* Menu Principal */
+#tela-menu {
+    background: radial-gradient(circle, #0e120e 0%, #030503 100%);
+    display: flex; flex-direction: column; justify-content: space-between; align-items: center; padding: 50px 20px; box-sizing: border-box; z-index: 5;
+}
+.titulo-jogo { font-size: 52px; line-height: 1.1; letter-spacing: 6px; color: #26b326; text-shadow: 3px 3px 0px #092409; text-align: center; }
+.glitch-404 { font-size: 72px; color: #a31c1c; text-shadow: 2px 2px 0px #000; }
+.subtitulo-jogo { font-size: 11px; color: #166116; letter-spacing: 2px; margin-bottom: 30px; text-align: center; }
+
+/* Histórico de Conquistas */
+#finais-conquistados { margin-top: 35px; font-size: 11px; border-top: 1px dashed #166116; padding-top: 15px; width: 100%; max-width: 420px; }
+#finais-conquistados h3 { margin: 0 0 10px 0; font-size: 12px; color: #166116; }
+#finais-conquistados ul { list-style: none; padding: 0; margin: 0; }
+#finais-conquistados li { margin-bottom: 6px; }
+.final-bloqueado { color: #102610; }
+.final-desbloqueado { color: #26b326 !important; text-shadow: 0 0 4px rgba(38,179,38,0.6); }
+
+/* Introdução / Bilhete */
+#tela-intro { display: flex; justify-content: center; align-items: center; z-index: 6; }
+.papel-bilhete { background-color: #141310; border: 1px solid #2d2b26; padding: 35px; width: 85%; max-width: 480px; box-shadow: 0 0 30px rgba(0,0,0,0.9); color: #8c806c; }
+.papel-bilhete h2 { font-size: 16px; margin: 0 0 15px 0; color: #a31c1c; text-align: center; }
+.texto-manuscrito { font-style: italic; line-height: 1.6; font-size: 14px; text-align: justify; }
+.assinatura { display: block; text-align: right; margin-top: 20px; font-weight: bold; }
+
+/* Quarto e Caixa Estilo Visual Novel */
+#tela-quarto { background: linear-gradient(180deg, rgba(0,0,0,0.92) 0%, rgba(10,14,10,0.96) 100%); z-index: 3; }
+.caixa-dialogo { position: absolute; bottom: 120px; left: 50%; transform: translateX(-50%); width: 85%; background: rgba(5,7,5,0.95); border: 1px solid #1f3d1f; padding: 15px; box-sizing: border-box; cursor: pointer; }
+.caixa-dialogo p { margin: 6px 0 0 0; font-size: 14px; color: #cbd6cb; line-height: 1.4; }
+.caixa-dialogo span { font-weight: bold; color: #26b326; }
+.caixa-dialogo.idled { opacity: 0; transform: translate(-50%, 10px); pointer-events: none; }
+
+#indicador-clique { position: absolute; bottom: 8px; right: 15px; font-size: 10px; color: #166116; animation: piscarSeta 0.6s infinite alternate steps(2); }
+@keyframes piscarSeta { 0% { opacity: 0.2; transform: translateY(-2px); } 100% { opacity: 1; transform: translateY(2px); } }
+
+.porta-container { position: absolute; top: 42%; left: 50%; transform: translate(-50%, -50%); width: 170px; height: 310px; border: 6px solid #141714; background: linear-gradient(90deg, #1f241f 0%, #161a16 50%, #111411 100%); box-shadow: inset 0 0 40px #000, 0 10px 25px rgba(0,0,0,0.8); }
+.moldura-velha { position: absolute; top: -1px; left: -1px; right: -1px; bottom: -1px; border: 2px dashed #0c0e0c; pointer-events: none; }
+#btn-olho-magico { position: absolute; top: 32%; left: 50%; transform: translate(-50%, -50%); width: 22px; height: 22px; background: radial-gradient(#3a423a, #0d0f0d); border: 2px solid #283028; border-radius: 50%; cursor: pointer; }
+.macaneta { position: absolute; top: 55%; right: 12px; width: 10px; height: 26px; background-color: #2d332d; border: 1px solid #191c19; }
+.controles-quarto { position: absolute; bottom: 35px; width: 100%; display: flex; justify-content: center; gap: 20px; }
+
+/* Olho Mágico e Escuta */
+#tela-olho { z-index: 2; background-color: #020302; }
+.lente-circulo { position: absolute; top: 42%; left: 50%; transform: translate(-50%, -50%); width: 380px; height: 380px; border-radius: 50%; border: 25px solid #000; overflow: hidden; box-shadow: inset 0 0 80px #000, 0 0 50px #000; }
+#caixa-olho-audivel { position: absolute; bottom: 115px; left: 50%; transform: translateX(-50%); width: 75%; text-align: center; font-size: 13px; pointer-events: none; background: rgba(0,0,0,0.75); padding: 8px; border-radius: 4px; }
+#olho-escuta { color: #da4939; margin-bottom: 4px; font-style: italic; }
+#olho-pensamento { color: #88c788; }
+.controles-olho { position: absolute; bottom: 35px; width: 100%; display: flex; justify-content: center; gap: 20px; }
+
+/* Game Over e Telas Finais */
+.tela-fim { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: #030403; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 200; text-align: center; padding: 20px; box-sizing: border-box; }
+.tela-fim h1 { font-size: 32px; color: #a31c1c; margin-bottom: 12px; }
+.tela-fim p { font-size: 15px; color: #a6b3a6; max-width: 580px; line-height: 1.5; }
+.subtexto { font-size: 12px !important; color: #4e5c4e !important; margin-top: 5px; margin-bottom: 30px; }
