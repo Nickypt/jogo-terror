@@ -1,6 +1,3 @@
-// ==========================================================================
-// MOTOR NARRATIVO VISUAL NOVEL COM MÁQUINA DE ESCOLHAS E BALÕES DINÂMICOS
-// ==========================================================================
 let filaDialogos = [];
 let callbackAoTerminar = null;
 let intervaloTexto = null;
@@ -59,23 +56,15 @@ function avancarDialogo() {
         clearInterval(intervaloTexto);
         txtFalante.textContent = textoCompletoAtual;
         textoSendoExibido = false;
-        if (filaDialogos.length === 0 && callbackAoTerminar && callbackAoTerminar.ehEscolha) {
-            renderizarMenuEscolhas(callbackAoTerminar.opcoes);
-        }
+        if (filaDialogos.length === 0 && callbackAoTerminar && callbackAoTerminar.ehEscolha) renderizarMenuEscolhas(callbackAoTerminar.opcoes);
         return;
     }
 
     if (filaDialogos.length === 0) {
         if (!callbackAoTerminar || !callbackAoTerminar.ehEscolha) {
             elCaixaDialogo.className = "caixa-dialogo idled";
-            if (callbackAoTerminar) {
-                let acao = callbackAoTerminar;
-                callbackAoTerminar = null;
-                acao();
-            }
-        } else {
-            renderizarMenuEscolhas(callbackAoTerminar.opcoes);
-        }
+            if (callbackAoTerminar) { let acao = callbackAoTerminar; callbackAoTerminar = null; acao(); }
+        } else { renderizarMenuEscolhas(callbackAoTerminar.opcoes); }
         return;
     }
 
@@ -94,34 +83,25 @@ function avancarDialogo() {
         if (indiceLetra >= textoCompletoAtual.length) {
             clearInterval(intervaloTexto);
             textoSendoExibido = false;
-            if (filaDialogos.length === 0 && callbackAoTerminar && callbackAoTerminar.ehEscolha) {
-                renderizarMenuEscolhas(callbackAoTerminar.opcoes);
-            }
+            if (filaDialogos.length === 0 && callbackAoTerminar && callbackAoTerminar.ehEscolha) renderizarMenuEscolhas(callbackAoTerminar.opcoes);
         }
     }, VELOCIDADE_DIGITACAO);
+
+    if (falaAtual.nome === "Arthur") { txtNomeFalante.style.color = "#26b326"; }
+    else if (falaAtual.nome === "Efeito" || falaAtual.nome === "Voz Familiar" || falaAtual.nome === "Voz Estranha") { txtNomeFalante.style.color = "#a31c1c"; }
+    else { txtNomeFalante.style.color = "orange"; }
 }
 
 function renderizarMenuEscolhas(opcoes) {
     document.getElementById('indicador-clique').style.opacity = "0";
     elContainerEscolhas.innerHTML = "";
     elContainerEscolhas.classList.remove('hidden');
-
-    opcoes.forEach(opcao => {
+    opcoes.forEach(op => {
         const btn = document.createElement('button');
-        btn.className = "btn-opcao";
-        btn.textContent = opcao.texto;
-        btn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            elContainerEscolhas.classList.add('hidden');
-            document.getElementById('indicador-clique').style.opacity = "1";
-            opcao.acao();
-        });
+        btn.className = "btn-opcao"; btn.textContent = op.texto;
+        btn.addEventListener('click', (e) => { e.stopPropagation(); elContainerEscolhas.classList.add('hidden'); document.getElementById('indicador-clique').style.opacity = "1"; op.acao(); });
         elContainerEscolhas.appendChild(btn);
     });
 }
 
-elCaixaDialogo.addEventListener('click', (e) => {
-    if (!elContainerEscolhas.classList.contains('hidden')) return;
-    e.stopPropagation();
-    avancarDialogo();
-});
+elCaixaDialogo.addEventListener('click', (e) => { if (!elContainerEscolhas.classList.contains('hidden')) return; e.stopPropagation(); avancarDialogo(); });

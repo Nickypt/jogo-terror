@@ -1,6 +1,3 @@
-// ==========================================================================
-// GERENCIADOR DE ESTADO GLOBAL E PERSISTÊNCIA DO SISTEMA
-// ==========================================================================
 let horaAtiva = 0;
 let portaTrancada = false;
 let luzCorredorLigada = true;
@@ -11,12 +8,21 @@ let sanidade = 100;
 let lanternaLigada = false;
 let bateriaLanterna = 100;
 let nomeJogadorAtual = "CONVIDADO";
+let segundosNestaPartida = 0;
 
-let loopRelogio, loopSorteio, timeoutAcao, loopSanidade, loopAudioOlho, loopBateria;
+let loopRelogio, loopSorteio, timeoutAcao, loopSanidade, loopAudioOlho, loopBateria, loopContadorTempo;
+
+let oxigenioQuarto = 100;
+const barraOxigenio = document.getElementById('barra-oxigenio-nivel');
 
 const somBatida = new Audio("https://google.com");
 const somSusto = new Audio("https://google.com"); 
 const somEletrico = new Audio("https://google.com");
+
+// NOVO: Chiado de Rádio Analógico (White Noise) de Fundo
+const somChiadoMenu = new Audio("https://soundjay.com");
+somChiadoMenu.loop = true;
+somChiadoMenu.volume = 0.12;
 
 const gameContainer = document.getElementById('game-container');
 const telaMenu = document.getElementById('tela-menu');
@@ -57,11 +63,17 @@ const elOlhoEscuta = document.getElementById('olho-escuta');
 const elOlhoPensamento = document.getElementById('olho-pensamento');
 const elContainerEscolhas = document.getElementById('container-escolhas');
 
+const txtStatTentativas = document.getElementById('stat-tentativas');
+const txtStatTempo = document.getElementById('stat-tempo');
+
 function obterChaveArmazenamento() { return `apto404_finais_${nomeJogadorAtual.toUpperCase().trim() || 'CONVIDADO'}`; }
+function obterChaveEstatisticas() { return `apto404_stats_${nomeJogadorAtual.toUpperCase().trim() || 'CONVIDADO'}`; }
 
 function atualizarMenuFinais() {
     const chave = obterChaveArmazenamento();
+    const chaveStats = obterChaveEstatisticas();
     document.getElementById('titulo-finais-nome').textContent = `ARQUIVO DE: ${nomeJogadorAtual.toUpperCase()}`;
+    
     const finaisConquistados = JSON.parse(localStorage.getItem(chave)) || {};
     const listaFinais = {
         'F1': { id: 'f1', texto: 'FINAL 1: O AMANHECER (Sobreviveu à Noite)' },
@@ -71,15 +83,23 @@ function atualizarMenuFinais() {
         'F5': { id: 'f5', texto: 'FINAL 5: COLAPSO PSICÓTICO (Sanidade Derretida)' },
         'F6': { id: 'f6', texto: 'FINAL 6: ALMA APRISIONADA (Abriu para a Garotinha)' }
     };
-    let possuiFinais = false;
-    for (let chaveFinal in listaFinais) {
-        const el = document.getElementById(listaFinais[chaveFinal].id);
+    
+    let possuiDados = false;
+    for (let cf in listaFinais) {
+        const el = document.getElementById(listaFinais[cf].id);
         if (el) {
-            if (finaisConquistados[chaveFinal]) { el.textContent = listaFinais[chaveFinal].texto; el.className = 'final-desbloqueado'; possuiFinais = true; }
-            else { el.textContent = "FINAL " + listaFinais[chaveFinal].id.replace('f', '') + ": ???"; el.className = 'final-bloqueado'; }
+            if (finaisConquistados[cf]) { el.textContent = listaFinais[cf].texto; el.className = 'final-desbloqueado'; possuiDados = true; }
+            else { el.textContent = "FINAL " + listaFinais[cf].id.replace('f', '') + ": ???"; el.className = 'final-bloqueado'; }
         }
     }
-    btnLimparDados.style.display = possuiFinais ? "block" : "none";
+
+    const stats = JSON.parse(localStorage.getItem(chaveStats)) || { tentativas: 0, segundosVividos: 0 };
+    txtStatTentativas.textContent = stats.tentativas;
+    const totalMinutos = Math.floor(stats.segundosVividos / 60);
+    txtStatTempo.textContent = `${Math.floor(totalMinutos / 60)}h ${(totalMinutos % 60) < 10 ? '0' : ''}${totalMinutos % 60}m`;
+
+    if (stats.tentativas > 0 || stats.segundosVividos > 0) possuiDados = true;
+    btnLimparDados.style.display = possuiDados ? "block" : "none";
 }
 
 function salvarFinal(chaveFinal) {
@@ -89,7 +109,27 @@ function salvarFinal(chaveFinal) {
     localStorage.setItem(chave, JSON.stringify(finaisConquistados));
 }
 
+function adicionarTentativaEstatistica() {
+    const chave = obterChaveEstatisticas();
+    let stats = JSON.parse(localStorage.getItem(chave)) || { tentativas: 0, segundosVividos: 0 };
+    stats.tentativas += 1;
+    localStorage.setItem(chave, JSON.stringify(stats));
+}
+
+function salvarTempoVividoEstatistica(segundosAdicionais) {
+    const chave = obterChaveEstatisticas();
+    let stats = JSON.parse(localStorage.getItem(chave)) || { tentativas: 0, segundosVividos: 0 };
+    stats.segundosVividos += segundosAdicionais;
+    localStorage.setItem(chave, JSON.stringify(stats));
+}
+
+window.addEventListener('mouseenter', () => {
+    if (telaQuarto.classList.contains('hidden') && telaMensagem.classList.contains('hidden')) {
+        somChiadoMenu.play().catch(() => {});
+    }
+}, { once: true });
+
 inputNome.addEventListener('input', () => { nomeJogadorAtual = inputNome.value.trim() || "CONVIDADO"; atualizarMenuFinais(); });
-btnLimparDados.addEventListener('click', (e) => { e.stopPropagation(); if(confirm(`Deseja apagar o histórico de [${nomeJogadorAtual.toUpperCase()}]?`)) { localStorage.removeItem(obterChaveArmazenamento()); atualizarMenuFinais(); } });
+btnLimparDados.addEventListener('click', (e) => { e.stopPropagation(); if(confirm(`Deseja apagar o histórico de [${nomeJogadorAtual.toUpperCase()}]?`)) { localStorage.removeItem(obterChaveArmazenamento()); localStorage.removeItem(obterChaveEstatisticas()); atualizarMenuFinais(); } });
 
 atualizarMenuFinais();

@@ -25,6 +25,12 @@
                         <div id="barra-sanidade-nivel"></div>
                     </div>
                 </div>
+                <div id="container-oxigenio" class="retro-text">
+                    <span>OXIGÊNIO:</span>
+                    <div id="barra-oxigenio-bg">
+                        <div id="barra-oxigenio-nivel"></div>
+                    </div>
+                </div>
                 <div id="container-bateria" class="retro-text">
                     <span>LANTERNA:</span>
                     <div id="barra-bateria-bg">
@@ -55,6 +61,12 @@
                         <h3 id="titulo-finais-nome">ARQUIVO DE: CONVIDADO</h3>
                         <button id="btn-limpar-dados" class="btn-retro btn-pequeno">APAGAR REGISTROS</button>
                     </div>
+                    
+                    <div id="estatisticas-perfil">
+                        <p>TENTATIVAS DE CONTRATO: <span id="stat-tentativas">0</span></p>
+                        <p>TEMPO TOTAL VIVIDO: <span id="stat-tempo">0h 00m</span></p>
+                    </div>
+
                     <ul>
                         <li id="f1" class="final-bloqueado">FINAL 1: ???</li>
                         <li id="f2" class="final-bloqueado">FINAL 2: ???</li>
@@ -76,7 +88,7 @@
                     "Se você está lendo isso, o contrato foi assinado. Sinto muito.<br><br>
                     Regras do Bloco B à noite: se ouvir batidas entre 00:00 e 06:00, <strong>olhe pelo olho mágico antes de abrir</strong>. Nem tudo o que tem forma humana pertence a este mundo.<br><br>
                     Alguns são inteligentes. Vão usar seus medos, chorar e fingir racionalidade humana. Outros são puros predadores violentos. Se começarem a rasgar e arranhar a madeira, afaste-se da porta ou sua mente vai colapsar.<br><br>
-                    Não deixe sua lanterna descarregar. O escuro total aqui atrai coisas piores."
+                    Não deixe sua lanterna descarregar. O escuro total aqui atrai coisas piores. Ah, e não fique trancado muito tempo seguido... o ar desse quarto acaba rápido."
                 </p>
                 <span class="assinatura">- Inquilino Anterior</span>
                 <button id="btn-iniciar" class="btn-retro">AMASSAR BILHETE E ENTRAR</button>
@@ -146,12 +158,11 @@
 
     <div id="jumpscare-container" class="hidden"></div>
 
-        <!-- Scripts Modulares (A ordem importa!) -->
+    <!-- Scripts Modulares Importantes -->
     <script src="estado.js"></script>
     <script src="dialogos.js"></script>
     <script src="ambiente.js"></script>
     <script src="gameplay.js"></script>
 </body>
 </html>
-
 
