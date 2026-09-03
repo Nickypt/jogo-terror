@@ -5,14 +5,12 @@
 .corredor-luz-ligada { background: #121412; filter: sepia(0.5) contrast(1.4) brightness(0.35) blur(0.4px); }
 .corredor-luz-desligada { background: #010201 !important; filter: none !important; }
 
-/* Tipos de Pisca de Luz das Assombrações */
 .corredor-luz-piscando { animation: flashLuzNormal 0.5s infinite alternate; }
 .corredor-luz-caotica { animation: flashLuzFrenetica 0.05s infinite; }
 
 @keyframes flashLuzNormal { 0% { filter: brightness(0.35) blur(0.4px); } 100% { filter: brightness(0.05) blur(0.5px); } }
 @keyframes flashLuzFrenetica { 0%, 100% { filter: brightness(0.7) blur(0.2px) contrast(2); background-color: #261111; } 50% { filter: brightness(0) blur(1px); background-color: #000; } }
 
-/* Base para Render das Entidades */
 #entidade { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); transition: all 0.2s ease; }
 
 .homem-alto { background: #000; clip-path: polygon(35% 0%, 65% 0%, 80% 100%, 20% 100%); width: 70px; height: 320px; filter: blur(2px); }
@@ -27,7 +25,6 @@
 
 .anomalia-eletrica { background: #26b326; width: 140px; height: 290px; clip-path: polygon(50% 0%, 0% 50%, 40% 50%, 10% 100%, 100% 40%, 60% 40%); filter: drop-shadow(0 0 20px #26b326) opacity(0.7); }
 
-/* Animações e Mecânicas de Maçaneta e Susto */
 .macaneta-mexendo { animation: mexerMacaneta 0.3s infinite alternate; }
 .tremer-tela { animation: tremor 0.08s infinite alternate; border-color: #a31c1c !important; }
 

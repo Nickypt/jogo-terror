@@ -12,15 +12,24 @@
     <div class="vhs-overlay"></div>
     <div class="vhs-scanlines"></div>
     <div class="filtro-sujeira"></div>
+    <div id="lanterna-foco" class="lanterna-desligada"></div>
 
     <div id="game-container">
         <!-- Interface Superior (UI) -->
         <div id="ui-top" class="hidden">
             <div id="relogio" class="retro-text">00:00 AM</div>
-            <div id="container-sanidade">
-                <span class="retro-text">SANIDADE:</span>
-                <div id="barra-sanidade-bg">
-                    <div id="barra-sanidade-nivel"></div>
+            <div id="ui-esquerda">
+                <div id="container-sanidade">
+                    <span class="retro-text">SANIDADE:</span>
+                    <div id="barra-sanidade-bg">
+                        <div id="barra-sanidade-nivel"></div>
+                    </div>
+                </div>
+                <div id="container-bateria" class="retro-text">
+                    <span>LANTERNA:</span>
+                    <div id="barra-bateria-bg">
+                        <div id="barra-bateria-nivel"></div>
+                    </div>
                 </div>
             </div>
             <div id="status-porta" class="retro-text">PORTA: DESTRANCADA</div>
@@ -31,13 +40,20 @@
             <div class="menu-conteudo">
                 <h1 class="titulo-jogo retro-text">APARTAMENTO<br><span class="glitch-404">404</span></h1>
                 <p class="subtitulo-jogo">SIMULADOR DE VIGILÂNCIA PORTUÁRIA v1.04</p>
-                <div class="menu-botoes">
-                    <button id="btn-menu-jogar" class="btn-retro btn-menu">INICIAR JOGO</button>
+                
+                <div id="registro-perfil">
+                    <label for="input-nome" class="retro-text">IDENTIFICAÇÃO DO INQUILINO:</label>
+                    <input type="text" id="input-nome" maxlength="12" placeholder="DIGITE SEU NOME..." autocomplete="off">
                 </div>
+
+                <div class="menu-botoes">
+                    <button id="btn-menu-jogar" class="btn-retro btn-menu">INICIAR CONTRATO</button>
+                </div>
+
                 <div id="finais-conquistados" class="retro-text">
                     <div class="menu-finais-header">
-                        <h3>REGISTROS DE SOBREVIVÊNCIA:</h3>
-                        <button id="btn-limpar-dados" class="btn-retro btn-pequeno" title="Apagar progresso do jogador atual">APAGAR REGISTROS</button>
+                        <h3 id="titulo-finais-nome">ARQUIVO DE: CONVIDADO</h3>
+                        <button id="btn-limpar-dados" class="btn-retro btn-pequeno">APAGAR REGISTROS</button>
                     </div>
                     <ul>
                         <li id="f1" class="final-bloqueado">FINAL 1: ???</li>
@@ -59,20 +75,19 @@
                 <p class="texto-manuscrito">
                     "Se você está lendo isso, o contrato foi assinado. Sinto muito.<br><br>
                     Regras do Bloco B à noite: se ouvir batidas entre 00:00 e 06:00, <strong>olhe pelo olho mágico antes de abrir</strong>. Nem tudo o que tem forma humana pertence a este mundo.<br><br>
-                    Cuidado com as vozes doces. Tranque a porta. Se as luzes falharem, que Deus te ajude."
+                    Alguns são inteligentes. Vão usar seus medos, chorar e fingir racionalidade humana. Outros são puros predadores violentos. Se começarem a rasgar e arranhar a madeira, afaste-se da porta ou sua mente vai colapsar.<br><br>
+                    Não deixe sua lanterna descarregar. O escuro total aqui atrai coisas piores."
                 </p>
                 <span class="assinatura">- Inquilino Anterior</span>
                 <button id="btn-iniciar" class="btn-retro">AMASSAR BILHETE E ENTRAR</button>
             </div>
         </div>
 
-        <!-- TELA 3: DENTRO DO APARTAMENTO (Design Complexo & Interativo) -->
+        <!-- TELA 3: DENTRO DO APARTAMENTO -->
         <div id="tela-quarto" class="tela hidden">
-            <!-- Detalhes Ambientais Imersivos -->
             <div class="detalhe-parede rachadura-1"></div>
             <div class="detalhe-parede umidade-canto"></div>
             
-            <!-- Painel Elétrico Interativo Físico no Quarto -->
             <div id="painel-eletrico-quarto" title="Disjuntor Interno do Apartamento">
                 <div class="fiação-exposta"></div>
                 <div class="led-energia"></div>
@@ -82,11 +97,13 @@
                 <span id="nome-falante">Arthur:</span>
                 <p id="texto-falante">...</p>
                 <div id="indicador-clique">▼</div>
+                <div id="container-escolhas" class="hidden"></div>
             </div>
             
             <div class="porta-container">
                 <div class="moldura-velha"></div>
                 <div class="textura-madeira-podre"></div>
+                <div id="marcas-arranhao" class="hidden"></div>
                 <div class="tranca-ferrolho" id="visual-tranca"></div>
                 <div class="macaneta" id="macaneta-porta"></div>
                 <button id="btn-olho-magico" title="Olhar pelo Olho Mágico"></button>
@@ -94,6 +111,7 @@
             
             <div class="controles-quarto">
                 <button id="btn-trancar" class="btn-retro">TRANCAR PORTA</button>
+                <button id="btn-lanterna" class="btn-retro">LIGAR LANTERNA</button>
                 <button id="btn-abrir-porta" class="btn-retro btn-perigo">ABRIR PORTA</button>
             </div>
         </div>
@@ -113,7 +131,6 @@
 
             <div class="controles-olho">
                 <button id="btn-voltar" class="btn-retro">AFASTAR DA PORTA</button>
-                <!-- O Interruptor ganhou indicador de fusível visual -->
                 <button id="btn-luz" class="btn-retro"><span id="txt-status-luz">LUZ: LIGADA</span></button>
             </div>
         </div>
@@ -134,3 +151,4 @@
     <script src="motor.js"></script>
 </body>
 </html>
+

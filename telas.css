@@ -1,92 +1,97 @@
 /* ==========================================================================
-   DESIGN INTERATIVO AVANÇADO E CENÁRIOS CLAUSTROFÓBICOS
+   DESIGN INTERATIVO AVANÇADO E ADAPTAÇÃO DINÂMICA DE BALÕES DE FALA
    ========================================================================== */
-.tela { width: 100%; height: 100%; position: absolute; top: 0; left: 0; background-color: #080a08; }
+.tela { width: 100%; height: 100%; position: absolute; top: 0; left: 0; background-color: #050705; }
 
-#barra-sanidade-bg { width: 140px; height: 12px; border: 1px solid #26b326; background-color: #020302; padding: 1px; }
+#ui-esquerda { display: flex; flex-direction: column; gap: 5px; }
+#barra-sanidade-bg, #barra-bateria-bg { width: 130px; height: 10px; border: 1px solid #26b326; background-color: #020302; padding: 1px; display: inline-block; vertical-align: middle; }
 #barra-sanidade-nivel { width: 100%; height: 100%; background-color: #26b326; transition: width 0.2s ease, background-color 0.4s ease; }
+#barra-bateria-nivel { width: 100%; height: 100%; background-color: #26b326; transition: width 0.1s linear; }
 
-/* Menu Principal Melhorado */
-#tela-menu {
-    background: radial-gradient(circle at center, #111711 0%, #020402 100%);
-    display: flex; flex-direction: column; justify-content: space-between; align-items: center; padding: 50px 20px; box-sizing: border-box; z-index: 5;
-}
-.titulo-jogo { font-size: 52px; line-height: 1.1; letter-spacing: 6px; color: #26b326; text-shadow: 3px 3px 0px #040d04, 0 0 10px rgba(38,179,38,0.2); text-align: center; }
-.glitch-404 { font-size: 72px; color: #a31c1c; text-shadow: 2px 2px 0px #000, 0 0 15px rgba(163,28,28,0.4); }
-.subtitulo-jogo { font-size: 11px; color: #166116; letter-spacing: 2px; margin-bottom: 30px; text-align: center; }
+#lanterna-foco { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 90; transition: opacity 0.2s; }
+.lanterna-desligada { background: rgba(0, 0, 0, 0.94); }
+.lanterna-ligada { background: radial-gradient(circle 120px at var(--mouse-x, 50%) var(--mouse-y, 50%), transparent 100%, rgba(0, 0, 0, 0.95) 100%); }
 
-.menu-finais-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; border-bottom: 1px dashed #166116; padding-bottom: 6px; }
-.menu-finais-header h3 { margin: 0; font-size: 12px; color: #26b326; }
-.btn-pequeno { padding: 4px 10px !important; font-size: 9px !important; color: #9c2828 !important; border-color: #4a1212 !important; }
-.btn-pequeno:hover { background-color: #4a1212 !important; color: #fff !important; }
+#registro-perfil { margin-bottom: 20px; text-align: center; }
+#registro-perfil label { display: block; font-size: 11px; margin-bottom: 8px; color: #166116; }
+#input-nome { background-color: #050805; border: 1px solid #1f3d1f; color: #26b326; padding: 8px 15px; font-family: 'Courier New', monospace; font-size: 14px; text-align: center; font-weight: bold; width: 220px; outline: none; letter-spacing: 2px; }
+#input-nome:focus { border-color: #26b326; box-shadow: 0 0 10px rgba(38,179,38,0.2); }
 
-#finais-conquistados { margin-top: 20px; font-size: 11px; width: 100%; max-width: 440px; background: rgba(0,0,0,0.4); padding: 15px; border: 1px solid #102610; border-radius: 4px; box-shadow: 0 10px 20px rgba(0,0,0,0.6); }
+#tela-menu { background: radial-gradient(circle at center, #0c120c 0%, #010201 100%); display: flex; flex-direction: column; justify-content: space-between; align-items: center; padding: 40px 20px; box-sizing: border-box; z-index: 5; }
+.titulo-jogo { font-size: 52px; line-height: 1.1; letter-spacing: 6px; color: #26b326; text-shadow: 3px 3px 0px #040d04; text-align: center; margin: 0; }
+.glitch-404 { font-size: 72px; color: #a31c1c; text-shadow: 2px 2px 0px #000; }
+.subtitulo-jogo { font-size: 11px; color: #166116; letter-spacing: 2px; margin-bottom: 15px; text-align: center; }
+
+.menu-finais-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; border-bottom: 1px dashed #166116; padding-bottom: 6px; }
+.menu-finais-header h3 { margin: 0; font-size: 11px; color: #26b326; letter-spacing: 1px; }
+.btn-pequeno { padding: 3px 8px !important; font-size: 8px !important; color: #9c2828 !important; border-color: #4a1212 !important; }
+
+#finais-conquistados { margin-top: 10px; font-size: 10px; width: 100%; max-width: 440px; background: rgba(0,0,0,0.5); padding: 12px; border: 1px solid #102610; }
 #finais-conquistados ul { list-style: none; padding: 0; margin: 0; }
-#finais-conquistados li { margin-bottom: 6px; font-family: monospace; }
+#finais-conquistados li { margin-bottom: 5px; font-family: monospace; }
 .final-bloqueado { color: #142b14; }
-.final-desbloqueado { color: #26b326 !important; text-shadow: 0 0 4px rgba(38,179,38,0.6); }
+.final-desbloqueado { color: #26b326 !important; text-shadow: 0 0 4px rgba(38, 179, 38, 0.6); }
 
-/* Introdução / Bilhete */
 #tela-intro { display: flex; justify-content: center; align-items: center; z-index: 6; background-color: #030403; }
 .papel-bilhete { background-color: #141310; border: 1px solid #2d2b26; padding: 35px; width: 85%; max-width: 480px; box-shadow: 0 0 40px #000; color: #8c806c; }
-.texto-manuscrito { font-style: italic; line-height: 1.6; font-size: 14px; text-align: justify; }
+.texto-manuscrito { font-style: italic; line-height: 1.6; font-size: 13px; text-align: justify; }
 
-/* DESIGN INTERATIVO COMPLEXO DO QUARTO */
-#tela-quarto {
-    background: radial-gradient(circle at center, rgba(14,19,14,0.85) 0%, rgba(3,5,3,0.98) 100%),
-                repeating-linear-gradient(0deg, rgba(0,0,0,0.1), rgba(0,0,0,0.1) 2px, transparent 2px, transparent 4px);
-    z-index: 3;
-    position: relative;
-}
-
-/* Detalhes de Paredes Decrépitas */
-.detalhe-parede { position: absolute; pointer-events: none; opacity: 0.15; }
+#tela-quarto { background: #070907; z-index: 3; position: relative; }
+.detalhe-parede { position: absolute; pointer-events: none; opacity: 0.12; }
 .rachadura-1 { top: 15%; left: 20%; width: 120px; height: 80px; border-left: 2px dashed #26b326; border-bottom: 1px dashed #26b326; transform: rotate(-15deg); }
 .umidade-canto { bottom: 0; left: 0; width: 250px; height: 400px; background: linear-gradient(90deg, rgba(0,0,0,0.8), transparent); }
 
-/* Caixa de Som Interna Dinâmica do Apartamento */
-#painel-eletrico-quarto {
-    position: absolute; top: 100px; left: 60px; width: 45px; height: 75px;
-    background: #141a14; border: 2px solid #1f3d1f; border-radius: 3px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.7); cursor: help;
-}
+#painel-eletrico-quarto { position: absolute; top: 100px; left: 60px; width: 45px; height: 75px; background: #141a14; border: 2px solid #1f3d1f; box-shadow: 0 5px 15px rgba(0,0,0,0.7); cursor: help; }
 .fiação-exposta { position: absolute; bottom: -20px; left: 15%; width: 4px; height: 20px; border-left: 2px solid #333; border-right: 2px solid #555; }
 .led-energia { position: absolute; top: 15px; left: 50%; transform: translateX(-50%); width: 8px; height: 8px; background-color: #26b326; border-radius: 50%; box-shadow: 0 0 6px #26b326; }
 .painel-apagado .led-energia { background-color: #4a1212 !important; box-shadow: none !important; }
 
-/* Caixa Estilo Visual Novel */
-.caixa-dialogo { position: absolute; bottom: 120px; left: 50%; transform: translateX(-50%); width: 85%; background: rgba(3,5,3,0.96); border: 2px solid #1c351c; padding: 18px; box-sizing: border-box; box-shadow: 0 10px 30px #000; border-radius: 2px; z-index: 10; }
-.caixa-dialogo p { margin: 6px 0 0 0; font-size: 14px; color: #cbd6cb; line-height: 1.5; letter-spacing: 0.5px; min-height: 40px; }
-.caixa-dialogo span { font-weight: bold; color: #26b326; letter-spacing: 1px; font-size: 15px; }
-.caixa-dialogo.idled { opacity: 0; transform: translate(-50%, 10px); pointer-events: none; }
-
-#indicador-clique { position: absolute; bottom: 10px; right: 20px; font-size: 11px; color: #26b326; animation: piscarSeta 0.5s infinite alternate steps(2); }
-@keyframes piscarSeta { 0% { opacity: 0.1; transform: translateY(-1px); } 100% { opacity: 1; transform: translateY(2px); } }
-
-/* Porta Robusta de Prédio Abatido */
-.porta-container { position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%); width: 180px; height: 320px; border: 8px solid #0f120f; background: #131713; box-shadow: inset 0 0 50px #000, 0 15px 35px rgba(0,0,0,0.9); }
-.textura-madeira-podre { position: absolute; width: 100%; height: 100%; opacity: 0.05; background: repeating-linear-gradient(90deg, #fff, #fff 4px, transparent 4px, transparent 8px); pointer-events: none; }
-
-/* Ferrolho Visual Móvel */
-.tranca-ferrolho {
-    position: absolute; top: 48%; right: -2px; width: 35px; height: 10px;
-    background: #2a332a; border: 1px solid #111;
-    transition: transform 0.25s cubic-bezier(0.18, 0.89, 0.32, 1.28);
-    transform: translateX(-15px); /* Destrancado por padrão */
+/* BALÕES DE DIÁLOGO DINÂMICOS */
+.caixa-dialogo { 
+    position: absolute; bottom: 110px; left: 50%; transform: translateX(-50%); 
+    width: 85%; padding: 18px; box-sizing: border-box; box-shadow: 0 10px 30px #000; 
+    z-index: 11; transition: background 0.3s, border-color 0.3s, border-radius 0.3s;
 }
+.caixa-dialogo p { margin: 6px 0 0 0; font-size: 14px; line-height: 1.5; min-height: 40px; }
+.caixa-dialogo.idled { opacity: 0; transform: translate(-50%, 10px); pointer-events: none; }
+#indicador-clique { position: absolute; bottom: 10px; right: 20px; font-size: 11px; color: #26b326; animation: piscarSeta 0.5s infinite alternate steps(2); }
+@keyframes piscarSeta { 0% { opacity: 0.1; } 100% { opacity: 1; transform: translateY(2px); } }
+
+.balao-arthur { background: rgba(2, 6, 2, 0.96); border: 2px solid #1c351c; border-radius: 0px; }
+.balao-arthur span { color: #26b326; font-weight: bold; letter-spacing: 1px; }
+.balao-arthur p { color: #cbd6cb; }
+
+.balao-pensamento { background: rgba(20, 24, 20, 0.95); border: 2px dotted #4e5c4e; border-radius: 15px; }
+.balao-pensamento span { color: #8c9c8c; font-style: italic; }
+.balao-pensamento p { color: #a4b5a4; font-style: italic; }
+
+.balao-monstro { background: rgba(14, 2, 2, 0.98); border: 2px solid #851313; border-radius: 4px; box-shadow: 0 0 15px rgba(163, 28, 28, 0.3); }
+.balao-monstro span { color: #e62e2e; font-weight: bold; text-shadow: 0 0 5px red; text-transform: uppercase; }
+.balao-monstro p { color: #f2afaf; font-weight: bold; }
+
+.balao-neutro { background: rgba(10, 10, 8, 0.96); border: 2px solid #6e5a31; border-radius: 4px; }
+.balao-neutro span { color: #d1ab5a; font-weight: bold; }
+.balao-neutro p { color: #e8dfca; }
+
+#container-escolhas { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; border-top: 1px dashed #3a423a; padding-top: 12px; }
+.btn-opcao { background-color: #0f120f; color: #d9bd41; border: 1px solid #544917; padding: 10px 15px; font-family: 'Courier New', monospace; font-size: 12px; text-align: left; cursor: pointer; font-weight: bold; width: 100%; transition: all 0.15s; border-radius: 2px; }
+.btn-opcao:hover { background-color: #544917; color: #000; box-shadow: 0 0 12px rgba(217, 189, 65, 0.4); }
+
+.porta-container { position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%); width: 180px; height: 320px; border: 8px solid #0f120f; background: #111511; box-shadow: inset 0 0 50px #000, 0 15px 35px rgba(0,0,0,0.9); }
+.textura-madeira-podre { position: absolute; width: 100%; height: 100%; opacity: 0.05; background: repeating-linear-gradient(90deg, #fff, #fff 4px, transparent 4px, transparent 8px); pointer-events: none; }
+#marcas-arranhao { position: absolute; top: 20%; left: 10%; right: 10%; bottom: 20%; pointer-events: none; opacity: 0.8; background: repeating-linear-gradient(45deg, transparent, transparent 15px, #420f0f 15px, #420f0f 18px); animation: rasgarMadeira 0.2s infinite; }
+@keyframes rasgarMadeira { 0% { opacity: 0.4; transform: scale(1); } 100% { opacity: 0.9; transform: scale(1.02) translate(1px, -1px); } }
+.tranca-ferrolho { position: absolute; top: 48%; right: -2px; width: 35px; height: 10px; background: #2a332a; border: 1px solid #111; transition: transform 0.2s ease; transform: translateX(-15px); }
 .porta-trancada-visual .tranca-ferrolho { transform: translateX(4px); background: #a31c1c; }
+.macaneta { position: absolute; top: 55%; right: 14px; width: 12px; height: 28px; background-color: #242b24; border: 1px solid #0c0f0c; }
+.controles-quarto { position: absolute; bottom: 35px; width: 100%; display: flex; justify-content: center; gap: 15px; z-index: 5; }
 
-.macaneta { position: absolute; top: 55%; right: 14px; width: 12px; height: 28px; background-color: #242b24; border: 1px solid #0c0f0c; border-radius: 1px; box-shadow: 0 2px 4px #000; }
-.controles-quarto { position: absolute; bottom: 35px; width: 100%; display: flex; justify-content: center; gap: 20px; z-index: 5; }
-
-/* Olho Mágico e Escuta */
 #tela-olho { z-index: 2; background-color: #010201; }
 .lente-circulo { position: absolute; top: 42%; left: 50%; transform: translate(-50%, -50%); width: 380px; height: 380px; border-radius: 50%; border: 25px solid #000; overflow: hidden; box-shadow: inset 0 0 90px #000, 0 0 60px #000; }
-#caixa-olho-audivel { position: absolute; bottom: 115px; left: 50%; transform: translateX(-50%); width: 75%; text-align: center; font-size: 13px; pointer-events: none; background: rgba(0, 0, 0, 0.85); padding: 10px; border: 1px solid #102610; border-radius: 4px; }
+#caixa-olho-audivel { position: absolute; bottom: 115px; left: 50%; transform: translateX(-50%); width: 75%; text-align: center; font-size: 13px; pointer-events: none; background: rgba(0, 0, 0, 0.85); padding: 10px; border: 1px solid #102610; }
 #olho-escuta { color: #da4939; margin-bottom: 4px; font-style: italic; font-weight: bold; }
 #olho-pensamento { color: #88c788; font-style: italic; }
 .controles-olho { position: absolute; bottom: 35px; width: 100%; display: flex; justify-content: center; gap: 20px; }
 
-/* Game Over e Telas Finais */
 .tela-fim { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: #030403; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 200; text-align: center; padding: 20px; box-sizing: border-box; }
-.tela-fim h1 { font-size: 32px; color: #a31c1c; margin-bottom: 12px; font-weight: bold; }
+.tela-fim h1 { font-size: 32px; color: #a31c1c; margin-bottom: 12px; }
