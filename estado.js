@@ -1,6 +1,3 @@
-// ==========================================================================
-// GERENCIADOR DE ESTADO GLOBAL E PERSISTÊNCIA DO SISTEMA
-// ==========================================================================
 let horaAtiva = 0;
 let portaTrancada = false;
 let luzCorredorLigada = true;
@@ -10,11 +7,9 @@ let sanidade = 100;
 
 let lanternaLigada = false;
 let bateriaLanterna = 100;
-let nomeJogadorAtual = "CONVIDADO";
+let nomeJogadorAtual = "JOGADOR";
 
-// NOVO: Controle das Quedas de Energia do Apartamento
 let energiaQuartoAtiva = true; 
-
 let segundosNestaPartida = 0;
 let loopContadorTempo;
 
@@ -22,6 +17,14 @@ let loopRelogio, loopSorteio, timeoutAcao, loopSanidade, loopAudioOlho, loopBate
 
 let oxigenioQuarto = 100;
 const barraOxigenio = document.getElementById('barra-oxigenio-nivel');
+
+let pilhasInventario = 0;
+let gaveta1Vasculhada = false;
+let gaveta2Vasculhada = false;
+
+const txtQtdPilhas = document.getElementById('txt-qtd-pilhas');
+const btnGaveta1 = document.getElementById('gaveta-1');
+const btnGaveta2 = document.getElementById('gaveta-2');
 
 const somBatida = new Audio("https://google.com");
 const somSusto = new Audio("https://google.com"); 
@@ -34,6 +37,7 @@ somChiadoMenu.volume = 0.15;
 const gameContainer = document.getElementById('game-container');
 const telaMenu = document.getElementById('tela-menu');
 const telaIntro = document.getElementById('tela-intro');
+const telaPrologo = document.getElementById('tela-prologo');
 const telaQuarto = document.getElementById('tela-quarto');
 const telaOlho = document.getElementById('tela-olho');
 const telaMensagem = document.getElementById('tela-mensagem');
@@ -138,7 +142,7 @@ window.addEventListener('mouseenter', () => {
     }
 }, { once: true });
 
-inputNome.addEventListener('input', () => { nomeJogadorAtual = inputNome.value.trim() || "CONVIDADO"; atualizarMenuFinais(); });
-btnLimparDados.addEventListener('click', (e) => { e.stopPropagation(); if(confirm(`Deseja apagar progressos de [${nomeJogadorAtual.toUpperCase()}]?`)) { localStorage.removeItem(obterChaveArmazenamento()); localStorage.removeItem(obterChaveEstatisticas()); atualizarMenuFinais(); } });
+inputNome.addEventListener('input', () => { nomeJogadorAtual = inputNome.value.trim().toUpperCase() || "JOGADOR"; atualizarMenuFinais(); });
+btnLimparDados.addEventListener('click', (e) => { e.stopPropagation(); if(confirm(`Deseja apagar progressos de [${nomeJogadorAtual}]?`)) { localStorage.removeItem(obterChaveArmazenamento()); localStorage.removeItem(obterChaveEstatisticas()); atualizarMenuFinais(); } });
 
 atualizarMenuFinais();

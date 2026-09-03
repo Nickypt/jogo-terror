@@ -1,0 +1,32 @@
+#tela-menu {
+    background: radial-gradient(circle at center, #0f180f 0%, #020402 100%);
+    display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 30px; box-sizing: border-box; z-index: 100; overflow-y: auto;
+}
+#tela-menu.hidden { display: none !important; opacity: 0 !important; pointer-events: none !important; }
+.menu-conteudo { text-align: center; max-width: 500px; width: 100%; display: flex; flex-direction: column; align-items: center; gap: 20px; animation: deformaCrt 4s infinite ease-in-out; }
+.titulo-jogo { font-size: 46px; line-height: 1.0; letter-spacing: 4px; color: #26b326; margin: 0; text-shadow: 3px 3px 0px #040d04, 0 0 10px rgba(38,179,38,0.3); text-align: center; }
+.glitch-404 { font-size: 64px; color: #a31c1c; text-shadow: 2px 2px 0px #000, 0 0 15px rgba(163,28,28,0.4); animation: piscarVermelho 0.8s infinite alternate steps(2); }
+.subtitulo-jogo { font-size: 10px; color: #166116; letter-spacing: 1px; margin: 5px 0 0 0; text-align: center; }
+
+#registro-perfil { width: 100%; margin: 10px 0; text-align: center; }
+#registro-perfil label { display: block; font-size: 11px; margin-bottom: 8px; color: #166116; letter-spacing: 1px; }
+#input-nome { background-color: #030503; border: 1px solid #142b14; color: #26b326; padding: 10px; font-family: 'Courier New', monospace; font-size: 13px; text-align: center; font-weight: bold; width: 80%; max-width: 260px; outline: none; letter-spacing: 2px; transition: all 0.3s; }
+#input-nome:focus { border-color: #26b326; box-shadow: 0 0 12px rgba(38,179,38,0.25); background-color: #050905; }
+.btn-menu { font-size: 15px !important; padding: 14px 40px !important; letter-spacing: 2px; box-shadow: 0 0 10px rgba(38,179,38,0.1); animation: pulsarBotao 1.5s infinite alternate ease-in-out; }
+
+#finais-conquistados { font-size: 10px; width: 100%; max-width: 380px; background: rgba(0, 0, 0, 0.6); padding: 12px; border: 1px solid #0f210f; box-shadow: inset 0 0 15px #000; }
+.menu-finais-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; border-bottom: 1px dashed #142b14; padding-bottom: 4px; }
+.menu-finais-header h3 { margin: 0; font-size: 11px; color: #166116; }
+.btn-pequeno { padding: 3px 8px !important; font-size: 8px !important; color: #9c2828 !important; border-color: #4a1212 !important; }
+
+#estatisticas-perfil { margin: 8px 0 12px 0; padding: 6px; background: rgba(16, 26, 16, 0.3); border: 1px solid #142b14; text-align: left; font-size: 9px; letter-spacing: 1px; }
+#estatisticas-perfil p { margin: 3px 0; color: #166116; }
+#estatisticas-perfil span { color: #26b326; font-weight: bold; }
+#finais-conquistados ul { list-style: none; padding: 0; margin: 0; text-align: left; max-height: 110px; overflow-y: auto; }
+#finais-conquistados li { margin-bottom: 4px; padding-left: 5px; border-left: 2px solid #0a140a; }
+#finais-conquistados li.final-desbloqueado { border-left-color: #26b326; }
+.rodape-menu { font-size: 10px; color: #0d240d; letter-spacing: 1px; margin-top: 15px; }
+
+@keyframes pulsarBotao { 0% { transform: scale(1); box-shadow: 0 0 5px rgba(38,179,38,0.1); } 100% { transform: scale(1.03); border-color: #26b326; box-shadow: 0 0 15px rgba(38,179,38,0.4); } }
+@keyframes piscarVermelho { 0%, 100% { color: #a31c1c; filter: brightness(1); } 50% { color: #bd2424; filter: brightness(1.3) drop-shadow(0 0 8px rgba(163,28,28,0.6)); } }
+@keyframes deformaCrt { 0%, 100% { transform: scale(1) skewX(0deg); } 98% { transform: scale(1) skewX(0deg); } 99% { transform: scale(1.01, 0.99) skewX(1deg); filter: brightness(1.2); } }
