@@ -14,6 +14,9 @@ const somSusto = new Audio("https://google.com");
 const somEletrico = new Audio("https://google.com");
 
 // Elementos do DOM
+
+const elJumpscare = document.getElementById('jumpscare-container');
+
 const gameContainer = document.getElementById('game-container');
 const telaMenu = document.getElementById('tela-menu');
 const telaIntro = document.getElementById('tela-intro');
@@ -62,6 +65,41 @@ function transicionarTela(telaSair, telaEntrar, tipoEfeito = "fade") {
         }
     }, 150); // Piscar rápido de estática
 }
+
+
+// Carrega os finais desbloqueados salvos no navegador do jogador
+function atualizarMenuFinais() {
+    const finaisConquistados = JSON.parse(localStorage.getItem('apto404_finais')) || {};
+    
+    const listaFinais = {
+        'F1': { id: 'f1', texto: 'FINAL 1: O AMANHECER (Sobreviveu)' },
+        'F2': { id: 'f2', texto: 'FINAL 2: ERRO DE EXISTÊNCIA (Pego pelo Homem Alto)' },
+        'F3': { id: 'f3', texto: 'FINAL 3: ISOLAMENTO PARANOICO (Abandonou o vizinho)' },
+        'F4': { id: 'f4', texto: 'FINAL 4: DISFARCE COGNITIVO (Pego pelo Impostor)' },
+        'F5': { id: 'f5', texto: 'FINAL 5: COLAPSO PSICÓTICO (Sanidade Zerada)' }
+    };
+
+    for (let chave in listaFinais) {
+        if (finaisConquistados[chave]) {
+            const el = document.getElementById(listaFinais[chave].id);
+            if (el) {
+                el.textContent = listaFinais[chave].texto;
+                el.className = 'final-desbloqueado';
+            }
+        }
+    }
+}
+
+// Salva um novo final descoberto
+function salvarFinal(chaveFinal) {
+    let finaisConquistados = JSON.parse(localStorage.getItem('apto404_finais')) || {};
+    finaisConquistados[chaveFinal] = true;
+    localStorage.setItem('apto404_finais', JSON.stringify(finaisConquistados));
+}
+
+// Executa ao abrir o script para atualizar o menu principal logo de cara
+atualizarMenuFinais();
+
 
 // --- CONTROLE DE EVENTOS DE CLIQUE ---
 btnMenuJogar.addEventListener('click', () => {
@@ -250,32 +288,64 @@ function finalizarJogo(motivo) {
     clearTimeout(timeoutAcao);
     somSusto.pause();
 
-    telaMensagem.classList.remove('hidden');
-    telaQuarto.classList.add('hidden');
-    telaOlho.classList.add('hidden');
-    txtUiTop.classList.add('hidden'); // CORREÇÃO: Esconde o relógio e a sanidade na tela de fim
+    // Determina se o final atual gera um susto terrível
+    const ehMorte = motivo === "MORTE_MONSTRO" || motivo === "MORTE_IMPOSTOR" || motivo === "MORTE_SANIDADE";
+    // Tempo que o susto vai durar piscando na tela (em milissegundos)
+    const tempoEspera = ehMorte ? 1800 : 0; 
 
-    if (motivo === "VITORIA") {
-        if (window.vizinhoMorto) {
-            txtTituloFim.textContent = "FINAL 3: ISOLAMENTO PARANOICO";
-            txtTituloFim.style.color = "orange";
-            txtTextoFim.textContent = "Você sobreviveu trancando tudo, mas o Sr. Clóvis foi pego por sua causa. Ao escolher o egoísmo por medo, você quebrou sua própria mente.";
-        } else {
-            txtTituloFim.textContent = "FINAL 1: O AMANHECER";
-            txtTituloFim.style.color = "#33ff33";
-            txtTextoFim.textContent = "06:00 AM. O sol raiou e limpou o corredor. Você recolhe suas malas e deixa o Apartamento 404 para sempre!";
-        }
-    } else if (motivo === "MORTE_MONSTRO") {
-        txtTituloFim.textContent = "FINAL 2: ERRO DE EXISTÊNCIA";
-        txtTituloFim.style.color = "#da4939";
-        txtTextoFim.textContent = "Você olhou demais sem se proteger. A silhueta quebrou a tranca e te arrastou para o vazio do 4º andar.";
-    } else if (motivo === "MORTE_IMPOSTOR") {
-        txtTituloFim.textContent = "FINAL 4: DISFARCE COGNITIVO";
-        txtTituloFim.style.color = "#da4939";
-        txtTextoFim.textContent = "Você abriu a porta para o falso entregador após as 03h. Sua mente colapsou ao ver a verdadeira face dele.";
-    } else if (motivo === "MORTE_SANIDADE") {
-        txtTituloFim.textContent = "FINAL 5: COLAPSO PSICÓTICO";
-        txtTituloFim.style.color = "purple";
-        txtTextoFim.textContent = "Sua sanidade chegou a 0%. Ficar encarando o Homem Alto pelo olho mágico derreteu sua percepção da realidade. Você perdeu o controle e abriu a porta por conta própria.";
+    if (ehMorte) {
+        // Dispara o som e os flashes visuais agressivos do jumpscare
+        somSusto.currentTime = 0;
+        somSusto.loop = false;
+        somSusto.volume = 1.0;
+        somSusto.play().catch(() => {});
+        
+        elJumpscare.classList.remove('hidden');
+        elJumpscare.classList.add('animar-jumpscare');
     }
+
+    // Aguarda o término do Jumpscare (ou executa imediatamente se for vitória)
+    setTimeout(() => {
+        if (ehMorte) {
+            elJumpscare.classList.remove('animar-jumpscare');
+            elJumpscare.classList.add('hidden');
+        }
+
+        telaMensagem.classList.remove('hidden');
+        telaQuarto.classList.add('hidden');
+        telaOlho.classList.add('hidden');
+        txtUiTop.classList.add('hidden');
+
+        if (motivo === "VITORIA") {
+            if (window.vizinhoMorto) {
+                txtTituloFim.textContent = "FINAL 3: ISOLAMENTO PARANOICO";
+                txtTituloFim.style.color = "orange";
+                txtTextoFim.textContent = "Você sobreviveu trancando tudo, mas o Sr. Clóvis foi pego por sua causa. Ao escolher o egoísmo por medo, você quebrou sua própria mente.";
+                salvarFinal('F3');
+            } else {
+                txtTituloFim.textContent = "FINAL 1: O AMANHECER";
+                txtTituloFim.style.color = "#33ff33";
+                txtTextoFim.textContent = "06:00 AM. O sol raiou e limpou o corredor. Você recolhe suas malas e deixa o Apartamento 404 para sempre!";
+                salvarFinal('F1');
+            }
+        } else if (motivo === "MORTE_MONSTRO") {
+            txtTituloFim.textContent = "FINAL 2: ERRO DE EXISTÊNCIA";
+            txtTituloFim.style.color = "#da4939";
+            txtTextoFim.textContent = "Você olhou demais sem se proteger. A silhueta quebrou a tranca e te arrastou para o vazio do 4º andar.";
+            salvarFinal('F2');
+        } else if (motivo === "MORTE_IMPOSTOR") {
+            txtTituloFim.textContent = "FINAL 4: DISFARCE COGNITIVO";
+            txtTituloFim.style.color = "#da4939";
+            txtTextoFim.textContent = "Você abriu a porta para o falso entregador após as 03h. Sua mente colapsou ao ver a verdadeira face dele.";
+            salvarFinal('F4');
+        } else if (motivo === "MORTE_SANIDADE") {
+            txtTituloFim.textContent = "FINAL 5: COLAPSO PSICÓTICO";
+            txtTituloFim.style.color = "purple";
+            txtTextoFim.textContent = "Sua sanidade chegou a 0%. Ficar encarando o Homem Alto pelo olho mágico derreteu sua percepção da realidade. Você perdeu o controle e abriu a porta por conta própria.";
+            salvarFinal('F5');
+        }
+        
+        // Atualiza a lista do menu principal para a próxima rodada após salvar
+        atualizarMenuFinais();
+    }, tempoEspera);
 }

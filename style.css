@@ -203,3 +203,40 @@ body {
 
 .estatica-transicao { animation: glitchTransicao 0.2s infinite alternate; }
 .piscar-olho-transicao { animation: fecharAbrirOlho 0.4s ease-in-out forwards; }
+
+
+/* --- SISTEMA DE FINAIS NO MENU --- */
+#finais-conquistados {
+    margin-top: 30px;
+    font-size: 12px;
+    text-align: left;
+    display: inline-block;
+    border-top: 1px dashed #33ff33;
+    padding-top: 15px;
+}
+#finais-conquistados h3 { margin: 0 0 10px 0; font-size: 13px; color: #11aa11; }
+#finais-conquistados ul { list-style: none; padding: 0; margin: 0; }
+#finais-conquistados li { margin-bottom: 5px; transition: color 0.3s; }
+.final-bloqueado { color: #225522; text-shadow: none; }
+.final-desbloqueado { color: #33ff33 !important; text-shadow: 0 0 5px rgba(0, 255, 0, 0.8); }
+
+/* --- SISTEMA DE JUMPSCARE --- */
+#jumpscare-container {
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 500; /* Acima de absolutamente tudo */
+    background-color: #000;
+    display: flex; justify-content: center; align-items: center;
+}
+.animar-jumpscare {
+    animation: flashSusto 0.15s infinite alternate;
+    /* Imagem conceitual distorcida em CSS puro caso você não tenha imagem pronta */
+    background: radial-gradient(circle, #da4939 10%, #000 70%), url('https://unsplash.com') no-repeat center/cover;
+    background-blend-mode: difference;
+    filter: invert(1) contrast(3) saturate(2);
+}
+
+@keyframes flashSusto {
+    0% { transform: scale(1) translate(2px, -2px); filter: brightness(1.5) invert(1); }
+    100% { transform: scale(1.1) translate(-2px, 2px); filter: brightness(0.8) invert(0); }
+}

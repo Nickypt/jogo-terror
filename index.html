@@ -27,13 +27,24 @@
             <div id="status-porta" class="retro-text">PORTA: DESTRANCADA</div>
         </div>
 
-        <!-- TELA 1: MENU PRINCIPAL -->
+               <!-- TELA 1: MENU PRINCIPAL -->
         <div id="tela-menu" class="tela">
             <div class="menu-conteudo">
                 <h1 class="titulo-jogo retro-text">APARTAMENTO<br><span class="glitch-404">404</span></h1>
                 <p class="subtitulo-jogo">SIMULADOR DE VIGILÂNCIA PORTUÁRIA v1.04</p>
                 <div class="menu-botoes">
                     <button id="btn-menu-jogar" class="btn-retro btn-menu">INICIAR JOGO</button>
+                </div>
+                <!-- NOVO: Lista de finais arquivados -->
+                <div id="finais-conquistados" class="retro-text">
+                    <h3>REGISTROS DE SOBREVIVÊNCIA:</h3>
+                    <ul>
+                        <li id="f1" class="final-bloqueado">FINAL 1: ???</li>
+                        <li id="f2" class="final-bloqueado">FINAL 2: ???</li>
+                        <li id="f3" class="final-bloqueado">FINAL 3: ???</li>
+                        <li id="f4" class="final-bloqueado">FINAL 4: ???</li>
+                        <li id="f5" class="final-bloqueado">FINAL 5: ???</li>
+                    </ul>
                 </div>
             </div>
             <div class="rodape-menu">© 1998 MATRIX SYSTEMS COMP.</div>
@@ -93,6 +104,10 @@
             <button id="btn-reiniciar" class="btn-retro" onclick="location.reload()">REINICIAR LINHA TEMPORAL</button>
         </div>
     </div>
+
+    <!-- NOVO: Tela flash de Jumpscare -->
+    <div id="jumpscare-container" class="hidden"></div>
+
 
     <script src="script.js"></script>
 </body>
