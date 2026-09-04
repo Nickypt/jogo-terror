@@ -1,10 +1,10 @@
-.caixa-dialogo { position: absolute; bottom: 110px; left: 50%; transform: translateX(-50%); width: 85%; padding: 18px; box-sizing: border-box; box-shadow: 0 10px 30px #000; z-index: 11; transition: background 0.3s, border-color 0.3s; }
+left: 50%; transform: translateX(-50%); width: 85%; padding: 18px; box-sizing: border-box; box-shadow: 0 10px 30px #000; z-index: 11; transition: background 0.3s, border-color 0.3s, border-radius 0.3s; }
 .caixa-dialogo p { margin: 6px 0 0 0; font-size: 14px; line-height: 1.5; min-height: 40px; }
 .caixa-dialogo.idled { opacity: 0; transform: translate(-50%, 10px); pointer-events: none; }
 #indicador-clique { position: absolute; bottom: 10px; right: 20px; font-size: 11px; color: #26b326; animation: piscarSeta 0.5s infinite alternate steps(2); }
 @keyframes piscarSeta { 0% { opacity: 0.1; } 100% { opacity: 1; transform: translateY(2px); } }
 
-.balao-arthur { background: rgba(2, 6, 2, 0.96); border: 2px solid #1c351c; }
+.balao-arthur { background: rgba(2, 6, 2, 0.96); border: 2px solid #1c351c; border-radius: 0px; }
 .balao-arthur span { color: #26b326; font-weight: bold; letter-spacing: 1px; }
 .balao-arthur p { color: #cbd6cb; }
 
@@ -12,14 +12,14 @@
 .balao-pensamento span { color: #8c9c8c; font-style: italic; }
 .balao-pensamento p { color: #a4b5a4; font-style: italic; }
 
-.balao-monstro { background: rgba(14, 2, 2, 0.98); border: 2px solid #851313; box-shadow: 0 0 15px rgba(163, 28, 28, 0.3); }
+.balao-monstro { background: rgba(14, 2, 2, 0.98); border: 2px solid #851313; border-radius: 4px; box-shadow: 0 0 15px rgba(163, 28, 28, 0.3); }
 .balao-monstro span { color: #e62e2e; font-weight: bold; text-shadow: 0 0 5px red; text-transform: uppercase; }
 .balao-monstro p { color: #f2afaf; font-weight: bold; }
 
-.balao-neutro { background: rgba(10, 10, 8, 0.96); border: 2px solid #6e5a31; }
+.balao-neutro { background: rgba(10, 10, 8, 0.96); border: 2px solid #6e5a31; border-radius: 4px; }
 .balao-neutro span { color: #d1ab5a; font-weight: bold; }
 .balao-neutro p { color: #e8dfca; }
 
 #container-escolhas { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; border-top: 1px dashed #3a423a; padding-top: 12px; }
-.btn-opcao { background-color: #0f120f; color: #d9bd41; border: 1px solid #544917; padding: 10px 15px; font-family: 'Courier New', monospace; font-size: 12px; text-align: left; cursor: pointer; font-weight: bold; width: 100%; transition: all 0.15s; }
+.btn-opcao { background-color: #0f120f; color: #d9bd41; border: 1px solid #544917; padding: 10px 15px; font-family: 'Courier New', monospace; font-size: 12px; text-align: left; cursor: pointer; font-weight: bold; width: 100%; transition: all 0.15s; border-radius: 2px; }
 .btn-opcao:hover { background-color: #544917; color: #000; box-shadow: 0 0 12px rgba(217, 189, 65, 0.4); }

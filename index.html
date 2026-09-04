@@ -98,7 +98,7 @@
             </div>
         </div>
 
-        <!-- TELA 3: PRÓLOGO ESCURO E DRAMÁTICO -->
+        <!-- TELA NOVA: PRÓLOGO ESCURO E DRAMÁTICO -->
         <div id="tela-prologo" class="tela hidden">
             <div class="container-susto-pulso"></div>
             <div class="caixa-dialogo" id="caixa-dialogo-prologo">
@@ -108,8 +108,17 @@
             </div>
         </div>
 
-        <!-- TELA 4: DENTRO DO APARTAMENTO -->
+        <!-- TELA 3: DENTRO DO APARTAMENTO -->
         <div id="tela-quarto" class="tela hidden">
+            <div class="vinheta-panico"></div>
+            <div class="vinheta-sangue-critica"></div>
+
+            <div id="lampada-teto">
+                <div class="fio-lampada"></div>
+                <div class="bulbo-lampada"></div>
+                <div class="brilho-lampada"></div>
+            </div>
+
             <div class="detalhe-parede rachadura-1"></div>
             <div class="detalhe-parede umidade-canto"></div>
             
@@ -119,7 +128,7 @@
             </div>
 
             <div id="mesa-investigacao" title="Mesa com Arquivos Antigos">
-                <div id="diario-clicavel" title="Ler Diário de bordo do Inquilino Anterior"></div>
+                <div id="diario-clicavel" title="Ler Diário de bordo"></div>
                 <div class="sombra-objeto"></div>
             </div>
             
@@ -158,7 +167,7 @@
             </div>
         </div>
 
-        <!-- TELA 5: VISÃO DO OLHO MÁGICO -->
+        <!-- TELA 4: VISÃO DO OLHO MÁGICO -->
         <div id="tela-olho" class="tela hidden">
             <div class="lente-circulo">
                 <div id="corredor-fundo" class="corredor-luz-ligada">
@@ -177,7 +186,7 @@
             </div>
         </div>
         
-        <!-- TELA 6: GAME OVER -->
+        <!-- TELA 5: GAME OVER -->
         <div id="tela-mensagem" class="tela-fim hidden">
             <h1 id="titulo-fim">SISTEMA CORROMPIDO</h1>
             <p id="texto-fim">Erro 404...</p>
@@ -188,12 +197,11 @@
 
     <div id="jumpscare-container" class="hidden"></div>
 
-    <!-- Scripts Modulares em Ordem Estrita -->
     <script src="estado.js"></script>
     <script src="dialogos.js"></script>
+    <script src="finais.js"></script>
     <script src="ciclos.js"></script>
     <script src="ambiente.js"></script>
     <script src="eventos.js"></script>
 </body>
 </html>
-

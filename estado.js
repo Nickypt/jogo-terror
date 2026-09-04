@@ -1,4 +1,5 @@
 let horaAtiva = 0;
+let minutosAtivos = 0; 
 let portaTrancada = false;
 let luzCorredorLigada = true;
 let eventoEmAndamento = false;
@@ -7,7 +8,7 @@ let sanidade = 100;
 
 let lanternaLigada = false;
 let bateriaLanterna = 100;
-let nomeJogadorAtual = "JOGADOR";
+let nomeJogadorAtual = "JOGADOR"; 
 
 let energiaQuartoAtiva = true; 
 let segundosNestaPartida = 0;
@@ -77,14 +78,12 @@ const elContainerEscolhas = document.getElementById('container-escolhas');
 const txtStatTentativas = document.getElementById('stat-tentativas');
 const txtStatTempo = document.getElementById('stat-tempo');
 
-function obterChaveArmazenamento() { return `apto404_finais_${nomeJogadorAtual.toUpperCase().trim() || 'CONVIDADO'}`; }
-function obterChaveEstatisticas() { return `apto404_stats_${nomeJogadorAtual.toUpperCase().trim() || 'CONVIDADO'}`; }
+function obterChaveArmazenamento() { return `apto404_finais_${nomeJogadorAtual.toUpperCase().trim()}`; }
+function obterChaveEstatisticas() { return `apto404_stats_${nomeJogadorAtual.toUpperCase().trim()}`; }
 
 function atualizarMenuFinais() {
-    const chave = obterChaveArmazenamento();
-    const chaveStats = obterChaveEstatisticas();
+    const chave = obterChaveArmazenamento(); const chaveStats = obterChaveEstatisticas();
     document.getElementById('titulo-finais-nome').textContent = `ARQUIVO DE: ${nomeJogadorAtual.toUpperCase()}`;
-    
     const finaisConquistados = JSON.parse(localStorage.getItem(chave)) || {};
     const listaFinais = {
         'F1': { id: 'f1', texto: 'FINAL 1: O AMANHECER (Sobreviveu à Noite)' },
@@ -94,7 +93,6 @@ function atualizarMenuFinais() {
         'F5': { id: 'f5', texto: 'FINAL 5: COLAPSO PSICÓTICO (Sanidade Derretida)' },
         'F6': { id: 'f6', texto: 'FINAL 6: ALMA APRISIONADA (Abriu para a Garotinha)' }
     };
-    
     let possuiDados = false;
     for (let chaveFinal in listaFinais) {
         const el = document.getElementById(listaFinais[chaveFinal].id);
@@ -103,46 +101,19 @@ function atualizarMenuFinais() {
             else { el.textContent = "FINAL " + listaFinais[chaveFinal].id.replace('f', '') + ": ???"; el.className = 'final-bloqueado'; }
         }
     }
-
     const stats = JSON.parse(localStorage.getItem(chaveStats)) || { tentativas: 0, segundosVividos: 0 };
     txtStatTentativas.textContent = stats.tentativas;
-    const totalMinutos = Math.floor(stats.segundosVividos / 60);
-    const horas = Math.floor(totalMinutos / 60);
-    const minutosRestantes = totalMinutos % 60;
+    const totalMinutos = Math.floor(stats.segundosVividos / 60); const horas = Math.floor(totalMinutos / 60); const minutosRestantes = totalMinutos % 60;
     txtStatTempo.textContent = `${horas}h ${minutosRestantes < 10 ? '0' : ''}${minutosRestantes}m`;
-
     if (stats.tentativas > 0 || stats.segundosVividos > 0) possuiDados = true;
     btnLimparDados.style.display = possuiDados ? "block" : "none";
 }
 
-function salvarFinal(chaveFinal) {
-    const chave = obterChaveArmazenamento();
-    let finaisConquistados = JSON.parse(localStorage.getItem(chave)) || {};
-    finaisConquistados[chaveFinal] = true;
-    localStorage.setItem(chave, JSON.stringify(finaisConquistados));
-}
+function salvarFinal(chaveFinal) { const chave = obterChaveArmazenamento(); let finaisConquistados = JSON.parse(localStorage.getItem(chave)) || {}; finaisConquistados[chaveFinal] = true; localStorage.setItem(chave, JSON.stringify(finaisConquistados)); }
+function adicionarTentativaEstatistica() { const chave = obterChaveEstatisticas(); let stats = JSON.parse(localStorage.getItem(chave)) || { tentativas: 0, segundosVividos: 0 }; stats.tentativas += 1; localStorage.setItem(chave, JSON.stringify(stats)); }
+function salvarTempoVividoEstatistica(segundosAdicionais) { const chave = obterChaveEstatisticas(); let stats = JSON.parse(localStorage.getItem(chave)) || { tentativas: 0, segundosVividos: 0 }; stats.segundosVividos += segundosAdicionais; localStorage.setItem(chave, JSON.stringify(stats)); }
 
-function adicionarTentativaEstatistica() {
-    const chave = obterChaveEstatisticas();
-    let stats = JSON.parse(localStorage.getItem(chave)) || { tentativas: 0, segundosVividos: 0 };
-    stats.tentativas += 1;
-    localStorage.setItem(chave, JSON.stringify(stats));
-}
-
-function salvarTempoVividoEstatistica(segundosAdicionais) {
-    const chave = obterChaveEstatisticas();
-    let stats = JSON.parse(localStorage.getItem(chave)) || { tentativas: 0, segundosVividos: 0 };
-    stats.segundosVividos += segundosAdicionais;
-    localStorage.setItem(chave, JSON.stringify(stats));
-}
-
-window.addEventListener('mouseenter', () => {
-    if (telaQuarto.classList.contains('hidden') && telaMensagem.classList.contains('hidden')) {
-        somChiadoMenu.play().catch(() => {});
-    }
-}, { once: true });
-
+window.addEventListener('mouseenter', () => { if (telaQuarto.classList.contains('hidden') && telaMensagem.classList.contains('hidden')) { somChiadoMenu.play().catch(() => {}); } }, { once: true });
 inputNome.addEventListener('input', () => { nomeJogadorAtual = inputNome.value.trim().toUpperCase() || "JOGADOR"; atualizarMenuFinais(); });
 btnLimparDados.addEventListener('click', (e) => { e.stopPropagation(); if(confirm(`Deseja apagar progressos de [${nomeJogadorAtual}]?`)) { localStorage.removeItem(obterChaveArmazenamento()); localStorage.removeItem(obterChaveEstatisticas()); atualizarMenuFinais(); } });
-
 atualizarMenuFinais();

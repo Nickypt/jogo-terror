@@ -22,6 +22,7 @@
 #estatisticas-perfil { margin: 8px 0 12px 0; padding: 6px; background: rgba(16, 26, 16, 0.3); border: 1px solid #142b14; text-align: left; font-size: 9px; letter-spacing: 1px; }
 #estatisticas-perfil p { margin: 3px 0; color: #166116; }
 #estatisticas-perfil span { color: #26b326; font-weight: bold; }
+
 #finais-conquistados ul { list-style: none; padding: 0; margin: 0; text-align: left; max-height: 110px; overflow-y: auto; }
 #finais-conquistados li { margin-bottom: 4px; padding-left: 5px; border-left: 2px solid #0a140a; }
 #finais-conquistados li.final-desbloqueado { border-left-color: #26b326; }

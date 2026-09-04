@@ -3,53 +3,59 @@
 .papel-bilhete h2 { font-size: 16px; margin: 0 0 15px 0; color: #a31c1c; text-align: center; border-bottom: 1px solid #1f3d1f; padding-bottom: 5px; }
 .texto-manuscrito { line-height: 1.5; font-size: 13px; text-align: justify; }
 
-#tela-prologo { background: #020402; display: flex; justify-content: center; align-items: center; z-index: 15; }
-.container-susto-pulso { position: absolute; top:0; left:0; width:100%; height:100%; background: radial-gradient(circle, transparent 20%, #000 90%); animation: pulsoEscuro 1.8s infinite ease-in-out; pointer-events: none; }
-@keyframes pulsoEscuro { 0%, 100% { box-shadow: inset 0 0 50px rgba(0,0,0,1); filter: brightness(1); } 50% { box-shadow: inset 0 0 120px rgba(163,28,28,0.2); filter: brightness(0.8); } }
-#caixa-dialogo-prologo { bottom: 60px !important; background: rgba(0,0,0,0.9) !important; border-color: #142b14 !important; }
-#prologo-nome-falante { color: #26b326; font-weight: bold; }
-#prologo-texto-falante { color: #a4b5a4; font-style: italic; }
-#prologo-indicador-clique { position: absolute; bottom: 10px; right: 20px; font-size: 11px; color: #166116; animation: piscarSeta 0.5s infinite alternate steps(2); }
+#tela-quarto { 
+    background: radial-gradient(circle at 50% 30%, #202b20 0%, #050a05 70%, #010401 100%), repeating-linear-gradient(0deg, rgba(38,179,38,0.02) 0px, rgba(38,179,38,0.02) 1px, transparent 1px, transparent 2px);
+    z-index: 3; position: relative; transition: background 0.4s ease;
+}
+#tela-quarto.energia-queda { background: #000000 !important; }
+#tela-quarto.energia-queda #mesa-investigacao, #tela-quarto.energia-queda #comoda-gavetas, #tela-quarto.energia-queda #lampada-teto .brilho-lampada, #tela-quarto.energia-queda #janela-quarto { filter: brightness(0.05); }
 
-#tela-quarto { background: radial-gradient(circle at center, #1b261b 0%, #080f08 100%); z-index: 3; position: relative; transition: background 0.4s ease; }
-#tela-quarto.energia-queda { background: #010201 !important; }
-#tela-quarto.energia-queda #mesa-investigacao, #tela-quarto.energia-queda #comoda-gavetas, #tela-quarto.energia-queda #janela-quarto { filter: brightness(0.1); }
+.vinheta-panico { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle, transparent 50%, rgba(0,0,0,0.9) 100%); pointer-events: none; z-index: 8; opacity: 0.8; }
 
-.detalhe-parede { position: absolute; pointer-events: none; opacity: 0.12; }
+#lampada-teto { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 200px; height: 180px; pointer-events: none; z-index: 7; display: flex; flex-direction: column; align-items: center; transform-origin: top center; animation: balancoLampada 6s infinite ease-in-out alternate; }
+.fio-lampada { width: 2px; height: 80px; background: #111; border-left: 1px solid #333; }
+.bulbo-lampada { width: 16px; height: 24px; background: radial-gradient(#fff, #9c9); border-radius: 50% 50% 20% 20%; border: 1px solid #222; }
+.brilho-lampada { position: absolute; top: 80px; width: 350px; height: 200px; background: radial-gradient(ellipse at top center, rgba(38,179,38,0.12) 0%, transparent 70%); pointer-events: none; }
+@keyframes balancoLampada { 0% { transform: rotate(-4deg); } 100% { transform: scale(1) rotate(4deg); } }
+
+.detalhe-parede { position: absolute; pointer-events: none; opacity: 0.08; }
 .rachadura-1 { top: 15%; left: 20%; width: 120px; height: 80px; border-left: 2px dashed #26b326; border-bottom: 1px dashed #26b326; transform: rotate(-15deg); }
-.umidade-canto { bottom: 0; left: 0; width: 250px; height: 400px; background: linear-gradient(90deg, rgba(0,0,0,0.8), transparent); }
+.umidade-canto { bottom: 0; left: 0; width: 250px; height: 400px; background: linear-gradient(90deg, rgba(0,0,0,0.7), transparent); }
 
 #janela-quarto { position: absolute; top: 40px; right: 80px; width: 100px; height: 130px; background: #020502; border: 4px solid #141a14; box-shadow: inset 0 0 20px #000; overflow: hidden; z-index: 2; }
 .grades-janela { position: absolute; width: 100%; height: 100%; background: repeating-linear-gradient(90deg, transparent, transparent 30px, #141a14 30px, #141a14 34px), repeating-linear-gradient(0deg, transparent, transparent 40px, #141a14 40px, #141a14 44px); }
-.efeito-tempestade { position: absolute; width: 100%; height: 100%; background: #26b326; opacity: 0; animation: relampagoCrt 7s infinite ease-in-out; }
-@keyframes relampagoCrt { 0%, 95%, 100% { opacity: 0; } 96% { opacity: 0.25; } 97% { opacity: 0; } 98% { opacity: 0.4; } }
+.efeito-tempestade { position: absolute; width: 100%; height: 100%; background: #4ca34a; opacity: 0; animation: relampagoCrt 7s infinite ease-in-out; }
+@keyframes relampagoCrt { 0%, 95%, 100% { opacity: 0; } 96% { opacity: 0.2; } 97% { opacity: 0; } 98% { opacity: 0.35; } }
 
-#mesa-investigacao { position: absolute; bottom: 40px; left: 50px; width: 130px; height: 80px; background: linear-gradient(0deg, #120e0a 0%, #1f1610 100%); border-top: 4px solid #2e1f14; box-shadow: 0 10px 20px rgba(0,0,0,0.8); z-index: 4; }
-#diario-clicavel { position: absolute; top: -5px; left: 35%; width: 40px; height: 30px; background: #4a3b2c; border: 1px solid #1f1610; cursor: pointer; box-shadow: 0 4px 6px #000; transition: transform 0.2s; }
-#diario-clicavel:hover { transform: translateY(-2px) scale(1.05); background: #5c4b39; }
+#mesa-investigacao { position: absolute; bottom: 40px; left: 50px; width: 130px; height: 80px; background: linear-gradient(0deg, #0d0a07 0%, #17120d 100%); border-top: 4px solid #241a10; box-shadow: 0 10px 20px rgba(0,0,0,0.8); z-index: 4; }
+#diario-clicavel { position: absolute; top: -5px; left: 35%; width: 40px; height: 30px; background: #3d2f21; border: 1px solid #17120d; border-radius: 1px; cursor: pointer; box-shadow: 0 4px 6px #000; transition: transform 0.2s; }
+#diario-clicavel:hover { transform: translateY(-2px); background: #4a3a2a; }
 
-#painel-eletrico-quarto { position: absolute; top: 120px; left: 40px; width: 70px; height: 100px; background: #141a14; border: 2px solid #1f3d1f; box-shadow: 0 5px 15px rgba(0,0,0,0.7); cursor: pointer; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 8px; z-index: 10; }
-.txt-disjuntor { font-size: 8px; color: #1f3d1f; font-weight: bold; }
-.fiação-exposta { position: absolute; bottom: -15px; left: 35%; width: 4px; height: 15px; border-left: 2px solid #333; border-right: 2px solid #555; }
+#painel-eletrico-quarto { position: absolute; top: 120px; left: 40px; width: 70px; height: 100px; background: #111711; border: 2px solid #1c331c; box-shadow: 0 5px 15px rgba(0,0,0,0.7); cursor: pointer; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 8px; z-index: 10; }
+.txt-disjuntor { font-size: 8px; color: #1c331c; font-weight: bold; }
+.fiação-exposta { position: absolute; bottom: -15px; left: 35%; width: 4px; height: 15px; border-left: 2px solid #222; border-right: 2px solid #444; }
 .led-energia { width: 12px; height: 12px; background-color: #26b326; border-radius: 50%; box-shadow: 0 0 8px #26b326; }
 .painel-apagado .led-energia { background-color: #a31c1c !important; animation: piscarAlertaDisjuntor 0.4s infinite alternate; }
 .painel-apagado .txt-disjuntor { color: #a31c1c; }
 @keyframes piscarAlertaDisjuntor { 0% { opacity: 0.2; box-shadow: none; } 100% { opacity: 1; box-shadow: 0 0 10px red; } }
 
-#comoda-gavetas { position: absolute; bottom: 40px; right: 50px; width: 90px; height: 120px; background: linear-gradient(135deg, #1f1a12 0%, #120e0a 100%); border: 3px solid #090705; box-shadow: 0 8px 20px rgba(0,0,0,0.8); display: flex; flex-direction: column; padding: 8px; box-sizing: border-box; gap: 8px; z-index: 5; }
-.txt-comoda { font-size: 8px; color: #4e3d28; text-align: center; font-weight: bold; letter-spacing: 1px; }
-.gaveta { width: 100%; height: 38px; background: #2a2218; border: 1px solid #090705; position: relative; cursor: pointer; transition: background 0.2s; box-shadow: inset 0 2px 5px rgba(0,0,0,0.5); }
-.gaveta:hover { background: #362b1f; }
-.gaveta::after { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 16px; height: 4px; background-color: #000; border: 1px solid #4e3d28; }
-.gaveta-vasculhada { background: #0d0a07 !important; border-color: #1f1a12; }
+#comoda-gavetas { position: absolute; bottom: 40px; right: 50px; width: 90px; height: 120px; background: linear-gradient(135deg, #17140f 0%, #0d0a07 100%); border: 3px solid #050403; box-shadow: 0 8px 20px rgba(0,0,0,0.8); display: flex; flex-direction: column; padding: 8px; box-sizing: border-box; gap: 8px; z-index: 5; }
+.txt-comoda { font-size: 8px; color: #3d2f21; text-align: center; font-weight: bold; letter-spacing: 1px; }
+.gaveta { width: 100%; height: 38px; background: #211a12; border: 1px solid #050403; position: relative; cursor: pointer; transition: background 0.2s; box-shadow: inset 0 2px 5px rgba(0,0,0,0.5); }
+.gaveta:hover { background: #2b2118; }
+.gaveta::after { content: ''; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 16px; height: 4px; background-color: #000; border: 1px solid #3d2f21; }
+.gaveta-vasculhada { background: #080605 !important; }
 
-.porta-container { position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%); width: 180px; height: 320px; border: 8px solid #0f120f; background: #222922; box-shadow: inset 0 0 50px #000, 0 15px 35px rgba(0,0,0,0.9); transition: background 0.4s; z-index: 6; }
+.porta-container { position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%); width: 180px; height: 320px; border: 8px solid #090d09; background: #1b211b; box-shadow: inset 0 0 50px #000, 0 15px 35px rgba(0,0,0,0.9); transition: background 0.4s; z-index: 6; }
+#tela-quarto.energia-queda .porta-container { background: #050705; }
 .textura-madeira-podre { position: absolute; width: 100%; height: 100%; opacity: 0.05; background: repeating-linear-gradient(90deg, #fff, #fff 4px, transparent 4px, transparent 8px); pointer-events: none; }
-.tranca-ferrolho { position: absolute; top: 48%; right: -2px; width: 35px; height: 10px; background: #3a453a; border: 1px solid #111; transition: transform 0.2s ease; transform: translateX(-15px); z-index: 2; }
+#marcas-arranhao { position: absolute; top: 20%; left: 10%; right: 10%; bottom: 20%; pointer-events: none; opacity: 0.8; background: repeating-linear-gradient(45deg, transparent, transparent 15px, #420f0f 15px, #420f0f 18px); animation: rasgarMadeira 0.2s infinite; z-index: 1; }
+@keyframes rasgarMadeira { 0% { opacity: 0.4; transform: scale(1); } 100% { opacity: 0.9; transform: scale(1.02) translate(1px, -1px); } }
+.tranca-ferrolho { position: absolute; top: 48%; right: -2px; width: 35px; height: 10px; background: #2b332b; border: 1px solid #000; transition: transform 0.2s ease; transform: translateX(-15px); z-index: 2; }
 .porta-trancada-visual .tranca-ferrolho { transform: translateX(4px); background: #a31c1c; }
-.macaneta { position: absolute; top: 55%; right: 14px; width: 12px; height: 28px; background-color: #333d33; border: 1px solid #0c0f0c; z-index: 2; }
+.macaneta { position: absolute; top: 55%; right: 14px; width: 12px; height: 28px; background-color: #273027; border: 1px solid #0c0f0c; z-index: 2; }
 
-#btn-olho-magico { position: absolute; top: 32%; left: 50%; transform: translate(-50%, -50%); width: 28px; height: 24px; background: radial-gradient(#546354, #080a08); border: 2px solid #283028; border-radius: 50%; cursor: pointer; box-shadow: 0 0 5px #000; z-index: 100 !important; }
+#btn-olho-magico { position: absolute; top: 32%; left: 50%; transform: translate(-50%, -50%); width: 28px; height: 24px; background: radial-gradient(#404f40, #050705); border: 2px solid #1f261f; border-radius: 50%; cursor: pointer; box-shadow: 0 0 5px #000; z-index: 100 !important; }
 #btn-olho-magico:hover { border-color: #26b326; box-shadow: 0 0 10px rgba(38,179,38,0.6); }
 .controles-quarto { position: absolute; bottom: 35px; width: 100%; display: flex; justify-content: center; gap: 15px; z-index: 15; }
 
@@ -61,3 +67,9 @@
 .controles-olho { position: absolute; bottom: 35px; width: 100%; display: flex; justify-content: center; gap: 20px; }
 .tela-fim { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: #030403; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 200; text-align: center; padding: 20px; box-sizing: border-box; }
 .tela-fim h1 { font-size: 32px; color: #a31c1c; margin-bottom: 12px; }
+
+/* VINHETA DE SANGUE CRÍTICO */
+.vinheta-sangue-critica { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9; opacity: 0; box-shadow: inset 0 0 80px rgba(133, 19, 13, 0), inset 0 0 15px rgba(0,0,0,0.8); transition: opacity 0.5s ease; }
+#tela-quarto.sanidade-critica .vinheta-sangue-critica { opacity: 1; box-shadow: inset 0 0 100px rgba(133, 19, 13, 0.75), inset 0 0 180px rgba(0, 0, 0, 0.9); background-image: repeating-linear-gradient(90deg, transparent, transparent 40px, #420a07 40px, #420a07 42px); background-size: 100% 200%; animation: pulsarSangue 2s infinite alternate, sangueEscorrendo 12s infinite linear; }
+@keyframes pulsarSangue { 0% { filter: brightness(1) contrast(1); } 100% { filter: brightness(0.7) contrast(1.2); box-shadow: inset 0 0 120px rgba(133, 19, 13, 0.95), inset 0 0 200px rgba(0, 0, 0, 0.95); } }
+@keyframes sangueEscorrendo { 0% { background-position: 0% 0%; } 100% { background-position: 0% 100%; } }
